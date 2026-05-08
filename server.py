@@ -405,13 +405,21 @@ def login():
 @app.route('/api/auth/me', methods=['GET'])
 @require_auth
 def me():
-    return jsonify({"success": True, "user": g.user, "plan": "free"})
+    app.logger.warning(f"DEBUG_ME: g.user type={type(g.user)} value={g.user}")
+    resp_payload = {"success": True, "user": g.user, "plan": "free"}
+    app.logger.warning(f"DEBUG_ME: returning payload keys={list(resp_payload.keys())}")
+    result = jsonify(resp_payload)
+    app.logger.warning(f"DEBUG_ME: jsonify result type={type(result)}")
+    return result
 
 @app.route('/api/auth/logout', methods=['POST'])
 @require_auth
 def logout():
     log_event("USER_LOGOUT", f"User {g.user['username']} logged out")
-    return jsonify({"success": True, "message": "Delogare reusita"})
+    
+    # Convert g.user to plain dict + add plan
+    user_data = dict(g.user) if hasattr(g.user, 'keys') else (g.user if isinstance(g.user, dict) else {})
+    return jsonify({"success": True, "user": {**user_data, "plan": "free"}, "plan": "free"})
 
 @app.route('/api/auth/users/count', methods=['GET'])
 def users_count():

@@ -326,6 +326,16 @@
       if (!res.ok) { localStorage.removeItem('agentulmeu_token'); window.location.href = '/login'; return; }
       const data = await res.json();
       const user = data.user || data;
+    // PAYWALL GUARD v2: fallback dacă plan nu vine din API
+    const userPlan = user?.plan || 'free'; // fallback la 'free'
+    if (userPlan === 'free' && !window.location.href.includes('checkout')) {
+      const modal = document.createElement('div');
+      modal.id = 'paywall-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(5,12,24,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;padding:2rem';
+      modal.innerHTML = '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:2.5rem;max-width:520px;text-align:center"><div style="font-size:0.875rem;color:#f59e0b;font-weight:700;margin-bottom:0.5rem">PLAN GRATUIT</div><h2 style="font-family:\'DM Serif Display\',serif;font-size:1.75rem;margin:0.5rem 0">Upgrade pentru acces complet</h2><p style="color:#8b9ab5;margin:1rem 0 1.5rem">Ai generat fișierele de configurare. Pentru a activa agenții și a conecta canalele, alege un plan:</p><div style="display:grid;gap:0.75rem;margin-bottom:1.5rem"><a href="/checkout?plan=professional" class="btn" style="background:linear-gradient(135deg,#0d9488,#14b8a6);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Professional $99/lună ↗</a><a href="/checkout?plan=done-for-you" class="btn" style="background:linear-gradient(135deg,#d97706,#f59e0b);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Done-For-You $299 one-time ↗</a></div><button onclick="document.getElementById(\'paywall-modal\').remove()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:#8b9ab5;padding:0.5rem 1rem;border-radius:10px;cursor:pointer">Continuă cu plan gratuit</button></div>';
+      document.body.appendChild(modal);
+    }
+
     // PAYWALL GUARD: dacă plan === 'free', afișăm modal upgrade
     if (user && user.plan === 'free' && !window.location.href.includes('checkout')) {
       const modal = document.createElement('div');
