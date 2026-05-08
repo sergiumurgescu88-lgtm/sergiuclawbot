@@ -69,3 +69,41 @@ def create_checkout(current_user):
     except Exception as e:
         current_app.logger.error(f"Stripe error: {e}", exc_info=True)
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@stripe_bp.route("/webhook", methods=["POST"])
+def stripe_webhook():
+    """Handle Stripe webhook events - checkout.session.completed"""
+    import hmac, hashlib, json
+    from flask import request, jsonify
+    
+    payload = request.get_data()
+    sig_header = request.headers.get("Stripe-Signature", "")
+    endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+    
+    # Verify signature
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except (ValueError, stripe.error.SignatureVerificationError) as e:
+        return jsonify({"error": "Invalid signature"}), 400
+    
+    # Handle event
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+        user_email = session.get("customer_email") or session.get("customer_details", {}).get("email")
+        plan = session.get("metadata", {}).get("plan") or "starter"
+        subscription_id = session.get("subscription")
+        
+        if user_email:
+            # Update user in DB
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE users SET plan = ?, subscription_id = ?, stripe_status = 'active', updated_at = CURRENT_TIMESTAMP WHERE email = ?",
+                (plan, subscription_id, user_email)
+            )
+            conn.commit()
+            conn.close()
+            print(f"✓ Updated {user_email} to plan {plan}")
+    
+    return jsonify({"status": "success"}), 200

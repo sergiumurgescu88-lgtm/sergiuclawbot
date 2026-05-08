@@ -1,230 +1,161 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Înregistrare — AgentulMeu.online</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --obsidian:#050c18;--navy:#0a1628;--navy-2:#0f2040;
-  --gold:#d97706;--gold-light:#f59e0b;--gold-pale:#fbbf24;
-  --teal:#0d9488;--teal-light:#14b8a6;
-  --warm-white:#f8f4ef;--muted:#8b9ab5;
-}
-body{font-family:'DM Sans',sans-serif;background:var(--obsidian);color:var(--warm-white);min-height:100vh;display:flex;flex-direction:column;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
-
-/* NAV */
-nav{position:relative;z-index:10;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);}
-.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--warm-white);text-decoration:none;}
-.logo span{color:var(--gold);}
-.nav-link{color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color .2s;}
-.nav-link:hover{color:var(--warm-white);}
-
-/* MAIN */
-main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;}
-.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:48px 44px;width:100%;max-width:460px;}
-
-.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
-.eyebrow::before,.eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(217,119,6,0.4));}
-.eyebrow::after{background:linear-gradient(90deg,rgba(217,119,6,0.4),transparent);}
-.eyebrow span{font-size:0.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
-
-h1{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:8px;line-height:1.2;}
-.subtitle{color:var(--muted);font-size:0.95rem;margin-bottom:32px;}
-
-.form-group{margin-bottom:20px;}
-label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:8px;font-weight:500;}
-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;color:var(--warm-white);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color .2s;}
-input:focus{border-color:rgba(217,119,6,0.5);}
-input::placeholder{color:rgba(139,154,181,0.5);}
-
-.input-wrap{position:relative;}
-.input-wrap input{padding-right:44px;}
-.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;font-size:1rem;line-height:1;}
-.toggle-pw:hover{color:var(--warm-white);}
-
-.row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-
-.btn-gold{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;border:none;border-radius:12px;padding:14px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .2s;margin-top:8px;}
-.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
-.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
-.divider{text-align:center;margin:24px 0;color:var(--muted);font-size:0.85rem;position:relative;}
-.divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(255,255,255,0.07);}
-.divider span{background:var(--obsidian);padding:0 12px;position:relative;}
-
-.login-link{text-align:center;color:var(--muted);font-size:0.9rem;}
-.login-link a{color:var(--gold);text-decoration:none;font-weight:500;}
-.login-link a:hover{color:var(--gold-light);}
-
-.alert{border-radius:10px;padding:12px 16px;font-size:0.88rem;margin-bottom:20px;display:none;}
-.alert-error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;}
-.alert-success{background:rgba(13,148,136,0.1);border:1px solid rgba(13,148,136,0.3);color:#5eead4;}
-
-.terms{font-size:0.8rem;color:var(--muted);text-align:center;margin-top:16px;line-height:1.5;}
-.terms a{color:var(--gold);text-decoration:none;}
-
-.strength{height:3px;border-radius:2px;margin-top:6px;background:rgba(255,255,255,0.07);overflow:hidden;}
-.strength-bar{height:100%;width:0;border-radius:2px;transition:width .3s,background .3s;}
-
-footer{position:relative;z-index:1;text-align:center;padding:24px;color:var(--muted);font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.04);}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Înregistrare — AgentulMeu.online</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #050c18; --navy: #0a1628; --gold: #d97706; --gold-light: #f59e0b;
+      --teal: #0d9488; --teal-light: #14b8a6; --warm-white: #f8f4ef;
+      --muted: #8b9ab5; --border: rgba(255,255,255,0.08); --error: #f87171; --success: #34d399;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif; background: var(--obsidian); color: var(--warm-white);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+      background-image: linear-gradient(rgba(13,148,136,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(13,148,136,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .card {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem; max-width: 480px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    h1 { font-family: 'DM Serif Display', serif; font-size: 1.75rem; margin-bottom: 0.5rem; text-align: center; }
+    .subtitle { text-align: center; color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--warm-white); }
+    input {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05); color: var(--warm-white); font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13,148,136,0.2); }
+    input::placeholder { color: var(--muted); }
+    .btn {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--obsidian); font-weight: 700; padding: 0.875rem; border-radius: 14px;
+      border: none; cursor: pointer; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(217,119,6,0.35); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--border); color: var(--warm-white);
+      margin-top: 1rem;
+    }
+    .btn-ghost:hover { border-color: var(--gold); }
+    .status { margin-top: 1rem; font-size: 0.9rem; min-height: 1.5rem; text-align: center; }
+    .status.error { color: var(--error); }
+    .status.success { color: var(--success); }
+    .footer { margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .password-wrap { position: relative; }
+    .toggle-pass {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem;
+    }
+    .toggle-pass:hover { color: var(--warm-white); }
+  </style>
 </head>
 <body>
-<nav>
-  <a href="/" class="logo">Agentul<span>Meu</span></a>
-  <a href="/login" class="nav-link">Ai cont? Intră →</a>
-</nav>
-
-<main>
   <div class="card">
-    <div class="eyebrow"><span>Cont nou</span></div>
-    <h1>Creează cont gratuit</h1>
-    <p class="subtitle">Îți configurezi primul agent AI în 15 minute.</p>
-
-    <div class="alert alert-error" id="alertError"></div>
-    <div class="alert alert-success" id="alertSuccess"></div>
-
-    <div class="row-2">
+    <h1>Creează cont</h1>
+    <p class="subtitle">Începe să-ți construiești agenții AI în 2 minute</p>
+    
+    <form id="registerForm">
       <div class="form-group">
-        <label for="full_name">Nume complet</label>
-        <input type="text" id="full_name" placeholder="Ion Popescu" autocomplete="name">
+        <label for="username">Nume utilizator *</label>
+        <input type="text" id="username" name="username" required minlength="3" maxlength="30" placeholder="ex: antreprenor_pro">
       </div>
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="ionpopescu" autocomplete="username">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required placeholder="nume@business.ro">
       </div>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="ion@firma.ro" autocomplete="email">
-    </div>
-
-    <div class="form-group">
-      <label for="password">Parolă <span style="color:var(--muted);font-weight:400">(minim 6 caractere)</span></label>
-      <div class="input-wrap">
-        <input type="password" id="password" placeholder="Alege o parolă sigură" autocomplete="new-password">
-        <button class="toggle-pw" onclick="togglePw('password',this)" tabindex="-1">👁</button>
+      <div class="form-group">
+        <label for="password">Parolă *</label>
+        <div class="password-wrap">
+          <input type="password" id="password" name="password" required minlength="6" placeholder="Minim 6 caractere">
+          <button type="button" class="toggle-pass" onclick="togglePass()">Arată</button>
+        </div>
       </div>
-      <div class="strength"><div class="strength-bar" id="strengthBar"></div></div>
-    </div>
-
-    <div class="form-group">
-      <label for="password2">Confirmă parola</label>
-      <div class="input-wrap">
-        <input type="password" id="password2" placeholder="Repetă parola" autocomplete="new-password">
-        <button class="toggle-pw" onclick="togglePw('password2',this)" tabindex="-1">👁</button>
+      <div class="form-group">
+        <label for="full_name">Nume complet (opțional)</label>
+        <input type="text" id="full_name" name="full_name" placeholder="Prenume Nume">
       </div>
+      
+      <button type="submit" class="btn" id="submitBtn">
+        <span id="btnText">Creează cont gratuit</span>
+      </button>
+    </form>
+    
+    <div class="status" id="status"></div>
+    
+    <button class="btn btn-ghost" onclick="window.location.href='/login'">Ai deja cont? Autentifică-te</button>
+    
+    <div class="footer">
+      Prin înregistrare accepți <a href="#">Termenii</a> și <a href="#">Politica de confidențialitate</a>.
     </div>
-
-    <button class="btn-gold" id="btnRegister" onclick="doRegister()">Creează cont gratuit →</button>
-
-    <p class="terms">Prin înregistrare, ești de acord cu <a href="#">Termenii de utilizare</a> și <a href="#">Politica de confidențialitate</a>.</p>
-
-    <div class="divider"><span>sau</span></div>
-    <p class="login-link">Ai deja cont? <a href="/login">Intră în cont →</a></p>
   </div>
-</main>
 
-<footer>© 2026 AgentulMeu.online — Agenți AI pentru business-uri românești</footer>
-
-<script>
-// Auto-redirect daca e deja logat
-(async()=>{
-  const t=localStorage.getItem('agentulmeu_token');
-  if(!t)return;
-  try{
-    const r=await fetch('/api/auth/me',{headers:{'Authorization':'Bearer '+t}});
-    const d=await r.json();
-    if(d.success)window.location.href='/dashboard';
-  }catch(e){}
-})();
-
-function togglePw(id,btn){
-  const inp=document.getElementById(id);
-  inp.type=inp.type==='password'?'text':'password';
-  btn.textContent=inp.type==='password'?'👁':'🙈';
-}
-
-document.getElementById('password').addEventListener('input',function(){
-  const v=this.value;
-  const bar=document.getElementById('strengthBar');
-  let score=0;
-  if(v.length>=6)score++;
-  if(v.length>=10)score++;
-  if(/[A-Z]/.test(v))score++;
-  if(/[0-9]/.test(v))score++;
-  if(/[^A-Za-z0-9]/.test(v))score++;
-  const colors=['#ef4444','#f97316','#eab308','#22c55e','#10b981'];
-  const widths=[20,40,60,80,100];
-  bar.style.width=(widths[score-1]||0)+'%';
-  bar.style.background=colors[score-1]||'transparent';
-});
-
-// Enter key
-['full_name','username','email','password','password2'].forEach(id=>{
-  document.getElementById(id).addEventListener('keydown',e=>{
-    if(e.key==='Enter')doRegister();
-  });
-});
-
-function showError(msg){
-  const el=document.getElementById('alertError');
-  el.textContent=msg;el.style.display='block';
-  document.getElementById('alertSuccess').style.display='none';
-}
-function showSuccess(msg){
-  const el=document.getElementById('alertSuccess');
-  el.textContent=msg;el.style.display='block';
-  document.getElementById('alertError').style.display='none';
-}
-
-async function doRegister(){
-  const btn=document.getElementById('btnRegister');
-  const full_name=document.getElementById('full_name').value.trim();
-  const username=document.getElementById('username').value.trim();
-  const email=document.getElementById('email').value.trim();
-  const password=document.getElementById('password').value;
-  const password2=document.getElementById('password2').value;
-
-  if(!username||!email||!password){
-    showError('Username, email și parola sunt obligatorii.');return;
-  }
-  if(password.length<6){
-    showError('Parola trebuie să aibă minim 6 caractere.');return;
-  }
-  if(password!==password2){
-    showError('Parolele nu se potrivesc.');return;
-  }
-
-  btn.disabled=true;btn.textContent='Se creează contul...';
-  try{
-    const r=await fetch('/api/auth/register',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username,email,password,full_name})
-    });
-    const d=await r.json();
-    if(d.success){
-      localStorage.setItem('agentulmeu_token',d.token);
-      showSuccess('Cont creat cu succes! Te redirecționăm...');
-      setTimeout(()=>{
-        const next=new URLSearchParams(window.location.search).get('next');
-        window.location.href=next||'/dashboard';
-      },1200);
-    }else{
-      showError(d.error||'Eroare la înregistrare.');
-      btn.disabled=false;btn.textContent='Creează cont gratuit →';
+  <script>
+    function togglePass() {
+      const p = document.getElementById('password');
+      p.type = p.type === 'password' ? 'text' : 'password';
+      event.target.textContent = p.type === 'password' ? 'Arată' : 'Ascunde';
     }
-  }catch(e){
-    showError('Eroare de conexiune. Încearcă din nou.');
-    btn.disabled=false;btn.textContent='Creează cont gratuit →';
-  }
-}
-</script>
+
+    document.getElementById('registerForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const status = document.getElementById('status');
+      
+      btn.disabled = true;
+      btnText.textContent = 'Se creează contul...';
+      status.textContent = '';
+      status.className = 'status';
+
+      const data = {
+        username: document.getElementById('username').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        full_name: document.getElementById('full_name').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        
+        if (!res.ok) throw new Error(json.error || 'Eroare la înregistrare');
+        
+        status.textContent = '✓ Cont creat! Te redirecționăm...',
+        status.className = 'status success';
+        
+        // Salvează token dacă e returnat
+        if (json.token) localStorage.setItem('agentulmeu_token', json.token);
+        
+        // Redirect după 1.5s
+        setTimeout(() => {
+          window.location.href = json.redirect || '/dashboard';
+        }, 1500);
+        
+      } catch (err) {
+        console.error(err);
+        status.textContent = '✗ ' + err.message;
+        status.className = 'status error';
+        btn.disabled = false;
+        btnText.textContent = 'Creează cont gratuit';
+      }
+    };
+  </script>
 </body>
 </html>

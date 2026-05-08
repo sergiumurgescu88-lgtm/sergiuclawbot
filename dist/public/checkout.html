@@ -1,78 +1,148 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout — AgentulMeu</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#050c18;color:#f8f4ef;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-  .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:3rem 2.5rem;max-width:420px;width:100%;text-align:center}
-  .logo{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#d97706;margin-bottom:2rem}
-  .spinner{width:48px;height:48px;border:3px solid rgba(217,119,6,0.2);border-top-color:#d97706;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.5rem}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  h2{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:0.75rem}
-  p{color:#8b9ab5;font-size:0.95rem;line-height:1.6}
-  .error-box{display:none;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:12px;padding:1.25rem;margin-top:1.5rem}
-  .error-box p{color:#fca5a5}
-  .btn{display:inline-block;margin-top:1.5rem;padding:0.75rem 2rem;border-radius:10px;font-weight:600;font-size:0.95rem;cursor:pointer;text-decoration:none;border:1px solid rgba(255,255,255,0.15);color:#f8f4ef;background:transparent;transition:all 0.2s}
-  .btn:hover{background:rgba(255,255,255,0.06)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout — AgentulMeu.online</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #050c18; --navy: #0a1628; --gold: #d97706; --gold-light: #f59e0b;
+      --teal: #0d9488; --warm-white: #f8f4ef; --muted: #8b9ab5; --border: rgba(255,255,255,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif; background: var(--obsidian); color: var(--warm-white);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+      background-image: linear-gradient(rgba(13,148,136,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(13,148,136,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .card {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem; max-width: 520px; width: 100%;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    h1 { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 1rem; color: var(--warm-white); }
+    .plan-badge {
+      display: inline-block; background: var(--gold); color: var(--obsidian);
+      font-weight: 700; padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.875rem; margin-bottom: 1.25rem;
+    }
+    .price { font-size: 2.5rem; font-weight: 700; color: var(--gold-light); margin: 0.5rem 0; }
+    .desc { color: var(--muted); margin: 1rem 0 1.5rem; line-height: 1.6; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--obsidian); font-weight: 700; padding: 0.875rem 2rem;
+      border-radius: 14px; text-decoration: none; border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s; font-size: 1rem;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(217,119,6,0.35); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--border); color: var(--warm-white);
+    }
+    .btn-ghost:hover { border-color: var(--gold); }
+    .spinner {
+      width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: var(--obsidian); border-radius: 50%; animation: spin 0.8s linear infinite;
+      display: inline-block; vertical-align: middle; margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status { margin-top: 1.25rem; color: var(--muted); font-size: 0.9rem; min-height: 1.5rem; }
+    .error { color: #f87171; }
+    .success { color: #34d399; }
+    .footer { margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">AgentulMeu</div>
-  <div class="spinner" id="spinner"></div>
-  <h2 id="title">Se pregătește checkout-ul...</h2>
-  <p id="subtitle">Te redirecționăm către pagina de plată securizată Stripe.</p>
-  <div class="error-box" id="errorBox">
-    <p id="errorMsg">A apărut o eroare. Te rugăm să încerci din nou.</p>
+  <div class="card">
+    <h1>Finalizează comanda</h1>
+    <div class="plan-badge" id="planName">Se încarcă...</div>
+    <div class="price" id="planPrice">$—</div>
+    <p class="desc" id="planDesc">Se pregătește sesiunea de plată securizată Stripe...</p>
+    
+    <button class="btn" id="payBtn" disabled>
+      <span class="spinner" id="spinner" style="display:none"></span>
+      <span id="btnText">Se conectează la Stripe...</span>
+    </button>
+    
+    <div class="status" id="status"></div>
+    
+    <div class="footer">
+      <a href="/dashboard">← Înapoi la dashboard</a>
+      • Securizat de <strong>Stripe</strong> • Suport: <a href="mailto:suport@agentulmeu.online">suport@agentulmeu.online</a>
+    </div>
   </div>
-  <a href="/#pricing" class="btn" id="backBtn" style="display:none">← Înapoi la planuri</a>
-</div>
-<script>
-(async function() {
-  const params = new URLSearchParams(window.location.search);
-  let plan = params.get('plan') || '';
-  if (plan === 'done-for-you') plan = 'doneforyou';
-  const validPlans = ['starter', 'professional', 'doneforyou'];
-  if (!validPlans.includes(plan)) {
-    showError('Plan invalid. Te rugăm să alegi un plan din pagina de prețuri.');
-    return;
-  }
-  const token = localStorage.getItem('agentulmeu_token');
-  if (!token) {
-    window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname + window.location.search);
-    return;
-  }
-  try {
-    const res = await fetch('/api/stripe/create-checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({ plan })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.success) {
-      showError(data.error || data.message || 'Eroare la crearea sesiunii de plată.');
-      return;
+
+  <script>
+    const PLANS = {
+      starter: { name: 'Starter', price: '$29', desc: 'Abonament lunar • 1 agent • Baze' },
+      professional: { name: 'Professional', price: '$99', desc: 'Abonament lunar • Agenți multipli • Prioritate' },
+      'done-for-you': { name: 'Done-For-You', price: '$299', desc: 'Plată unică • Instalare completă • Training inclus' }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get('plan');
+    const token = localStorage.getItem('agentulmeu_token');
+    const el = (id) => document.getElementById(id);
+
+    function setStatus(msg, type='') {
+      const s = el('status'); s.textContent = msg; s.className = 'status ' + type;
     }
-    window.location.href = data.url;
-  } catch (err) {
-    showError('Eroare de rețea. Verifică conexiunea și încearcă din nou.');
-  }
-})();
-function showError(msg) {
-  document.getElementById('spinner').style.display = 'none';
-  document.getElementById('title').textContent = 'Ceva n-a mers bine';
-  document.getElementById('subtitle').style.display = 'none';
-  document.getElementById('errorMsg').textContent = msg;
-  document.getElementById('errorBox').style.display = 'block';
-  document.getElementById('backBtn').style.display = 'inline-block';
-}
-</script>
+
+    if (!plan || !PLANS[plan]) {
+      setStatus('Plan invalid. Verifică link-ul.', 'error');
+      el('btnText').textContent = 'Eroare';
+    } else if (!token) {
+      setStatus('Te rugăm să te autentifici mai întâi.', 'error');
+      el('btnText').textContent = 'Autentifică-te';
+      el('payBtn').onclick = () => window.location.href = '/login?next=/checkout?plan=' + plan;
+      el('payBtn').disabled = false;
+    } else {
+      // Populate UI
+      const p = PLANS[plan];
+      el('planName').textContent = p.name;
+      el('planPrice').textContent = p.price;
+      el('planDesc').textContent = p.desc + ' • Redirecționare automată în 3s...';
+      el('payBtn').disabled = true;
+
+      // Auto-start checkout
+      setTimeout(async () => {
+        el('spinner').style.display = 'inline-block';
+        el('btnText').textContent = 'Se creează sesiunea...';
+        
+        try {
+          const res = await fetch('/api/stripe/create-checkout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ plan })
+          });
+          
+          if (!res.ok) throw new Error('Eroare server: ' + res.status);
+          const data = await res.json();
+          
+          if (data.success && data.url) {
+            setStatus('Redirecționare către Stripe...', 'success');
+            el('btnText').textContent = 'Se redirecționează...';
+            setTimeout(() => window.location.href = data.url, 800);
+          } else {
+            throw new Error(data.error || 'Răspuns neașteptat');
+          }
+        } catch (e) {
+          console.error(e);
+          setStatus('Eroare: ' + e.message + ' • Încearcă din nou sau contactează suportul.', 'error');
+          el('btnText').textContent = 'Încearcă din nou';
+          el('payBtn').disabled = false;
+          el('payBtn').onclick = () => location.reload();
+        }
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
