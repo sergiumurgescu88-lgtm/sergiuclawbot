@@ -405,7 +405,7 @@ def login():
 @app.route('/api/auth/me', methods=['GET'])
 @require_auth
 def me():
-    return jsonify({"success": True, "user": g.user})
+    return jsonify({"success": True, "user": {**g.user, "plan": g.user.get("plan") or "free"}})
 
 @app.route('/api/auth/logout', methods=['POST'])
 @require_auth
