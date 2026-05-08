@@ -1,0 +1,36 @@
+{
+  "business": {
+    "name": "NeoTermTest",
+    "business_id": "neotermtest",
+    "type": [
+      "hunter"
+    ],
+    "description": "Test descriere",
+    "ideal_client": "Proprietari",
+    "region": "Oltenia"
+  },
+  "agents_needed": [
+    "hunter"
+  ],
+  "personality": {
+    "voice": "Profesional",
+    "autonomy": "semi-autonom",
+    "red_lines": [
+      "Nu minte"
+    ],
+    "usp": "Cel mai bun"
+  },
+  "channels": {
+    "communication": [
+      "Email",
+      "Telegram"
+    ],
+    "crm": "",
+    "integrations": []
+  },
+  "_meta": {
+    "created_at": "2026-05-07T10:33:12.876674",
+    "filename": "neotermtest_20260507_103312.json",
+    "version": "1.0"
+  }
+}

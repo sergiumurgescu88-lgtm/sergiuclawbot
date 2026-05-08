@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>AgentulMeu.online v2.0 — Ghid Utilizator</title>
+<style>
+@page { size: A4; margin: 2cm; }
+@page :first { margin-top: 0; }
+
+:root {
+  --primary: #0891b2;
+  --primary-dark: #0e7490;
+  --accent: #7c3aed;
+  --text: #1f2937;
+  --text-light: #4b5563;
+  --bg: #ffffff;
+  --bg-light: #f8fafc;
+  --border: #e2e8f0;
+  --success: #059669;
+  --warning: #d97706;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* Cover */
+.cover {
+  page: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  color: white;
+  margin: -2cm;
+  padding: 3cm;
+  break-after: page;
+}
+
+.cover h1 {
+  font-size: 32pt;
+  font-weight: 800;
+  margin: 0 0 0.3em;
+  letter-spacing: -0.5pt;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cover .subtitle {
+  font-size: 14pt;
+  color: #94a3b8;
+  margin-bottom: 2em;
+  font-weight: 300;
+}
+
+.cover .meta {
+  font-size: 10pt;
+  color: #64748b;
+  margin-top: auto;
+}
+
+.cover .badge {
+  display: inline-block;
+  background: rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: #22d3ee;
+  padding: 0.4em 1em;
+  border-radius: 999px;
+  font-size: 9pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+  margin-bottom: 2em;
+}
+
+/* Headings */
+h1 { font-size: 18pt; color: var(--primary-dark); margin: 1.2em 0 0.5em; page-break-after: avoid; }
+h2 { font-size: 13pt; color: var(--primary); margin: 1em 0 0.4em; page-break-after: avoid; }
+h3 { font-size: 11pt; color: var(--text); margin: 0.8em 0 0.3em; page-break-after: avoid; }
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  font-size: 9.5pt;
+}
+th, td {
+  padding: 0.5em 0.6em;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  background: var(--bg-light);
+  border-top: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  color: var(--primary-dark);
+}
+tr:last-child td { border-bottom: 2px solid var(--primary); }
+
+/* Code */
+pre, code {
+  font-family: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
+  font-size: 8.5pt;
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+code { padding: 0.15em 0.4em; }
+pre {
+  padding: 0.8em;
+  overflow-x: auto;
+  border-left: 3px solid var(--primary);
+  margin: 0.8em 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Boxes */
+.box {
+  border-left: 4px solid var(--primary);
+  background: var(--bg-light);
+  padding: 0.8em 1em;
+  margin: 0.8em 0;
+  border-radius: 0 6px 6px 0;
+}
+.box-title {
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.3em;
+  font-size: 10pt;
+}
+
+.box.success { border-left-color: var(--success); }
+.box.success .box-title { color: var(--success); }
+
+.box.warning { border-left-color: var(--warning); }
+.box.warning .box-title { color: var(--warning); }
+
+/* Lists */
+ul, ol { margin: 0.5em 0; padding-left: 1.5em; }
+li { margin: 0.25em 0; }
+
+/* Paragraphs */
+p { margin: 0.5em 0; }
+
+/* TOC */
+.toc { page-break-after: always; }
+.toc h2 { text-align: center; margin-bottom: 1em; }
+.toc ul { list-style: none; padding: 0; }
+.toc li { margin: 0.4em 0; padding-left: 0; border-bottom: 1px dotted var(--border); padding-bottom: 0.2em; }
+.toc a { text-decoration: none; color: var(--text); }
+.toc .num { color: var(--primary); font-weight: 700; margin-right: 0.5em; }
+
+/* Architecture diagram text */
+.diagram {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1em;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 8pt;
+  line-height: 1.4;
+  margin: 0.8em 0;
+  text-align: center;
+}
+
+/* Page break helpers */
+.page-break { break-before: page; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="badge">v2.0 Production Ready</div>
+  <h1>AgentulMeu.online</h1>
+  <p class="subtitle">Ghid Utilizator — Hermes Edition</p>
+  <p style="color:#64748b; font-size:11pt; max-width:400px; margin:0 auto;">
+    Platforma AI pentru generarea de agenti inteligeni de business cu Hermes Agent by Nous Research
+  </p>
+  <div class="meta">
+    <p>Build: 7 Mai 2025</p>
+    <p>Stack: React 19 + Flask + Hermes + Ollama</p>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Cuprins</h2>
+  <ul>
+    <li><span class="num">1.</span> Introducere</li>
+    <li><span class="num">2.</span> Pornire Rapida in 3 Pasi</li>
+    <li><span class="num">3.</span> Profiluri Pre-configurate</li>
+    <li><span class="num">4.</span> Fluxul de Lucru End-to-End</li>
+    <li><span class="num">5.</span> Arhitectura Tehnica</li>
+    <li><span class="num">6.</span> Comenzi CLI Esentiale</li>
+    <li><span class="num">7.</span> API Reference</li>
+    <li><span class="num">8.</span> Troubleshooting</li>
+  </ul>
+</div>
+
+<h1>1. Introducere</h1>
+
+<p><strong>AgentulMeu.online</strong> este o platforma web care permite antreprenorilor si agentiilor sa genereze agenti AI specializati pentru business folosind <strong>Hermes Agent</strong> by Nous Research si modele locale Ollama.</p>
+
+<h2>Ce este Hermes Agent?</h2>
+<p>Hermes Agent este un framework open-source care structureaza prompt-urile pentru LLM-uri sub forma de skill-uri reutilizabile. Fiecare skill defineste:</p>
+<ul>
+  <li><strong>INPUT SCHEMA</strong> — parametri acceptati (ex: profile_path)</li>
+  <li><strong>RUNTIME</strong> — model, temperatura, max_tokens</li>
+  <li><strong>PROMPT TEMPLATE</strong> — rol, sarcina, format, reguli, exemple</li>
+</ul>
+
+<h2>Ediția v2.0 — Noutati</h2>
+<table>
+  <tr><th>Feature</th><th>Descriere</th></tr>
+  <tr><td>Hermes CLI Integration</td><td>Flask API apeleaza hermes run direct</td></tr>
+  <tr><td>Profiluri Pre-configurate</td><td>NeoSelf.ro si NeoTerm.ro gata de utilizare</td></tr>
+  <tr><td>Caching & Retry</td><td>Cache 30s, 3 retry-uri cu backoff exponențial</td></tr>
+  <tr><td>Rate Limiting</td><td>10 req/min pe utilizator per endpoint</td></tr>
+  <tr><td>Offline Fallback</td><td>Dashboard functioneaza offline cu date cache</td></tr>
+  <tr><td>Export Hermes Modal</td><td>Genereaza comanda CLI direct din interfata</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h1>2. Pornire Rapida in 3 Pasi</h1>
+
+<h2>Pasul 1 — Acceseaza Platforma</h2>
+<div class="box">
+  <div class="box-title">URL Productie</div>
+  <p><code>https://agentulmeu.online</code></p>
+</div>
+
+<h2>Pasul 2 — Creeaza Cont</h2>
+<ol>
+  <li>Click pe butonul <strong>"Incepe Gratuit"</strong> din hero section</li>
+  <li>Completeaza formularul: username, email, parola</li>
+  <li>Confirmă email-ul (daca este activat)</li>
+  <li>Login cu credentialele create</li>
+</ol>
+
+<h2>Pasul 3 — Genereaza Primul Agent</h2>
+<ol>
+  <li>Navigheaza la <strong>"Creeaza Agent"</strong> din meniu</li>
+  <li>Alege un profil presetat (NeoSelf sau NeoTerm) sau completeaza formularul cu 9 pasi</li>
+  <li>Click <strong>"Genereaza Agent"</strong></li>
+  <li>Asteapta 30-60 de secunde (Ollama genereaza .AGENT.md)</li>
+  <li>Descarca sau vizualizeaza agentul generat</li>
+</ol>
+
+<div class="box success">
+  <div class="box-title">Rezultat Final</div>
+  <p>Un fisier <code>*.AGENT.md</code> complet cu obiective, cunostinte, workflow, tool-uri, prompt-uri si personalitate — gata de incarcare in Hermes CLI.</p>
+</div>
+
+<div class="page-break"></div>
+
+<h1>3. Profiluri Pre-configurate</h1>
+
+<p>Pentru a accelera adoptia, platforma include doua profiluri business gata de utilizare, salvate in <code>~/.hermes/profiles/</code>.</p>
+
+<h2>NeoSelf.ro — Service Auto</h2>
+<table>
+  <tr><th>Atribut</th><th>Valoare</th></tr>
+  <tr><td>Fisier</td><td><code>neoself.json</code></td></tr>
+  <tr><td>Tip Agent</td><td>Hunter + Support</td></tr>
+  <tr><td>Scop</td><td>Găsire clienți service auto, programări, follow-up</td></tr>
+  <tr><td>Industrie</td><td>Service auto premium, ITP, detailing, vopsitorie</td></tr>
+  <tr><td>Canale</td><td>Telefon, WhatsApp, email, Facebook Messenger</td></tr>
+</table>
+
+<h2>NeoTerm.ro — Constructii si Renovari</h2>
+<table>
+  <tr><th>Atribut</th><th>Valoare</th></tr>
+  <tr><td>Fisier</td><td><code>neoterm.json</code></td></tr>
+  <tr><td>Tip Agent</td><td>Closer + Analyst</td></tr>
+  <tr><td>Scop</td><td>Ofertare rapida, estimari materiale, follow-up santier</td></tr>
+  <tr><td>Industrie</td><td>Constructii civile, renovari, instalații termice</td></tr>
+  <tr><td>Canale</td><td>Telefon, site web form, WhatsApp Business</td></tr>
+</table>
+
+<div class="box warning">
+  <div class="box-title">Utilizare Profiluri</div>
+  <p>In Dashboard, click <strong>"Export Hermes"</strong> si selecteaza profilul dorit. Comanda CLI se genereaza automat. Sau foloseste direct endpoint-ul <code>/api/generate</code> cu <code>"profile_filename":"neoself.json"</code>.</p>
+</div>
+
+<div class="page-break"></div>
+
+<h1>4. Fluxul de Lucru End-to-End</h1>
+
+<h2>4.1 Formular 9 Pasi (Creare Profil)</h2>
+<p>Utilizatorul completeaza un wizard cu 9 sectiuni:</p>
+<ol>
+  <li><strong>Info Companie</strong> — nume, slogan, website</li>
+  <li><strong>Servicii</strong> — ce ofera, preturi, garantii</li>
+  <li><strong>Public Tinta</strong> — demografie, pain points</li>
+  <li><strong>Canale</strong> — telefon, email, social, chat</li>
+  <li><strong>Obiective</strong> — lead gen, vanzari, support</li>
+  <li><strong>Brand Voice</strong> — profesional, prietenos, tehnic</li>
+  <li><strong>Exemple Conversatii</strong> — Q&A tipice</li>
+  <li><strong>Integrari</strong> — CRM, calendar, email</li>
+  <li><strong>Review</strong> — confirmare si generare</li>
+</ol>
+
+<h2>4.2 Salvare Profil</h2>
+<p>Profilul se salveaza ca JSON in <code>~/.hermes/profiles/PROFILE.json</code> cu structura validata:</p>
+<pre>
+{
+  "company_name": "NeoSelf SRL",
+  "services": ["ITP", "Revizii", "Detailing"],
+  "target_audience": {"age": "25-55", "income": "medium"},
+  "channels": ["phone", "whatsapp"],
+  "objectives": ["lead_gen", "appointments"],
+  "brand_voice": "professional_friendly",
+  "sample_qa": [...],
+  "integrations": ["google_calendar"]
+}
+</pre>
+
+<h2>4.3 Generare Agent</h2>
+<p>Hermes CLI primeste skill-ul <code>build_business_agents</code> si genereaza:</p>
+<ul>
+  <li><code>*.AGENT.md</code> — fisierul agent complet</li>
+  <li><code>*.AGENT.md.json</code> — metadata tehnica</li>
+</ul>
+
+<h2>4.4 Chat Live</h2>
+<p>Agentul generat poate fi testat direct in pagina <strong>"Chat Agent"</strong> prin integrarea cu <code>/api/chat</code> care foloseste Ollama cu context personalizat.</p>
+
+<h2>4.5 Telegram Integration</h2>
+<p>Notificarile sistem (backup, erori, statistici) sunt trimise automat catre canalul Telegram configurat.</p>
+
+<div class="page-break"></div>
+
+<h1>5. Arhitectura Tehnica</h1>
+
+<div class="diagram">
+  REACT 19 SPA (Vite + Tailwind + shadcn/ui)<br>
+         |<br>
+    HTTPS / Nginx (SSL Let's Encrypt)<br>
+         |<br>
+    Flask API (Python 3, port 5000)<br>
+         |<br>
+    +-- JWT Auth (SHA-256 + salt)<br>
+    +-- Rate Limiting (per user)<br>
+    +-- Retry Logic (3 attempts, exp backoff)<br>
+    +-- Cache (TTL 10-30s)<br>
+         |<br>
+    Hermes CLI Wrapper<br>
+         |<br>
+    Ollama LLM (llama3.2:1b, qwen2.5-coder:7b)<br>
+         |<br>
+    SQLite (users, agents, chat_sessions)
+</div>
+
+<h2>Stack Complet</h2>
+<table>
+  <tr><th>Layer</th><th>Tehnologie</th><th>Rol</th></tr>
+  <tr><td>Frontend</td><td>React 19 + TypeScript + Vite</td><td>SPA cu glassmorphism design</td></tr>
+  <tr><td>Styling</td><td>Tailwind CSS + shadcn/ui</td><td>Componente UI moderne</td></tr>
+  <tr><td>Backend</td><td>Flask (Python 3.12)</td><td>REST API + JWT auth</td></tr>
+  <tr><td>LLM Engine</td><td>Ollama (local)</td><td>Inferenta modele open-source</td></tr>
+  <tr><td>Agent Framework</td><td>Hermes Agent by Nous</td><td>Skill-uri si generare .AGENT.md</td></tr>
+  <tr><td>Database</td><td>SQLite</td><td>Persistenta date</td></tr>
+  <tr><td>Reverse Proxy</td><td>Nginx</td><td>SSL, caching, SPA routing</td></tr>
+  <tr><td>OS</td><td>Ubuntu 24.04 (WSL2/VPS)</td><td>Runtime de productie</td></tr>
+  <tr><td>Alerts</td><td>Telegram Bot API</td><td>Notificari sistem</td></tr>
+</table>
+
+<h2>Optimizari de Performanta v2.0</h2>
+<ul>
+  <li><strong>Caching:</strong> Status si health cache 10-30s pentru a reduce load-ul pe Ollama</li>
+  <li><strong>Retry Logic:</strong> Apelurile Ollama au 3 incercari cu backoff exponențial (1s, 2s, 4s)</li>
+  <li><strong>Rate Limiting:</strong> 10 req/min pe chat, 5 req/min pe generate, per utilizator</li>
+  <li><strong>Nginx Cache:</strong> Asset-uri statice cu max-age 86400 (24h)</li>
+  <li><strong>Polling Inteligent:</strong> Dashboard poll la 30s, cu debounce 2s pentru refresh manual</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1>6. Comenzi CLI Esentiale</h1>
+
+<h2>Status Sistem</h2>
+<pre>curl -s https://agentulmeu.online/api/health | python3 -m json.tool</pre>
+
+<h2>Genereaza Agent via API</h2>
+<pre>curl -X POST https://agentulmeu.online/api/generate \
+  -H "Authorization: Bearer &lt;JWT_TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"profile_filename":"neoself.json"}'</pre>
+
+<h2>Genereaza Agent via Hermes CLI (Direct)</h2>
+<pre>hermes run skill=build_business_agents \
+  --arg profile_path="~/.hermes/profiles/neoself.json" \
+  --arg output_dir="~/.hermes/agents/"</pre>
+
+<h2>Chat cu Agentul</h2>
+<pre>curl -X POST https://agentulmeu.online/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Salut, ce servicii oferiti?","model":"llama3.2:1b","system":"Esti un agent service auto..."}'</pre>
+
+<h2>Verificare Backup</h2>
+<pre>curl -s https://agentulmeu.online/api/backup/status \
+  -H "Authorization: Bearer &lt;JWT_TOKEN&gt;"</pre>
+
+<h2>Listare Modele Ollama (pe server)</h2>
+<pre>ollama list
+ollama ps</pre>
+
+<div class="page-break"></div>
+
+<h1>7. API Reference</h1>
+
+<table>
+  <tr><th>Endpoint</th><th>Metoda</th><th>Auth</th><th>Descriere</th></tr>
+  <tr><td><code>/api/health</code></td><td>GET</td><td>Nu</td><td>Status sistem complet (Hermes, Ollama, profiluri)</td></tr>
+  <tr><td><code>/api/register</code></td><td>POST</td><td>Nu</td><td>Creare cont nou (username, email, password)</td></tr>
+  <tr><td><code>/api/login</code></td><td>POST</td><td>Nu</td><td>Autentificare, returneaza JWT token</td></tr>
+  <tr><td><code>/api/profile</code></td><td>GET</td><td>Da</td><td>Profil utilizator autentificat</td></tr>
+  <tr><td><code>/api/generate</code></td><td>POST</td><td>Da</td><td>Genereaza agent .AGENT.md din profil JSON</td></tr>
+  <tr><td><code>/api/chat</code></td><td>POST</td><td>Nu</td><td>Chat cu LLM (message, model, system, history)</td></tr>
+  <tr><td><code>/api/backup/status</code></td><td>GET</td><td>Da</td><td>Status backup si spatiu disk</td></tr>
+</table>
+
+<h2>Format Raspuns /api/health (exemplu)</h2>
+<pre>{
+  "status": "ok",
+  "hermes": {
+    "installed": true,
+    "version": "0.4.2",
+    "ollama_connected": true,
+    "profiles_count": 3,
+    "agents_count": 7
+  },
+  "profiles_count": 3,
+  "agents_count": 7,
+  "timestamp": "2025-05-07T14:30:00"
+}</pre>
+
+<div class="page-break"></div>
+
+<h1>8. Troubleshooting</h1>
+
+<h2>Hermes Agent nu este instalat</h2>
+<div class="box warning">
+  <div class="box-title">Solutie</div>
+  <p>Instaleaza Hermes Agent pe VPS/WSL2:</p>
+  <pre>curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</pre>
+  <p>Sau viziteaza <a href="https://hermes-agent.nousresearch.com">Documentatie Hermes</a>.</p>
+</div>
+
+<h2>Ollama Deconectat</h2>
+<div class="box warning">
+  <div class="box-title">Solutie</div>
+  <p>Verifica daca Ollama ruleaza:</p>
+  <pre>ollama list
+ollama ps</pre>
+  <p>Porneste serviciul daca este oprit:</p>
+  <pre>ollama serve &</pre>
+  <p>Sau foloseste systemd:</p>
+  <pre>sudo systemctl start ollama</pre>
+</div>
+
+<h2>Conectare Pierduta (Dashboard Offline)</h2>
+<div class="box warning">
+  <div class="box-title">Solutie</div>
+  <p>Dashboard detecteaza automat deconectarea si afiseaza banner galben. Se reconecteaza automat la fiecare 30 de secunde. Pentru refresh manual, click butonul <strong>Refresh</strong> din panoul Actiuni Rapide.</p>
+</div>
+
+<h2>Generare Agent Esuata (504 Gateway Timeout)</h2>
+<div class="box warning">
+  <div class="box-title">Solutie</div>
+  <p>Modelul llama3.2:1b poate dura 60-90 secunde pe hardware modest. Nginx este configurat cu <code>proxy_read_timeout 180s</code>. Daca tot expira:</p>
+  <ol>
+    <li>Verifica load-ul serverului: <code>htop</code></li>
+    <li>Testeaza direct Ollama: <code>ollama run llama3.2:1b</code></li>
+    <li>Redu temperatura sau max_tokens in skill</li>
+  </ol>
+</div>
+
+<h2>Eroare 403 la Model cloud</h2>
+<div class="box warning">
+  <div class="box-title">Solutie</div>
+  <p>Server-ul v2.0 filtreaza automat modelele disponibile, preferand modele locale (qwen, llama, mistral). Modele cloud (ex: kimi-k2.6:cloud) sunt excluse daca returneaza 403.</p>
+</div>
+
+<h2>Contact si Suport</h2>
+<p>Pentru asistenta suplimentara:</p>
+<ul>
+  <li><strong>Dashboard Live:</strong> https://agentulmeu.online/dashboard</li>
+  <li><strong>Ghid PDF:</strong> https://agentulmeu.online/guides/user-guide-ro.pdf</li>
+  <li><strong>Telegram:</strong> Bot de notificari configurat pe VPS</li>
+</ul>
+
+<div style="margin-top:3em; padding-top:1em; border-top:2px solid var(--primary); text-align:center; color:var(--text-light); font-size:9pt;">
+  <p><strong>AgentulMeu.online v2.0 Hermes Edition</strong></p>
+  <p>Build: 7 Mai 2025 | Status: Production Ready</p>
+  <p>Stack: React 19 + Flask + Hermes Agent + Ollama LLM</p>
+</div>
+
+</body>
+</html>

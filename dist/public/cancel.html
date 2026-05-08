@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plată anulată — AgentulMeu.online</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--obsidian:#050c18;--navy:#0a1628;--gold:#d97706;--gold-light:#f59e0b;--gold-pale:#fbbf24;--teal:#0d9488;--teal-light:#14b8a6;--warm-white:#f8f4ef;--muted:#8b9ab5;}
+body{font-family:'DM Sans',sans-serif;background:var(--obsidian);color:var(--warm-white);min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+nav{position:relative;z-index:10;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);}
+.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--warm-white);text-decoration:none;}
+.logo span{color:var(--gold);}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:56px 48px;width:100%;max-width:500px;text-align:center;}
+.icon{width:80px;height:80px;border-radius:50%;background:rgba(239,68,68,0.08);border:2px solid rgba(239,68,68,0.25);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 28px;}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px;justify-content:center;}
+.eyebrow::before,.eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(217,119,6,0.3));}
+.eyebrow::after{background:linear-gradient(90deg,rgba(217,119,6,0.3),transparent);}
+.eyebrow span{font-size:0.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+h1{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:12px;}
+.subtitle{color:var(--muted);font-size:0.95rem;margin-bottom:36px;line-height:1.6;}
+.faq{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;margin-bottom:32px;text-align:left;}
+.faq-item{margin-bottom:16px;}
+.faq-item:last-child{margin-bottom:0;}
+.faq-q{font-size:0.88rem;font-weight:600;color:var(--warm-white);margin-bottom:4px;}
+.faq-a{font-size:0.83rem;color:var(--muted);line-height:1.5;}
+.btn-gold{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;border:none;border-radius:12px;padding:14px 32px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s;}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
+.btn-ghost{display:inline-block;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 28px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;text-decoration:none;transition:all .2s;margin-left:12px;}
+.btn-ghost:hover{color:var(--warm-white);border-color:rgba(255,255,255,0.2);}
+footer{position:relative;z-index:1;text-align:center;padding:24px;color:var(--muted);font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.04);}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Agentul<span>Meu</span></a>
+</nav>
+<main>
+  <div class="card">
+    <div class="icon">✕</div>
+    <div class="eyebrow"><span>Plată anulată</span></div>
+    <h1>Ai anulat plata</h1>
+    <p class="subtitle">Nu s-a efectuat nicio plată. Contul tău rămâne neschimbat. Poți încerca din nou oricând.</p>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">De ce să aleg AgentulMeu?</div>
+        <div class="faq-a">Singurul SaaS românesc care generează agenți AI complet configurați pentru business-ul tău, în limba română.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Pot testa înainte să plătesc?</div>
+        <div class="faq-a">Da — completează Wizard-ul gratuit și vezi exact ce fișiere primești înainte de a te abona.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Plata este sigură?</div>
+        <div class="faq-a">Plățile sunt procesate prin Stripe — cel mai sigur procesator de plăți din lume. Nu stocăm datele cardului.</div>
+      </div>
+    </div>
+    <a href="/#pricing" class="btn-gold">Vezi planurile →</a>
+    <a href="/dashboard" class="btn-ghost">Dashboard</a>
+  </div>
+</main>
+<footer>© 2026 AgentulMeu.online</footer>
+</body>
+</html>

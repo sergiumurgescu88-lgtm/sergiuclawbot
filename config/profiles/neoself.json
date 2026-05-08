@@ -1,0 +1,66 @@
+{
+  "business": {
+    "business_id": "neoself",
+    "name": "NeoSelf.ro",
+    "type": [
+      "auto_services"
+    ],
+    "description": "Spălătorie auto self-service, service auto rapid și vulcanizare în Craiova și zona limitrofă",
+    "products": "Spălătorie auto self-service, aspirator, presiune apă, aer comprimat, schimb ulei rapid, vulcanizare, anvelope sezon",
+    "ideal_client": "Proprietari auto, 25-55 ani, urban, venit mediu, valorează timpul și comoditatea",
+    "region": "Dolj, Olt, Mehedinți, Gorj",
+    "website": "neoself.ro"
+  },
+  "goals": {
+    "primary": [
+      "Creșterea numărului de clienți recurenți cu 30%",
+      "Reducerea timpilor de așteptare la spălătorie",
+      "Automatizarea programărilor pentru service"
+    ],
+    "top_problem": "Clienții sună în mod repetat pentru a verifica disponibilitatea la spălătorie/service",
+    "repetitive_tasks": [
+      "Răspuns la apeluri despre programări",
+      "Reamintire clienților de schimbul anvelopelor sezoniere",
+      "Confirmare programări cu 2h înainte",
+      "Răspuns la întrebări despre prețuri servicii"
+    ],
+    "priority_90days": "Implementare sistem programări online și reamintiri automate"
+  },
+  "agents_needed": [
+    "hunter",
+    "closer",
+    "support"
+  ],
+  "personality": {
+    "voice": "Prietenos, eficient, cu jargon auto minim explicat — nu presupune cunoștințe tehnice",
+    "autonomy": "semi-autonom",
+    "red_lines": [
+      "Nu promite disponibilitate fără verificare reală a programului",
+      "Nu oferi discounturi >10% fără aprobare umană",
+      "Nu diagnostichezi probleme mecanice complexe — direcționează către service",
+      "Nu menționezi branduri concurente într-un mod negativ"
+    ],
+    "usp": "Programări online cu ridicare gratuită la domiciliu în Craiova + garanție 6 luni pe service rapid"
+  },
+  "channels": {
+    "communication": [
+      "Telegram",
+      "WhatsApp",
+      "Email",
+      "SMS"
+    ],
+    "crm": "Google Calendar + Google Sheets",
+    "integrations": [
+      "Calendar",
+      "Maps",
+      "SMS Gateway"
+    ]
+  },
+  "_meta": {
+    "created_at": "2026-05-07T12:00:00",
+    "version": "2.0-hermes",
+    "hermes_compatible": true,
+    "preconfigured": true,
+    "business_type": "auto_services"
+  }
+}

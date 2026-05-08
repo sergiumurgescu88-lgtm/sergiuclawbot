@@ -1,0 +1,10 @@
+.env
+.env.*
+*.bak*
+__pycache__/
+node_modules/
+venv/
+output/
+config/agentulmeu.db
+*.pyc
+.git/

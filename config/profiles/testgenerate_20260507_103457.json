@@ -1,0 +1,37 @@
+{
+  "business": {
+    "name": "TestGenerate",
+    "business_id": "testgenerate",
+    "type": [
+      "hunter"
+    ],
+    "description": "Test generare agent AI",
+    "ideal_client": "Proprietari case noi",
+    "region": "Oltenia"
+  },
+  "agents_needed": [
+    "hunter"
+  ],
+  "personality": {
+    "voice": "Profesional si prietenos",
+    "autonomy": "semi-autonom",
+    "red_lines": [
+      "Nu minte",
+      "Nu promite ce nu poate livra"
+    ],
+    "usp": "Cel mai bun raport calitate-pret"
+  },
+  "channels": {
+    "communication": [
+      "Email",
+      "Telegram"
+    ],
+    "crm": "",
+    "integrations": []
+  },
+  "_meta": {
+    "created_at": "2026-05-07T10:34:57.133197",
+    "filename": "testgenerate_20260507_103457.json",
+    "version": "1.0"
+  }
+}

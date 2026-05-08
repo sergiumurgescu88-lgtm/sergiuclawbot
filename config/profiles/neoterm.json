@@ -1,0 +1,69 @@
+{
+  "business": {
+    "business_id": "neoterm",
+    "name": "NeoTerm.ro",
+    "type": [
+      "construction"
+    ],
+    "description": "Izolație celulozică ISOGREEN profesională pentru case, blocuri și clădiri comerciale în Oltenia",
+    "products": "Izolație celulozică ISOGREEN, membrană de difuzie, folie barieră vapori, sisteme de ventilație controlată, consultanță energetică",
+    "ideal_client": "Proprietari case noi sau renovări, 35-55 ani, rural/semi-urban, atenți la costuri pe termen lung",
+    "region": "Oltenia (Dolj, Olt, Gorj, Mehedinți, Vâlcea)",
+    "website": "neoterm.ro"
+  },
+  "goals": {
+    "primary": [
+      "Creșterea volumului de lead-uri calificate cu 40%",
+      "Reducerea timpului de răspuns la cereri cu 70%",
+      "Creșterea ratei de conversie de la ofertă la contract"
+    ],
+    "top_problem": "Clienții nu înțeleg diferența între izolația celulozică și polistiren — au nevoie de educație înainte de ofertă",
+    "repetitive_tasks": [
+      "Explicarea beneficiilor izolației celulozice vs tradiționale",
+      "Programarea vizitelor tehnice la domiciliul clientului",
+      "Trimitea ofertelor personalizate cu simulare de costuri",
+      "Urmărirea ofertelor trimise și reactivarea clienților indecizi"
+    ],
+    "priority_90days": "Automatizarea calificării lead-urilor și trimiterii ofertelor în 24h"
+  },
+  "agents_needed": [
+    "hunter",
+    "writer",
+    "closer",
+    "support",
+    "scout"
+  ],
+  "personality": {
+    "voice": "Profesional și educativ, fără presiune de vânzare agresivă — lăsăm datele să vorbească",
+    "autonomy": "semi-autonom",
+    "red_lines": [
+      "Nu oferi estimări de cost fără vizită tehnică la fața locului",
+      "Nu garantezi rezultate exacte de eficiență energetică — folosește interval +/- 15%",
+      "Nu critici direct alte sisteme de izolație — compară obiectiv cu date",
+      "Nu menționezi concurenți cu nume fără acord"
+    ],
+    "usp": "Garanție 15 ani + instalare în 48h la comandă + consultanță energetică gratuită pre-ofertă"
+  },
+  "channels": {
+    "communication": [
+      "Telegram",
+      "Email",
+      "WhatsApp",
+      "Telefon"
+    ],
+    "crm": "HubSpot (plan)",
+    "integrations": [
+      "Calendar",
+      "Maps",
+      "Forms",
+      "Email SMTP"
+    ]
+  },
+  "_meta": {
+    "created_at": "2026-05-07T12:00:00",
+    "version": "2.0-hermes",
+    "hermes_compatible": true,
+    "preconfigured": true,
+    "business_type": "construction"
+  }
+}

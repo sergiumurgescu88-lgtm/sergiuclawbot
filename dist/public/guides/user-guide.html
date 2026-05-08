@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Ghid Utilizator - AgentulMeu.online</title>
+<style>
+@page { size: A4; margin: 2cm; }
+body { font-family: Georgia, serif; line-height: 1.6; color: #333; max-width: 100%; }
+h1 { font-size: 28px; color: #0d47a1; border-bottom: 3px solid #0d47a1; padding-bottom: 10px; }
+h2 { font-size: 20px; color: #1565c0; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-top: 30px; }
+h3 { font-size: 16px; color: #1976d2; margin-top: 20px; }
+.cover { text-align: center; padding: 80px 0; }
+.cover h1 { font-size: 36px; border: none; color: #0d47a1; }
+.cover .subtitle { font-size: 18px; color: #666; margin-top: 20px; }
+.cover .version { font-size: 14px; color: #999; margin-top: 40px; }
+.step { border-left: 4px solid #0d47a1; padding-left: 15px; margin: 15px 0; }
+.tip { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 10px 15px; margin: 15px 0; }
+.warning { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px 15px; margin: 15px 0; }
+code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 13px; }
+ul li { margin: 8px 0; }
+.footer { text-align: center; font-size: 12px; color: #999; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+<h1>AgentulMeu.online</h1>
+<div class="subtitle">Ghid Utilizator - Cum sa Creezi si sa Folosesti Agenti AI</div>
+<div class="version">Versiunea 1.0 | Mai 2026</div>
+</div>
+
+<h2>Cuprins</h2>
+<ol>
+<li>Ce este AgentulMeu.online?</li>
+<li>Cum creezi un cont</li>
+<li>Cum creezi primul tau agent AI</li>
+<li>Cum folosesti chat-ul cu agentul</li>
+<li>Cum configurezi alertele Telegram</li>
+<li>Dashboard - Monitorizare sistem</li>
+<li>Comenzi utile pentru mentenanta</li>
+<li>Solutii pentru probleme comune</li>
+</ol>
+
+<h2>1. Ce este AgentulMeu.online?</h2>
+<p>AgentulMeu.online este o platforma care iti permite sa creezi, antrenezi si interactionezi cu agenti AI autonomi specializati pentru business-ul tau. Fiecare agent are un rol specific:</p>
+<ul>
+<li><strong>Hunter</strong> - Gaseste si califica prospecti</li>
+<li><strong>Writer</strong> - Genereaza continut marketing</li>
+<li><strong>Closer</strong> - Converteste lead-uri in vanzari</li>
+<li><strong>Support</strong> - Raspunde la intrebari clienti</li>
+<li><strong>Analyst</strong> - Analizeaza metrici si trenduri</li>
+<li><strong>Scout</strong> - Monitorizeaza competitori</li>
+</ul>
+
+<div class="tip">
+Agentii functioneaza local pe serverul tau prin Ollama LLM, deci datele tale raman private.
+</div>
+
+<h2>2. Cum creezi un cont</h2>
+<div class="step">
+<h3>Pasul 1 - Acceseaza pagina de inregistrare</h3>
+<p>Deschide <code>https://agentulmeu.online/register</code> in browser.</p>
+</div>
+<div class="step">
+<h3>Pasul 2 - Completeaza formularul</h3>
+<ul>
+<li><strong>Nume complet</strong> - Cum vrei sa apari in platforma</li>
+<li><strong>Username</strong> - Un nume unic de utilizator</li>
+<li><strong>Email</strong> - Adresa ta de email</li>
+<li><strong>Parola</strong> - Minim 6 caractere</li>
+<li><strong>Confirma parola</strong> - Trebuie sa coincida</li>
+</ul>
+</div>
+<div class="step">
+<h3>Pasul 3 - Valideaza informatiile</h3>
+<p>Formularul verifica automat daca username-ul este disponibil si daca parolele coincid.</p>
+</div>
+<div class="step">
+<h3>Pasul 4 - Submit</h3>
+<p>Apasa butonul "Creeaza Cont". Vei fi redirectionat automat la pagina de login.</p>
+</div>
+
+<div class="tip">
+Dupa inregistrare, foloseste butonul "Intra in cont" pentru a te autentifica.
+</div>
+
+<h2>3. Cum creezi primul tau agent AI</h2>
+<div class="step">
+<h3>Pasul 1 - Navigheaza la "Creeaza Agent"</h3>
+<p>Din meniul principal sau Dashboard, apasa pe "Creeaza Agent Nou".</p>
+</div>
+<div class="step">
+<h3>Pasul 2 - Alege tipul de agent</h3>
+<p>Selecteaza unul din cele 6 tipuri disponibile:</p>
+<ul>
+<li>Hunter - pentru generarea de lead-uri</li>
+<li>Writer - pentru continut marketing</li>
+<li>Closer - pentru vanzari</li>
+<li>Support - pentru suport clienti</li>
+<li>Analyst - pentru analiza datelor</li>
+<li>Scout - pentru intelligence de piata</li>
+</ul>
+</div>
+<div class="step">
+<h3>Pasul 3 - Configureaza identitatea</h3>
+<ul>
+<li><strong>Numele agentului</strong> - ex: "NeoTerm Hunter"</li>
+<li><strong>Numele business-ului</strong> - ex: "NeoTerm.ro"</li>
+<li><strong>Descriere</strong> - Cu ce se ocupa business-ul</li>
+</ul>
+</div>
+<div class="step">
+<h3>Pasul 4 - Seteaza contextul</h3>
+<ul>
+<li><strong>Regiune</strong> - Zona geografica tinta</li>
+<li><strong>Client ideal</strong> - Profilul clientului tinta</li>
+<li><strong>USP</strong> - Ce te diferentiaza</li>
+<li><strong>Ton de voce</strong> - Cum vorbeste agentul</li>
+<li><strong>Canale</strong> - Email, Telegram, WhatsApp</li>
+</ul>
+</div>
+<div class="step">
+<h3>Pasul 5 - Configureaza regulile</h3>
+<ul>
+<li><strong>Nivel de autonomie</strong> - Manual / Semi / Full</li>
+<li><strong>Reguli absolute</strong> - Ce NU are voie sa faca</li>
+</ul>
+</div>
+<div class="step">
+<h3>Pasul 6 - Lanseaza agentul</h3>
+<p>Apasa "Lanseaza Agentul". Sistemul va genera automat fisierul .AGENT.md prin AI (Ollama).</p>
+</div>
+
+<div class="warning">
+Generarea dureaza 30-120 secunde in functie de modelul LLM selectat. Nu inchide pagina!
+</div>
+
+<h2>4. Cum folosesti chat-ul cu agentul</h2>
+<div class="step">
+<h3>Pasul 1 - Acceseaza lista de agenti</h3>
+<p>Mergi la <code>https://agentulmeu.online/agents</code> pentru a vedea toti agentii creati.</p>
+</div>
+<div class="step">
+<h3>Pasul 2 - Deschide chat-ul</h3>
+<p>Apasa butonul "Deschide Chat" pe card-ul agentului dorit.</p>
+</div>
+<div class="step">
+<h3>Pasul 3 - Conversationeaza</h3>
+<p>Scrie mesajul tau si apasa Enter sau butonul de trimitere. Agentul va raspunde folosind modelul AI local.</p>
+</div>
+
+<div class="tip">
+<strong>Suggestion buttons:</strong> Foloseste butoanele rapide de sub chat pentru intrebari frecvente.
+</div>
+
+<h3>Functionalitati chat</h3>
+<ul>
+<li><strong>Istoric</strong> - Conversatiile sunt salvate in localStorage</li>
+<li><strong>Copy</strong> - Copiaza orice mesaj cu click pe iconita</li>
+<li><strong>Clear</strong> - Sterge conversatia curenta</li>
+<li><strong>Typing indicator</strong> - Vezi cand agentul "scrie"</li>
+</ul>
+
+<h2>5. Cum configurezi alertele Telegram</h2>
+<div class="step">
+<h3>Pasul 1 - Obtine un bot Telegram</h3>
+<p>Vorbeste cu <code>@BotFather</code> pe Telegram si creeaza un bot nou. Copiaza token-ul.</p>
+</div>
+<div class="step">
+<h3>Pasul 2 - Obtine chat ID</h3>
+<p>Trimite un mesaj bot-ului tau, apoi acceseaza <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code> pentru a afla chat_id.</p>
+</div>
+<div class="step">
+<h3>Pasul 3 - Configureaza pe VPS</h3>
+<pre>echo "TELEGRAM_BOT_TOKEN=token_tau" >> /var/www/agentulmeu.online/.env
+echo "TELEGRAM_ADMIN_CHAT_ID=chat_id_tau" >> /var/www/agentulmeu.online/.env</pre>
+</div>
+<div class="step">
+<h3>Pasul 4 - Testeaza</h3>
+<pre>alert-me test "Primul meu alerta!"</pre>
+</div>
+
+<div class="tip">
+Vei primi alerte automat pentru: backup complet, service down, resurse critice.
+</div>
+
+<h2>6. Dashboard - Monitorizare sistem</h2>
+<p>Dashboard-ul ofera o vedere de ansamblu in timp real asupra sistemului:</p>
+<ul>
+<li><strong>API Flask</strong> - Status backend</li>
+<li><strong>Hermes Agent</strong> - Disponibilitate framework</li>
+<li><strong>Ollama LLM</strong> - Conexiune model AI</li>
+<li><strong>Agenti activi</strong> - Numarul de agenti creati</li>
+</ul>
+
+<h3>Badge-ul de status</h3>
+<ul>
+<li><strong>Verde</strong> - Toate serviciile functionale</li>
+<li><strong>Galben</strong> - Un serviciu are probleme</li>
+<li><strong>Rosu</strong> - API sau Hermes offline</li>
+</ul>
+
+<h3>Click pe badge</h3>
+<p>Deschide un modal cu detalii tehnice: uptime, timp de raspuns, spatiu disk, ultimul backup.</p>
+
+<h2>7. Comenzi utile pentru mentenanta</h2>
+
+<h3>Status si monitorizare</h3>
+<pre>
+agentulmeu-status              # Status rapid al sistemului
+agentulmeu-health              # Verificare health manuala
+</pre>
+
+<h3>Backup</h3>
+<pre>
+agentulmeu-backup              # Backup manual
+ls /opt/backups/agentulmeu/daily/  # Lista backup-uri
+</pre>
+
+<h3>Telegram</h3>
+<pre>
+alert-me "Mesaj personalizat"  # Trimite alerta manuala
+</pre>
+
+<h3>Log-uri</h3>
+<pre>
+tail -f /var/log/agentulmeu/health.log   # Monitorizare in timp real
+tail -f /var/log/agentulmeu/backup.log   # Log backup
+tail -f /var/log/agentulmeu/telegram.log # Log alerte
+</pre>
+
+<h3>Servicii sistem</h3>
+<pre>
+sudo systemctl restart agentulmeu-flask  # Restart backend
+sudo systemctl restart nginx             # Restart web server
+sudo systemctl status agentulmeu-flask   # Status serviciu
+</pre>
+
+<h2>8. Solutii pentru probleme comune</h2>
+
+<h3>"Conectare pierduta" in browser</h3>
+<div class="warning">
+Verifica ca Flask sa ruleze: <code>systemctl status agentulmeu-flask</code>. Daca e oprit: <code>systemctl restart agentulmeu-flask</code>
+</div>
+
+<h3>Agentul nu raspunde in chat</h3>
+<ol>
+<li>Verifica Ollama: <code>ollama list</code></li>
+<li>Asigura-te ca modelul llama3.2:1b e descarcat: <code>ollama pull llama3.2:1b</code></li>
+<li>Verifica log-urile: <code>journalctl -u agentulmeu-flask -n 20</code></li>
+</ol>
+
+<h3>Eroare 401 la salvare agent</h3>
+<div class="warning">
+Trebuie sa fii autentificat. Daca sesiunea a expirat, reautentifica-te la /login.
+</div>
+
+<h3>Nu primesc alerte Telegram</h3>
+<ol>
+<li>Verifica token-ul: <code>grep TELEGRAM /var/www/agentulmeu.online/.env</code></li>
+<li>Verifica chat ID-ul</li>
+<li>Testeaza manual: <code>alert-me test</code></li>
+</ol>
+
+<h3>Backup nu functioneaza</h3>
+<ol>
+<li>Verifica directorul: <code>ls -la /opt/backups/agentulmeu/daily/</code></li>
+<li>Verifica cron: <code>crontab -l | grep agentulmeu</code></li>
+<li>Ruleaza manual: <code>agentulmeu-backup</code></li>
+</ol>
+
+<div class="footer">
+<p>AgentulMeu.online - Agenti AI autonomi pentru business-ul tau romanesc</p>
+<p>Documentatie completa: https://github.com/sergiumurgescu88-lgtm/agentulmeu-online</p>
+<p>Suport: Deschide un issue pe GitHub sau contacteaza prin Telegram</p>
+</div>
+
+</body>
+</html>

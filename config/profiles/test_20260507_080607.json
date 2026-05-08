@@ -1,0 +1,51 @@
+{
+  "business": {
+    "business_id": "neoterm_test",
+    "name": "NeoTerm Test",
+    "type": [
+      "B2C",
+      "construction"
+    ],
+    "description": "Instalăm izolație celulozică ISOGREEN în case noi și renovate",
+    "products": "Izolație celulozică — 80 lei/mp",
+    "ideal_client": "Proprietari case noi, 35-55 ani, Oltenia",
+    "region": "Dolj, Olt, Gorj",
+    "website": "https://neoterm.ro",
+    "revenue_model": "Servicii + produse"
+  },
+  "goals": {
+    "primary": [
+      "leads",
+      "sales"
+    ],
+    "top_problem": "Pierd timp cu răspunsuri repetitive",
+    "repetitive_tasks": [
+      "Verificare stoc",
+      "Trimitere proforme"
+    ],
+    "priority_90days": "Automatizarea fluxului de lead-uri"
+  },
+  "agents_needed": [
+    "hunter",
+    "writer",
+    "support"
+  ],
+  "personality": {
+    "voice": "Prietenos și clar",
+    "autonomy": "semi-autonom",
+    "red_lines": [
+      "Nu oferi informații false",
+      "Nu promite ce nu poți livra",
+      "Respectă confidențialitatea datelor"
+    ],
+    "usp": "Garanție 15 ani + instalare în 48h"
+  },
+  "channels": {
+    "communication": [
+      "Telegram",
+      "Email"
+    ],
+    "crm": "Google Sheets",
+    "integrations": []
+  }
+}

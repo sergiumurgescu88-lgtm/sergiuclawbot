@@ -1,0 +1,46 @@
+{
+  "businessTypes": [
+    "rnd",
+    "construction",
+    "medical"
+  ],
+  "teamSize": "solo",
+  "maturity": "growth",
+  "name": "",
+  "description": "",
+  "website": "",
+  "region": "",
+  "idealClient": "",
+  "primaryGoals": [],
+  "topProblem": "",
+  "repetitiveTasks": "",
+  "priority90days": "",
+  "selectedAgents": [
+    "hunter",
+    "writer",
+    "support",
+    "closer",
+    "scout",
+    "analyst"
+  ],
+  "communicationChannels": [
+    "email",
+    "telegram",
+    "whatsapp"
+  ],
+  "brandVoice": "",
+  "autonomyLevel": "approve-only",
+  "redLines": "",
+  "usp": "",
+  "crm": "",
+  "integrations": [],
+  "modelType": "openrouter",
+  "budget": "2000-10000",
+  "timeline": "1week",
+  "filesToGenerate": [],
+  "_meta": {
+    "created_at": "2026-05-07T08:30:00.302665",
+    "filename": "unknown_20260507_083000.json",
+    "version": "1.0"
+  }
+}

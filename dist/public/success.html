@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plată reușită — AgentulMeu.online</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--obsidian:#050c18;--navy:#0a1628;--navy-2:#0f2040;--gold:#d97706;--gold-light:#f59e0b;--gold-pale:#fbbf24;--teal:#0d9488;--teal-light:#14b8a6;--warm-white:#f8f4ef;--muted:#8b9ab5;}
+body{font-family:'DM Sans',sans-serif;background:var(--obsidian);color:var(--warm-white);min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+nav{position:relative;z-index:10;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);}
+.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--warm-white);text-decoration:none;}
+.logo span{color:var(--gold);}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:56px 48px;width:100%;max-width:520px;text-align:center;}
+.icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(13,148,136,0.2),rgba(13,148,136,0.05));border:2px solid rgba(13,148,136,0.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 28px;}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px;justify-content:center;}
+.eyebrow::before,.eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(13,148,136,0.4));}
+.eyebrow::after{background:linear-gradient(90deg,rgba(13,148,136,0.4),transparent);}
+.eyebrow span{font-size:0.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-light);white-space:nowrap;}
+h1{font-family:'DM Serif Display',serif;font-size:2.2rem;margin-bottom:12px;line-height:1.2;}
+.subtitle{color:var(--muted);font-size:1rem;margin-bottom:36px;line-height:1.6;}
+.plan-badge{display:inline-block;background:linear-gradient(135deg,rgba(217,119,6,0.15),rgba(245,158,11,0.08));border:1px solid rgba(217,119,6,0.3);border-radius:50px;padding:8px 20px;font-size:0.85rem;color:var(--gold-pale);font-weight:600;margin-bottom:32px;letter-spacing:.05em;}
+.steps{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;margin-bottom:32px;text-align:left;}
+.steps-title{font-size:0.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px;}
+.step{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+.step:last-child{margin-bottom:0;}
+.step-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:0.9rem;color:var(--warm-white);line-height:1.4;}
+.step-text span{color:var(--muted);font-size:0.82rem;display:block;margin-top:2px;}
+.btn-gold{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;border:none;border-radius:12px;padding:14px 32px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s;}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
+.btn-ghost{display:inline-block;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 28px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;text-decoration:none;transition:all .2s;margin-left:12px;}
+.btn-ghost:hover{color:var(--warm-white);border-color:rgba(255,255,255,0.2);}
+footer{position:relative;z-index:1;text-align:center;padding:24px;color:var(--muted);font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.04);}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Agentul<span>Meu</span></a>
+</nav>
+<main>
+  <div class="card">
+    <div class="icon">✓</div>
+    <div class="eyebrow"><span>Plată confirmată</span></div>
+    <h1>Bine ai venit!</h1>
+    <p class="subtitle">Plata a fost procesată cu succes. Contul tău a fost activat și poți începe să îți configurezi agentul AI.</p>
+    <div class="plan-badge" id="planBadge">Plan activat</div>
+    <div class="steps">
+      <div class="steps-title">Pașii următori</div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Completează Wizard-ul de configurare
+          <span>8 pași simpli pentru a-ți defini agentul perfect</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Generează fișierele agentului tău
+          <span>SOUL, IDENTITY, MEMORY și alte 6 fișiere — ~15 minute</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Descarcă și instalează agentul
+          <span>ZIP cu toate fișierele gata de instalare pe Hermes</span>
+        </div>
+      </div>
+    </div>
+    <a href="/dashboard" class="btn-gold">Mergi la Dashboard →</a>
+    <a href="/" class="btn-ghost">Acasă</a>
+  </div>
+</main>
+<footer>© 2026 AgentulMeu.online</footer>
+<script>
+const params = new URLSearchParams(window.location.search);
+const plan = params.get('plan') || '';
+const badge = document.getElementById('planBadge');
+const names = {starter:'Starter — $29/lună', professional:'Professional — $99/lună', doneforyou:'Done-For-You — $299'};
+if(names[plan]) badge.textContent = names[plan] + ' ✓';
+</script>
+</body>
+</html>
