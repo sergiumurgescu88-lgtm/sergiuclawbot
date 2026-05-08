@@ -1043,42 +1043,6 @@ def api_stripe_webhook():
     return jsonify({'received': True}), 200
 
 
-@app.route('/api/auth/register', methods=['POST'])
-def register():
-    try:
-        data = request.get_json()
-        username = data.get("username", "").strip()
-        email = data.get("email", "").strip()
-        password = data.get("password", "")
-        full_name = data.get("full_name", "").strip()
-        if not username or len(username) < 3:
-            return jsonify({"error": "Username minim 3 caractere"}), 400
-        if not email or "@" not in email:
-            return jsonify({"error": "Email invalid"}), 400
-        if not password or len(password) < 6:
-            return jsonify({"error": "Parola minim 6 caractere"}), 400
-        import hashlib, base64, json, time, os, sqlite3
-        pwd_hash = hashlib.sha256(password.encode()).hexdigest()
-        conn = sqlite3.connect(str(DB_PATH))
-        c = conn.cursor()
-        c.execute("SELECT id FROM users WHERE username = ? OR email = ?", (username, email))
-        if c.fetchone():
-            conn.close()
-            return jsonify({"error": "Username sau email deja înregistrat"}), 409
-        now = time.strftime("%Y-%m-%dT%H:%M:%SZ")
-        c.execute("INSERT INTO users (username, email, password_hash, full_name, plan, created_at, updated_at) VALUES (?, ?, ?, ?, 'free', ?, ?)", (username, email, pwd_hash, full_name, now, now))
-        conn.commit()
-        user_id = c.lastrowid
-        conn.close()
-        SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "dev-secret")
-        header = base64.urlsafe_b64encode(json.dumps({"alg": "HS256", "typ": "JWT"}).encode()).decode().rstrip("=")
-        payload = base64.urlsafe_b64encode(json.dumps({"user_id": user_id, "username": username, "email": email, "exp": time.time() + 86400*7}).encode()).decode().rstrip("=")
-        signature = hashlib.sha256(f"{header}.{payload}.{SECRET_KEY}".encode()).hexdigest()
-        token = f"{header}.{payload}.{signature}"
-        log_event("USER_REGISTER", f"User {username} registered")
-        return jsonify({"success": True, "message": "Cont creat", "token": token, "user": {"id": user_id, "username": username, "email": email, "full_name": full_name}, "redirect": "/dashboard"}), 201
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
 if __name__ == '__main__':
     host = os.getenv("FLASK_HOST", "0.0.0.0")
     port = int(os.getenv("FLASK_PORT", 8080))
