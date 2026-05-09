@@ -588,14 +588,18 @@ function downloadAll() {
 }
 
 function saveEdit() {
-  const content = document.getElementById('editContent').value;
-  const label = document.getElementById('editLabel').textContent.replace('Editare — ', '');
-  const fileId = Object.keys(generatedFiles).find(k => {
-    const f = DATA.files.find(x => x.label === label);
-    return f && f.id === k;
-  });
-  if (fileId) generatedFiles[fileId] = content;
+  const ec = document.getElementById('editContent');
+  const content = ec.value;
+  const fileId = ec.dataset.file || (() => {
+    const label = document.getElementById('editLabel').textContent.replace('Editare ', '').replace(' — ','');
+    return Object.keys(generatedFiles).find(k => {
+      const f = DATA.files.find(x => x.label === label);
+      return f && f.id === k;
+    });
+  })();
+  if (fileId) { generatedFiles[fileId] = content; }
   closeEdit();
+  if (document.querySelector('.wz-step[data-step="9"].active')) populateExportList();
 }
 
 function closeEdit() {
@@ -1042,6 +1046,52 @@ async function askAI(fieldId, label) {
 let currentStep = 1;
 const totalSteps = 9;
 
+function populateExportList() {
+  const el = document.getElementById('exportList');
+  if (!el) return;
+  el.innerHTML = '';
+  const icons = {soul:'🧬',identity:'🪪',user:'👤',memory:'🧠',tools:'🔧',agents:'🤖',heartbeat:'⏰',bootstrap:'🚀',agent_rd:'🔬'};
+  const names = {soul:'SOUL.md',identity:'IDENTITY.md',user:'USER.md',memory:'MEMORY.md',tools:'TOOLS.md',agents:'AGENTS.md',heartbeat:'HEARTBEAT.md',bootstrap:'BOOTSTRAP.md',agent_rd:'AGENT_RD.md'};
+  const keys = Object.keys(names);
+  const generated = keys.filter(k => generatedFiles[k]);
+  if (generated.length === 0) {
+    el.innerHTML = '<div style="text-align:center;color:#999;padding:32px;font-size:0.85rem">Niciun fișier generat încă. Întoarce-te la Pasul 8.</div>';
+    return;
+  }
+  generated.forEach(k => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:14px 18px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px';
+    const icon = document.createElement('span');
+    icon.textContent = icons[k] || '📄';
+    icon.style.fontSize = '1.3rem';
+    const name = document.createElement('span');
+    name.style.cssText = 'font-size:0.88rem;font-weight:700;flex:1;font-family:"JetBrains Mono",monospace;color:#111';
+    name.textContent = names[k];
+    const words = document.createElement('span');
+    words.style.cssText = 'font-size:0.75rem;color:#999;margin-right:8px';
+    words.textContent = generatedFiles[k].split(/\s+/).length + ' cuvinte';
+    const dlBtn = document.createElement('button');
+    dlBtn.style.cssText = 'padding:7px 14px;background:#fff;color:#111;border:1.5px solid #d1d5db;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer';
+    dlBtn.textContent = '⬇ Descarcă';
+    dlBtn.onclick = () => {
+      const blob = new Blob([generatedFiles[k]], {type:'text/markdown'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = names[k]; a.click();
+    };
+    const editBtn = document.createElement('button');
+    editBtn.style.cssText = 'padding:7px 14px;background:#fff;color:#111;border:1.5px solid #d1d5db;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer';
+    editBtn.textContent = '✏ Editează';
+    editBtn.onclick = () => {
+      const ea = document.getElementById('editArea');
+      const ec = document.getElementById('editContent');
+      const el2 = document.getElementById('editLabel');
+      if (ea && ec) { ea.style.display='block'; ec.value=generatedFiles[k]; if(el2) el2.textContent='Editare '+names[k]; ec.dataset.file=k; ea.scrollIntoView({behavior:'smooth'}); }
+    };
+    row.appendChild(icon); row.appendChild(name); row.appendChild(words); row.appendChild(dlBtn); row.appendChild(editBtn);
+    el.appendChild(row);
+  });
+}
+
 function showStep(n) {
     document.querySelectorAll('.wz-step').forEach(s => s.classList.remove('active'));
     const target = document.querySelector('.wz-step[data-step="' + n + '"]');
@@ -1068,6 +1118,7 @@ function showStep(n) {
     const bar = document.querySelector('.wz-progress-bar, .progress-bar, [role="progressbar"]');
     if (bar) bar.style.width = Math.round((n / totalSteps) * 100) + '%';
     window.scrollTo({top: 0, behavior: 'smooth'});
+    if (n === 9) populateExportList();
 }
 
 function nextStep() {
