@@ -10,23 +10,32 @@ config/*.json
 *.pem
 *.secret
 
-# Python
+# Python & Node
 venv/
 __pycache__/
 *.pyc
 *.pyo
-
-# Node & PM2
 node_modules/
 .pm2/
 ecosystem.config.js
 
-# Logs & Cache
+# Logs & Cache & Output
 *.log
 *.jsonl
 .cache/
 output/logs/
+output/**/*.zip
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Large assets (keep only optimized web versions)
+dist/public/assets/uploads/logoagentulmeu/logo*.jpg
+dist/public/assets/uploads/logoagentulmeu/logo*.png
+dist/public/assets/uploads/logoagentulmeu/favivon2*
+dist/public/assets/uploads/logoagentulmeu/*_nobg*
+dist/public/assets/uploads/logoagentulmeu/banner*
+dist/public/assets/uploads/logoagentulmeu/desktop*
+dist/public/assets/uploads/logoagentulmeu/hermes*
+dist/public/assets/uploads/logoagentulmeu/avatar*

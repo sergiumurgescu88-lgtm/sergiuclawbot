@@ -344,6 +344,9 @@ footer{text-align:center;padding:32px;color:var(--text-3);font-size:0.78rem;bord
 .sidebar-logo-icon{background:var(--gold-gradient)!important}
 
 </style>
+  
+  <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 </head>
 <body>
 
@@ -351,7 +354,7 @@ footer{text-align:center;padding:32px;color:var(--text-3);font-size:0.78rem;bord
 <nav id="mainNav">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <div class="nav-logo-icon">A</div>
+      
       <div class="nav-logo-text">Agentul<span>Meu</span></div>
     </a>
     <div class="nav-links">
@@ -1122,7 +1125,10 @@ function exportPDF() {
 .framework-card.orange::before{background:var(--gold-gradient)!important}
 .sidebar-logo-icon{background:var(--gold-gradient)!important}
 
-</style></head><body>${printContent.innerHTML}<div class="footer">AgentulMeu.online — Raport generat pe ${new Date().toLocaleString('ro-RO')}</div></body></html>`);
+</style>  
+  <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
+</head><body>${printContent.innerHTML}<div class="footer">AgentulMeu.online — Raport generat pe ${new Date().toLocaleString('ro-RO')}</div></body></html>`);
   printWindow.document.close();
   setTimeout(() => printWindow.print(), 500);
 }

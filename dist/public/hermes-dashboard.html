@@ -3,30 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hermes Agent — Dashboard Premium</title>
+<title>Hermes Agent — Dashboard</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#ffffff;--bg-2:#fafafa;--bg-3:#f5f5f5;
-  --text:#0a0a0a;--text-2:#444;--text-3:#777;
+  --bg:#fff;--bg2:#fafafa;--bg3:#f5f5f5;--bg4:#eee;
+  --text:#0a0a0a;--text2:#444;--text3:#777;
   --gold:#C9A227;--gold-light:#E8C547;--gold-dark:#A68521;
   --gold-glow:rgba(201,162,39,0.12);
   --gold-gradient:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);
   --gold-shadow:0 8px 32px rgba(201,162,39,0.25);
-  --gold-shadow-lg:0 16px 48px rgba(201,162,39,0.3);
-  --green:#16a34a;--blue:#2563eb;
-  --border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);
+  --green:#16a34a;--green-bg:rgba(22,163,74,0.08);--green-border:rgba(22,163,74,0.25);
+  --blue:#2563eb;--amber:#fbbf24;--red:#dc2626;
+  --border:rgba(0,0,0,0.06);--border2:rgba(0,0,0,0.10);
   --shadow-sm:0 2px 8px rgba(0,0,0,0.04);
   --shadow-md:0 8px 24px rgba(0,0,0,0.06);
   --shadow-lg:0 16px 48px rgba(0,0,0,0.08);
   --shadow-xl:0 24px 64px rgba(0,0,0,0.10);
-  --radius:14px;--radius-lg:18px;--radius-xl:24px;
+  --radius:14px;--radius-sm:10px;--radius-pill:100px;--radius-xl:24px;
 }
-@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes typing{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
 html,body{height:100%;overflow:hidden}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;-webkit-font-smoothing:antialiased}
 
@@ -37,55 +38,55 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 .right-panel{width:340px;background:var(--bg);border-left:1px solid var(--border);display:none;flex-direction:column;flex-shrink:0;overflow-y:auto}
 .right-panel.show{display:flex}
 
-/* ═══ SIDEBAR PREMIUM ═══ */
-.sidebar-header{padding:20px;border-bottom:1px solid var(--border)}
-.sidebar-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.sidebar-logo-icon{width:38px;height:38px;border-radius:11px;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:#0a0a0a;box-shadow:var(--gold-shadow)}
-.sidebar-logo-text{font-size:1rem;font-weight:700}
-.sidebar-logo-text span{color:var(--gold)}
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;background:rgba(22,163,74,0.08);color:var(--green);border:1px solid rgba(22,163,74,0.15)}
+/* ═══ SIDEBAR ═══ */
+.sb-header{padding:18px 20px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sb-logo img{height:36px;width:auto;border-radius:8px;object-fit:cover}
+.sb-logo-text{font-size:1rem;font-weight:700}
+.sb-logo-text span{color:var(--gold)}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
 .status-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
 
-.sidebar-nav{flex:1;padding:16px;overflow-y:auto}
-.nav-section{margin-bottom:20px}
-.nav-section-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);margin-bottom:8px;padding-left:8px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:0.85rem;color:var(--text-2);cursor:pointer;transition:all .2s;margin-bottom:2px}
-.nav-item:hover{background:var(--bg-2);color:var(--text)}
-.nav-item.active{background:var(--gold-glow);color:var(--gold-dark);font-weight:600}
-.nav-item .icon{width:20px;text-align:center;font-size:0.9rem}
-.new-chat-btn{width:100%;padding:10px;border-radius:10px;border:1.5px dashed var(--border-2);background:transparent;color:var(--text-2);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif;margin-bottom:16px;position:relative;overflow:hidden}
+.sb-nav{flex:1;padding:14px;overflow-y:auto}
+.sb-section{margin-bottom:18px}
+.sb-section-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:8px;padding-left:8px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:0.85rem;color:var(--text2);cursor:pointer;transition:all .2s;margin-bottom:2px}
+.sb-item:hover{background:var(--bg2);color:var(--text)}
+.sb-item.active{background:var(--gold-glow);color:var(--gold-dark);font-weight:600}
+.sb-item .icon{width:20px;text-align:center;font-size:0.9rem}
+.new-chat-btn{width:100%;padding:10px;border-radius:10px;border:1.5px dashed var(--border2);background:transparent;color:var(--text2);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif;margin-bottom:14px}
 .new-chat-btn:hover{border-color:var(--gold);color:var(--gold-dark);background:var(--gold-glow)}
 
-.sidebar-footer{padding:16px;border-top:1px solid var(--border)}
-.sidebar-footer button{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-2);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
-.sidebar-footer button:hover{background:var(--bg-2);color:var(--text)}
+.sb-footer{padding:14px;border-top:1px solid var(--border)}
+.sb-footer button{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.sb-footer button:hover{background:var(--bg2);color:var(--text)}
 
-/* ═══ TOPBAR PREMIUM ═══ */
+/* ═══ TOPBAR ═══ */
 .topbar{height:60px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0;background:var(--bg)}
 .topbar-left{display:flex;align-items:center;gap:12px}
-.topbar-sub{font-size:0.78rem;color:var(--text-3)}
 .model-selector{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:0.8rem;font-family:Inter,sans-serif;color:var(--text);cursor:pointer}
+.topbar-sub{font-size:0.78rem;color:var(--text3)}
 .topbar-actions{display:flex;gap:8px}
-.topbar-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-2);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif;position:relative;overflow:hidden}
-.topbar-btn:hover{background:var(--bg-2);color:var(--text)}
+.topbar-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.topbar-btn:hover{background:var(--bg2);color:var(--text)}
 .topbar-btn.active{background:var(--gold-gradient);color:#0a0a0a;border-color:var(--gold);box-shadow:var(--gold-shadow)}
 
-/* ═══ CHAT AREA PREMIUM ═══ */
-.chat-area{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;background:var(--bg-2)}
-.message{max-width:75%;padding:14px 18px;border-radius:var(--radius-lg);font-size:0.88rem;line-height:1.6;animation:fadeInUp .3s ease-out both;position:relative}
-.message.user{align-self:flex-end;background:var(--gold-gradient);color:#0a0a0a;border-bottom-right-radius:4px;box-shadow:var(--gold-shadow)}
-.message.agent{align-self:flex-start;background:var(--bg);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;box-shadow:var(--shadow-sm)}
-.message .meta{font-size:0.7rem;margin-top:6px;opacity:.7}
-.message pre{background:rgba(0,0,0,0.04);padding:10px 14px;border-radius:8px;margin:8px 0;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.8rem}
-.message code{font-family:'JetBrains Mono',monospace;font-size:0.82rem;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
+/* ═══ CHAT AREA ═══ */
+.chat-area{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;background:var(--bg2)}
+.msg{max-width:75%;padding:14px 18px;border-radius:var(--radius);font-size:0.88rem;line-height:1.6;animation:fadeInUp .3s ease-out both}
+.msg.user{align-self:flex-end;background:var(--gold-gradient);color:#0a0a0a;border-bottom-right-radius:4px;box-shadow:var(--gold-shadow)}
+.msg.agent{align-self:flex-start;background:var(--bg);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;box-shadow:var(--shadow-sm)}
+.msg .meta{font-size:0.7rem;margin-top:6px;opacity:.7}
+.msg pre{background:rgba(0,0,0,0.04);padding:10px 14px;border-radius:8px;margin:8px 0;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.8rem}
+.msg code{font-family:'JetBrains Mono',monospace;font-size:0.82rem;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
 
-.typing-indicator{align-self:flex-start;background:var(--bg);border:1px solid var(--border);padding:12px 18px;border-radius:var(--radius-lg);border-bottom-left-radius:4px;display:none;box-shadow:var(--shadow-sm)}
-.typing-indicator.show{display:flex;gap:4px;align-items:center}
-.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-3);animation:typing 1.4s ease-in-out infinite}
+.typing{align-self:flex-start;background:var(--bg);border:1px solid var(--border);padding:12px 18px;border-radius:var(--radius);border-bottom-left-radius:4px;display:none;box-shadow:var(--shadow-sm)}
+.typing.show{display:flex;gap:4px;align-items:center}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:typing 1.4s ease-in-out infinite}
 .typing-dot:nth-child(2){animation-delay:.2s}
 .typing-dot:nth-child(3){animation-delay:.4s}
 
-/* ═══ INPUT AREA PREMIUM ═══ */
+/* ═══ INPUT AREA ═══ */
 .input-area{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:12px;align-items:flex-end;flex-shrink:0;background:var(--bg)}
 .input-box{flex:1;padding:12px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg);font-size:0.88rem;font-family:Inter,sans-serif;color:var(--text);resize:none;min-height:44px;max-height:120px;transition:all .2s}
 .input-box:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow)}
@@ -95,69 +96,82 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
 .send-btn:hover{transform:translateY(-2px);box-shadow:var(--gold-shadow-lg)}
 .send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-/* ═══ RIGHT PANEL PREMIUM ═══ */
-.right-panel-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.right-panel-header h3{font-size:0.9rem;font-weight:700}
-.right-panel-body{padding:20px;flex:1;overflow-y:auto}
-.right-panel-body pre{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.6;white-space:pre-wrap;word-break:break-all;color:var(--text-2);margin-bottom:16px}
-.right-panel-body .info{font-size:0.8rem;color:var(--text-3);line-height:1.5;margin-bottom:12px}
-.right-panel-body .info strong{color:var(--text)}
+/* ═══ RIGHT PANEL (SOUL.md) ═══ */
+.rp-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.rp-header h3{font-size:0.9rem;font-weight:700}
+.rp-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text3);transition:color .2s}
+.rp-close:hover{color:var(--text)}
+.rp-body{padding:20px;flex:1;overflow-y:auto}
+.rp-body pre{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.6;white-space:pre-wrap;word-break:break-all;color:var(--text2);margin-bottom:16px}
+.rp-info{font-size:0.8rem;color:var(--text3);line-height:1.5;margin-bottom:12px}
+.rp-info strong{color:var(--text)}
+
+/* ═══ LOGS PANEL ═══ */
+.logs-panel{height:180px;border-top:1px solid var(--border);background:var(--bg2);padding:12px 16px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text3);display:none}
+.logs-panel.show{display:block}
+.log-line{padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.03)}
+.log-line .time{color:var(--text3);margin-right:8px}
+.log-line .level{font-weight:600;margin-right:8px}
+.log-line .level.info{color:var(--blue)}
+.log-line .level.ok{color:var(--green)}
 
 /* ═══ FULLSCREEN BTN ═══ */
-.fullscreen-btn{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-2);font-size:1rem;cursor:pointer;box-shadow:var(--shadow-md);transition:all .2s;z-index:50;display:flex;align-items:center;justify-content:center}
-.fullscreen-btn:hover{background:var(--gold-gradient);color:#0a0a0a;border-color:var(--gold);box-shadow:var(--gold-shadow)}
+.fs-btn{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:1rem;cursor:pointer;box-shadow:var(--shadow-md);transition:all .2s;z-index:50;display:flex;align-items:center;justify-content:center}
+.fs-btn:hover{background:var(--gold-gradient);color:#0a0a0a;border-color:var(--gold);box-shadow:var(--gold-shadow)}
 
 @media(max-width:900px){
   .sidebar{width:240px}
   .right-panel{display:none!important}
-  .message{max-width:90%}
+  .msg{max-width:90%}
 }
 @media(max-width:640px){
   .sidebar{display:none}
 }
 </style>
+  <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 </head>
 <body>
 
 <div class="app">
   <!-- ═══ LEFT SIDEBAR ═══ -->
   <aside class="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo">
-        <div class="sidebar-logo-icon">H</div>
-        <div class="sidebar-logo-text">Hermes<span>Agent</span></div>
+    <div class="sb-header">
+      <div class="sb-logo">
+        <img src="/assets/uploads/logoagentulmeu/logo_nav.png" alt="AgentulMeu" style="height:40px;width:auto;border-radius:8px;object-fit:cover">
+        <div class="sb-logo-text">Hermes<span>Agent</span></div>
       </div>
       <div class="status-badge"><span class="dot"></span> Online · v0.13</div>
     </div>
     
-    <nav class="sidebar-nav">
+    <nav class="sb-nav">
       <button class="new-chat-btn" onclick="newChat()">+ Conversație Nouă</button>
       
-      <div class="nav-section">
-        <div class="nav-section-title">Conversații Recente</div>
-        <div class="nav-item active" onclick="loadConversation('current')"><span class="icon">💬</span> Chat Live</div>
-        <div class="nav-item" onclick="loadConversation('rezervari')"><span class="icon">📅</span> Rezervări Clienți</div>
-        <div class="nav-item" onclick="loadConversation('suport')"><span class="icon">🛠️</span> Suport Tehnic</div>
-        <div class="nav-item" onclick="loadConversation('vanzari')"><span class="icon">💰</span> Întrebări Prețuri</div>
+      <div class="sb-section">
+        <div class="sb-section-title">Conversații Recente</div>
+        <div class="sb-item active" onclick="loadConv('current')"><span class="icon">💬</span> Chat Live</div>
+        <div class="sb-item" onclick="loadConv('rezervari')"><span class="icon">📅</span> Rezervări Clienți</div>
+        <div class="sb-item" onclick="loadConv('suport')"><span class="icon">🛠️</span> Suport Tehnic</div>
+        <div class="sb-item" onclick="loadConv('vanzari')"><span class="icon">💰</span> Întrebări Prețuri</div>
       </div>
       
-      <div class="nav-section">
-        <div class="nav-section-title">Configurare</div>
-        <div class="nav-item" onclick="toggleRightPanel()"><span class="icon">📜</span> SOUL.md / System Prompt</div>
-        <div class="nav-item" onclick="toggleRightPanel()"><span class="icon">🪪</span> IDENTITY.md</div>
-        <div class="nav-item"><span class="icon">⚙️</span> Setări Model</div>
-        <div class="nav-item"><span class="icon">📋</span> System Logs</div>
+      <div class="sb-section">
+        <div class="sb-section-title">Fișiere de Configurare</div>
+        <div class="sb-item" onclick="toggleRightPanel('SOUL')"><span class="icon">🧬</span> SOUL.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('IDENTITY')"><span class="icon">🪪</span> IDENTITY.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('MEMORY')"><span class="icon">🧠</span> MEMORY.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('TOOLS')"><span class="icon">🔧</span> TOOLS.md</div>
       </div>
       
-      <div class="nav-section">
-        <div class="nav-section-title">Canale Active</div>
-        <div class="nav-item"><span class="icon">📱</span> Telegram <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
-        <div class="nav-item"><span class="icon">💬</span> WhatsApp <span style="margin-left:auto;font-size:0.7rem;color:var(--text-3)">○</span></div>
-        <div class="nav-item"><span class="icon">🌐</span> Web Chat <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
+      <div class="sb-section">
+        <div class="sb-section-title">Canale Active</div>
+        <div class="sb-item"><span class="icon">📱</span> Telegram <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
+        <div class="sb-item"><span class="icon">💬</span> WhatsApp <span style="margin-left:auto;font-size:0.7rem;color:var(--text3)">○</span></div>
+        <div class="sb-item"><span class="icon">🌐</span> Web Chat <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
       </div>
     </nav>
     
-    <div class="sidebar-footer">
+    <div class="sb-footer">
       <button onclick="window.location.href='/dashboard'">← Înapoi la Dashboard</button>
     </div>
   </aside>
@@ -173,23 +187,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
         <div class="topbar-sub" id="modelStatus">Model activ: Ollama Local</div>
       </div>
       <div class="topbar-actions">
-        <button class="topbar-btn" onclick="toggleRightPanel()">📜 SOUL.md</button>
+        <button class="topbar-btn" onclick="toggleRightPanel('SOUL')">🧬 SOUL.md</button>
+        <button class="topbar-btn" onclick="toggleLogs()">📋 Logs</button>
         <button class="topbar-btn" onclick="clearChat()">🗑️ Șterge</button>
         <button class="topbar-btn active" onclick="toggleFullscreen()">⛶ Fullscreen</button>
       </div>
     </div>
 
     <div class="chat-area" id="chatArea">
-      <div class="message agent">
-        <div>Salut! 👋 Sunt <strong>Hermes Agent</strong>, configurat prin AgentulMeu.online. Am încărcat SOUL.md și IDENTITY.md. Cu ce te pot ajuta astăzi?</div>
+      <div class="msg agent">
+        <div>Salut! 👋 Sunt <strong>Hermes Agent v0.13</strong>. Am încărcat SOUL.md și IDENTITY.md. Cu ce te pot ajuta astăzi?</div>
         <div class="meta">Hermes v0.13 · Ollama Local · acum</div>
       </div>
     </div>
 
-    <div class="typing-indicator" id="typingIndicator">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
+    <div class="typing" id="typingIndicator">
+      <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+    </div>
+
+    <div class="logs-panel" id="logsPanel">
+      <div class="log-line"><span class="time">[09:00:01]</span><span class="level info">INFO</span> Hermes Agent v0.13 initialized</div>
+      <div class="log-line"><span class="time">[09:00:02]</span><span class="level ok">OK</span> SOUL.md loaded successfully</div>
+      <div class="log-line"><span class="time">[09:00:02]</span><span class="level ok">OK</span> IDENTITY.md loaded successfully</div>
+      <div class="log-line"><span class="time">[09:00:03]</span><span class="level ok">OK</span> Ollama local model ready (llama3.2:1b)</div>
+      <div class="log-line"><span class="time">[09:00:03]</span><span class="level info">INFO</span> Kimi fallback configured</div>
+      <div class="log-line"><span class="time">[09:00:04]</span><span class="level ok">OK</span> Telegram gateway connected</div>
+      <div class="log-line"><span class="time">[09:00:04]</span><span class="level info">INFO</span> Web chat interface active</div>
+      <div class="log-line"><span class="time">[09:00:05]</span><span class="level ok">OK</span> Agent ready for conversations</div>
     </div>
 
     <div class="input-area">
@@ -198,15 +222,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
     </div>
   </main>
 
-  <!-- ═══ RIGHT PANEL — SOUL.md ═══ -->
+  <!-- ═══ RIGHT PANEL (SOUL.md / FILES) ═══ -->
   <aside class="right-panel" id="rightPanel">
-    <div class="right-panel-header">
-      <h3>📜 SOUL.md — System Prompt</h3>
-      <button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-3)" onclick="toggleRightPanel()">×</button>
+    <div class="rp-header">
+      <h3 id="rpTitle">🧬 SOUL.md — System Prompt</h3>
+      <button class="rp-close" onclick="closeRightPanel()">✕</button>
     </div>
-    <div class="right-panel-body">
-      <div class="info"><strong>Acest fișier definește personalitatea și regulile absolute ale agentului.</strong> Este încărcat automat ca system prompt la fiecare conversație.</div>
-      <pre id="soulContent"># SOUL - Restaurant La Crama
+    <div class="rp-body">
+      <div class="rp-info"><strong>Acest fișier definește personalitatea și regulile absolute ale agentului.</strong> Este încărcat automat ca system prompt la fiecare conversație.</div>
+      <pre id="rpContent"># SOUL - Restaurant La Crama
 
 ## 1. MISIUNE FUNDAMENTALĂ
 Sunt primul punct de contact digital al Restaurantului La Crama. Misiunea mea este să transform fiecare interacțiune într-o experiență caldă și profesională.
@@ -228,13 +252,12 @@ Sunt primul punct de contact digital al Restaurantului La Crama. Misiunea mea es
 - Pot oferi informații din meniu
 - NU pot modifica prețuri
 - NU pot oferi discount-uri fără aprobare</pre>
-      
-      <div class="info" style="margin-top:16px"><strong>💡 Editare:</strong> În producție, acest fișier este generat automat de AI prin wizard și poate fi editat direct din dashboard.</div>
+      <div class="rp-info" style="margin-top:16px"><strong>💡 Editare:</strong> În producție, acest fișier este generat automat de AI prin wizard și poate fi editat direct din dashboard.</div>
     </div>
   </aside>
 </div>
 
-<button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+<button class="fs-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
 
 <script>
 const chatArea = document.getElementById('chatArea');
@@ -242,9 +265,11 @@ const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
 const typingIndicator = document.getElementById('typingIndicator');
 const rightPanel = document.getElementById('rightPanel');
+const logsPanel = document.getElementById('logsPanel');
 const modelSelector = document.getElementById('modelSelector');
 const modelStatus = document.getElementById('modelStatus');
 
+// Auto-resize textarea
 messageInput.addEventListener('input', () => {
   messageInput.style.height = 'auto';
   messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
@@ -256,9 +281,9 @@ modelSelector.addEventListener('change', () => {
   modelStatus.textContent = modelSelector.value === 'ollama' ? 'Model activ: Ollama Local' : 'Model activ: Kimi Fallback';
 });
 
-function addMessage(text, type) {
+function addMsg(text, type) {
   const msg = document.createElement('div');
-  msg.className = `message ${type}`;
+  msg.className = `msg ${type}`;
   const time = new Date().toLocaleTimeString('ro-RO', {hour:'2-digit',minute:'2-digit'});
   const model = modelSelector.value === 'ollama' ? 'Ollama Local' : 'Kimi Fallback';
   msg.innerHTML = `<div>${text}</div><div class="meta">${type === 'user' ? 'Tu' : 'Hermes v0.13 · ' + model} · ${time}</div>`;
@@ -275,7 +300,7 @@ const mockResponses = {
   'default': 'Am înregistrat mesajul tău. Conform SOUL.md, pot ajuta cu: program, rezervări, prețuri, meniu sau date de contact. Ce te interesează? 🤖'
 };
 
-function getMockResponse(input) {
+function getResponse(input) {
   const lower = input.toLowerCase();
   if (lower.includes('program') || lower.includes('orar') || lower.includes('deschis')) return mockResponses.program;
   if (lower.includes('rezerv') || lower.includes('masa') || lower.includes('programare')) return mockResponses.rezervare;
@@ -288,27 +313,33 @@ function getMockResponse(input) {
 async function sendMessage() {
   const text = messageInput.value.trim();
   if (!text) return;
-  addMessage(text, 'user');
+  addMsg(text, 'user');
   messageInput.value = ''; messageInput.style.height = 'auto'; sendBtn.disabled = true;
   typingIndicator.classList.add('show'); chatArea.scrollTop = chatArea.scrollHeight;
   await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
   typingIndicator.classList.remove('show');
-  addMessage(getMockResponse(text), 'agent');
+  addMsg(getResponse(text), 'agent');
   sendBtn.disabled = false; messageInput.focus();
 }
 
-function toggleRightPanel() { rightPanel.classList.toggle('show'); }
+function toggleRightPanel(file) {
+  const titles = {SOUL:'🧬 SOUL.md — System Prompt',IDENTITY:'🪪 IDENTITY.md — Profil Agent',MEMORY:'🧠 MEMORY.md — Cunoștințe',TOOLS:'🔧 TOOLS.md — Canale & Integrări'};
+  document.getElementById('rpTitle').textContent = titles[file] || file;
+  rightPanel.classList.add('show');
+}
+function closeRightPanel() { rightPanel.classList.remove('show'); }
+function toggleLogs() { logsPanel.classList.toggle('show'); }
 function clearChat() {
-  chatArea.innerHTML = `<div class="message agent"><div>Conversația a fost ștearsă. Cu ce te pot ajuta? 🔄</div><div class="meta">Hermes v0.13 · acum</div></div>`;
+  chatArea.innerHTML = `<div class="msg agent"><div>Conversația a fost ștearsă. Cu ce te pot ajuta? 🔄</div><div class="meta">Hermes v0.13 · acum</div></div>`;
 }
 function toggleFullscreen() {
   if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
   else document.exitFullscreen();
 }
-function newChat() { clearChat(); addMessage('Conversație nouă creată. Cu ce te pot ajuta?', 'agent'); }
-function loadConversation(type) {
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  event.target.closest('.nav-item').classList.add('active');
+function newChat() { clearChat(); addMsg('Conversație nouă creată. Cu ce te pot ajuta?', 'agent'); }
+function loadConv(type) {
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  event.target.closest('.sb-item').classList.add('active');
   clearChat();
   const greetings = {
     'current': 'Chat live activ. Scrie un mesaj pentru a testa!',
@@ -316,7 +347,7 @@ function loadConversation(type) {
     'suport': 'Tickete suport: 2 deschise, 5 rezolvate săptămâna aceasta.',
     'vanzari': 'Întrebări prețuri: 14 conversații în ultimele 24h. Rata de conversie: 68%.'
   };
-  addMessage(greetings[type] || 'Conversație încărcată.', 'agent');
+  addMsg(greetings[type] || 'Conversație încărcată.', 'agent');
 }
 
 messageInput.focus();
