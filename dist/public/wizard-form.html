@@ -925,6 +925,23 @@ async function generateFile(fileId, btn) {
       card.style.borderColor = 'var(--green-border)';
       card.style.background = 'var(--green-bg)';
       btn.textContent = origText; btn.disabled = false;
+      if (!card.querySelector('.dl-btn')) {
+        var FNAMES = {soul:'SOUL.md',identity:'IDENTITY.md',user:'USER.md',memory:'MEMORY.md',tools:'TOOLS.md',agents:'AGENTS.md',heartbeat:'HEARTBEAT.md',bootstrap:'BOOTSTRAP.md',agent_rd:'AGENT_RD.md'};
+        var fname = FNAMES[fileId] || fileId+'.md';
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;gap:8px;margin-top:8px';
+        var dlb = document.createElement('button');
+        dlb.className = 'dl-btn';
+        dlb.style.cssText = 'flex:1;padding:8px;background:#fff;color:#111;font-weight:600;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.78rem';
+        dlb.textContent = '⬇ Descarcă';
+        dlb.onclick = (function(fid,fn){ return function(){ var b=new Blob([generatedFiles[fid]||''],{type:'text/markdown'}); var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=fn; a.click(); }; })(fileId,fname);
+        var pvb = document.createElement('button');
+        pvb.style.cssText = 'flex:1;padding:8px;background:#fff;color:#111;font-weight:600;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.78rem';
+        pvb.textContent = 'Preview';
+        pvb.onclick = function(){ if(preview) preview.style.display = preview.style.display==='none'?'block':'none'; };
+        row.appendChild(dlb); row.appendChild(pvb);
+        btn.parentNode.insertBefore(row, btn.nextSibling);
+      }
       if (preview) {
         preview.style.display = 'block'; preview.textContent = '';
         const paragraphs = data.content.substring(0, 800).split(/\n\n+/);
