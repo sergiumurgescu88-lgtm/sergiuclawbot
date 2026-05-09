@@ -165,6 +165,16 @@ textarea.wz-field{min-height:48px;resize:vertical}
   .wz-stats-row{grid-template-columns:1fr}
   .wz-chat-panel{width:calc(100% - 40px);right:20px;left:20px}
 }
+
+.wz-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px}
+.wz-biz-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border:1.5px solid var(--border,#e5e7eb);border-radius:12px;background:#fff;cursor:pointer;transition:all .2s;font-size:0.82rem;font-weight:600;color:var(--text1,#111)}
+.wz-biz-card:hover{border-color:var(--gold,#FFD700);background:var(--gold-light,#fffbeb)}
+.wz-biz-card.active{border-color:var(--gold,#FFD700);background:var(--gold-light,#fffbeb);box-shadow:0 0 0 3px rgba(255,215,0,.2)}
+.wz-biz-icon{font-size:1.6rem}
+.wz-pill-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.wz-pill{padding:8px 16px;border:1.5px solid var(--border,#e5e7eb);border-radius:999px;background:#fff;cursor:pointer;font-size:0.82rem;font-weight:500;transition:all .2s}
+.wz-pill:hover{border-color:var(--gold,#FFD700)}
+.wz-pill.active{border-color:var(--gold,#FFD700);background:var(--gold,#FFD700);color:#000;font-weight:700}
 </style>
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
@@ -538,6 +548,286 @@ function initGenerateAll() {
   };
 }
 document.addEventListener('DOMContentLoaded', initGenerateAll);
+
+
+
+
+
+// ════════════════════════════════════════════════════════════
+// DATE WIZARD — toate cele 9 pași conform README
+// ════════════════════════════════════════════════════════════
+
+const DATA = {
+  bizTypes: [
+    {id:'b2c_local',    icon:'🏪', label:'B2C Local',          sub:'Servicii locale'},
+    {id:'b2b',          icon:'🏢', label:'B2B',                sub:'Business to business'},
+    {id:'ecommerce',    icon:'🌐', label:'E-commerce',         sub:'Vânzări online'},
+    {id:'education',    icon:'🎓', label:'Educație / Cursuri',  sub:'Training & coaching'},
+    {id:'saas',         icon:'💻', label:'SaaS / Tech',         sub:'Software'},
+    {id:'rd',           icon:'🔬', label:'R&D / Inovație',      sub:'Cercetare'},
+    {id:'constructii',  icon:'🏗️', label:'Construcții',         sub:'Servicii & instalații'},
+    {id:'medical',      icon:'🏥', label:'Medical / Wellness',  sub:'Sănătate'},
+    {id:'horeca',       icon:'🍽️', label:'HoReCa / Food',       sub:'Restaurant & catering'},
+    {id:'imobiliare',   icon:'🏠', label:'Imobiliare',          sub:'Vânzări & închirieri'},
+    {id:'legal',        icon:'⚖️', label:'Consultanță / Legal', sub:'Juridic & advisory'},
+    {id:'creativ',      icon:'🎨', label:'Creativ / Agenție',   sub:'Design & marketing'},
+    {id:'gaming',       icon:'🎮', label:'Entertainment',       sub:'Gaming & media'},
+    {id:'turism',       icon:'✈️', label:'Turism / Travel',     sub:'Hospitality'},
+    {id:'sport',        icon:'🏋️', label:'Sport / Fitness',     sub:'Health & sport'},
+    {id:'productie',    icon:'🔧', label:'Producție',           sub:'Manufacturi'},
+    {id:'muzica',       icon:'🎵', label:'Muzică / Artă',       sub:'Media & entertainment'},
+    {id:'veterinar',    icon:'🐾', label:'Veterinar',           sub:'Animale & pet care'},
+    {id:'ong',          icon:'🧑‍⚖️', label:'ONG / Non-profit',   sub:'Sector ONG'},
+    {id:'institutie',   icon:'🏛️', label:'Instituție',          sub:'Public & autoritate'},
+    {id:'agri',         icon:'🌿', label:'Agri / Green',        sub:'Agricultură & energie'},
+    {id:'finante',      icon:'💰', label:'Finanțe',             sub:'Investiții & banking'},
+    {id:'logistica',    icon:'🚚', label:'Logistică',           sub:'Transport & supply'},
+    {id:'altul',        icon:'➕', label:'Altul',               sub:'Personalizat'},
+  ],
+  bizSizes: ['Solo (1)','Micro (2–5)','Mică (6–20)','Medie (21–100)','Mare (100+)'],
+  bizStages: ['Idee / pre-launch','Lansare recentă','Creștere activă','Matur / stabil','Pivot / restructurare'],
+  revModels: ['Abonament','Proiecte / one-off','Comision / afiliere','Produs fizic','Freemium → Premium','Publicitate'],
+  objectives: [
+    {icon:'🎯', label:'Generare & calificare lead-uri',    desc:'Depinzi de volum de leads'},
+    {icon:'📈', label:'Creșterea conversiei & vânzărilor', desc:'Ai leads dar nu îi convertești'},
+    {icon:'⚙️', label:'Automatizare operațională',         desc:'Vrei timp, nu clienți noi'},
+    {icon:'🔬', label:'Research & Development',            desc:'Focus pe inovație'},
+    {icon:'📢', label:'Conținut & prezență online',        desc:'Brand awareness, reach organic'},
+    {icon:'🧠', label:'Intelligence & decizie',            desc:'Insights pentru decizii rapide'},
+    {icon:'🤝', label:'Relații clienți & suport',          desc:'Retenție și upsell'},
+    {icon:'💰', label:'Finanțe & raportare',               desc:'KPI-uri, costuri, cashflow'},
+    {icon:'🤖', label:'Produs AI / Chatbot',               desc:'Livrezi AI ca serviciu'},
+    {icon:'📦', label:'Supply chain & procurement',        desc:'Furnizori, stocuri, comenzi'},
+  ],
+  timeWaste: ['< 2h/săpt','2–5h/săpt','5–10h/săpt','10–20h/săpt','> 20h/săpt'],
+  agentsExec: [
+    {icon:'🎯', label:'HUNTER',  desc:'Caută prospecți pe LinkedIn, Google Maps, forumuri. Scor calificare automată'},
+    {icon:'✍️', label:'WRITER',  desc:'Generează postări, articole, emailuri, scripturi video. Ton adaptat brandului'},
+    {icon:'📞', label:'CLOSER',  desc:'Follow-up secvențial, răspunde lead-uri inbound, pregătește oferte personalizate'},
+    {icon:'🛎️', label:'SUPPORT', desc:'Răspunde FAQ, gestionează reclamații, onboarding clienți noi'},
+    {icon:'📊', label:'ANALYST', desc:'Rapoarte KPI, forecasting, alerte la anomalii'},
+    {icon:'🔭', label:'SCOUT',   desc:'Monitorizează competitori și piață. Briefing zilnic'},
+  ],
+  agentsSpec: [
+    {icon:'🗓️', label:'SCHEDULER', desc:'Programări, confirmări, remindere, sincronizare calendar'},
+    {icon:'🧾', label:'FINANCE',   desc:'Facturi, urmărire plăți, cashflow, alerte restanțe'},
+    {icon:'📦', label:'OPS',       desc:'Comenzi, stocuri, relație furnizori, logistică internă'},
+    {icon:'🧪', label:'R&D',       desc:'Studii, brevete, tehnologii noi, validare ipoteze'},
+    {icon:'🎓', label:'TRAINER',   desc:'Training, onboarding angajați, FAQ intern, wiki'},
+    {icon:'🏗️', label:'PM',        desc:'Taskuri, deadline-uri, blocaje, rapoarte de proiect'},
+  ],
+  channels: ['Telegram','WhatsApp','Web Chat','Email','Instagram DM','Facebook Messenger','SMS','Voce / Telefon','Slack','Discord'],
+  budgets: ['< $20/lună','$20–50/lună','$50–100/lună','$100–300/lună','> $300/lună'],
+  autonomy: [
+    {icon:'✋', label:'Aprobare pentru orice',  desc:'Agentul pregătește, tu decizi și trimiți. Recomandat la start'},
+    {icon:'⚡', label:'Semi-autonom',           desc:'Rapoarte și drafturi automat. Mesaje externe cu aprobare'},
+    {icon:'🤖', label:'Full autonom',           desc:'Execută complet, primești raport zilnic. Doar pentru procese definite'},
+  ],
+  tones: ['Profesional','Prietenos','Direct / concis','Formal','Empatic','Entuziast','Neutru / obiectiv','Umoristic'],
+  aiExp: [
+    {icon:'🌱', label:'Începător',    desc:'Am folosit ChatGPT casual, nu am automatizat nimic serios'},
+    {icon:'⚙️', label:'Intermediar', desc:'Folosesc Make/Zapier, am setat chatboți simpli, înțeleg API-uri'},
+    {icon:'🚀', label:'Avansat',     desc:'Lucrez cu API-uri și cod, am construit pipelines, configurez VPS'},
+  ],
+  setupInv: [
+    {icon:'🙋', label:'Independent',   desc:'Vreau să înțeleg și să pot modifica singur pe termen lung'},
+    {icon:'🤝', label:'Colaborare',    desc:'Implicat în decizii, dar nu singurul responsabil tehnic'},
+    {icon:'🎁', label:'Done-for-you',  desc:'Văd rezultatele, nu intru în detalii tehnice'},
+  ],
+  files: [
+    {id:'soul',      icon:'🧬', label:'SOUL.md',      desc:'Personalitate, ton și hard limits — ce NU face agentul niciodată'},
+    {id:'identity',  icon:'🪪', label:'IDENTITY.md',  desc:'Identitate completă: nume, rol, personalitate, subagenti'},
+    {id:'user',      icon:'👤', label:'USER.md',      desc:'Profilul proprietarului: preferințe, obiective, context, restricții'},
+    {id:'memory',    icon:'🧠', label:'MEMORY.md',    desc:'Memorie inițială pe termen lung: decizii, contexte, pattern-uri'},
+    {id:'tools',     icon:'🔧', label:'TOOLS.md',     desc:'Capabilități tehnice, API-uri recomandate, integrări'},
+    {id:'agents',    icon:'🤖', label:'AGENTS.md',    desc:'Workflows, proceduri, subagenti și rolurile lor, pipeline-uri'},
+    {id:'heartbeat', icon:'⏰', label:'HEARTBEAT.md', desc:'Task-uri proactive fără prompt: zilnic, săptămânal, lunar'},
+    {id:'bootstrap', icon:'🚀', label:'BOOTSTRAP.md', desc:'Checklist inițializare sistem, pași setup, fallback-uri'},
+    {id:'agent_rd',  icon:'🔬', label:'AGENT_RD.md',  desc:'Agent Research & Development: domenii, framework validare idei'},
+  ],
+};
+
+// ════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════
+function bcard(item, multi) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'wz-bcard'; b.dataset.id = item.id || item.label;
+  b.innerHTML = '<span class="wz-bicon">' + item.icon + '</span>' +
+                '<div class="wz-blabel">' + item.label + '</div>' +
+                (item.desc ? '<div class="wz-bsub">' + item.desc + '</div>' : (item.sub ? '<div class="wz-bsub">' + item.sub + '</div>' : ''));
+  b.onclick = function() { if (multi) { this.classList.toggle('sel'); } else { b.closest('.wz-card-grid,#autonomyCards,#aiExpCards,#setupInvCards').querySelectorAll('.wz-bcard').forEach(x=>x.classList.remove('sel')); this.classList.add('sel'); } };
+  return b;
+}
+
+function acard(item) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'wz-acard'; b.dataset.id = item.id || item.label;
+  b.innerHTML = '<span class="wz-aicon">' + item.icon + '</span><div><div class="wz-aname">' + item.label + '</div><div class="wz-adesc">' + item.desc + '</div></div>';
+  b.onclick = function() { this.classList.toggle('sel'); };
+  return b;
+}
+
+function pill(text, group, single) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'wz-pill'; b.textContent = text; b.dataset.group = group;
+  b.onclick = function() {
+    if (single) { document.querySelectorAll('.wz-pill[data-group="'+group+'"]').forEach(p=>p.classList.remove('sel')); }
+    this.classList.toggle('sel');
+  };
+  return b;
+}
+
+function fileCard(item) {
+  const d = document.createElement('div');
+  d.className = 'wz-bcard'; d.dataset.file = item.id;
+  d.style.cssText = 'text-align:left;cursor:default;padding:16px';
+  d.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+    '<span style="font-size:1.3rem">' + item.icon + '</span>' +
+    '<span class="wz-blabel" style="font-size:0.85rem">' + item.label + '</span>' +
+    '<span class="file-status" style="margin-left:auto;font-size:0.7rem;color:var(--text3);white-space:nowrap">Negenerat</span></div>' +
+    '<div class="wz-bsub" style="text-align:left;margin-bottom:10px">' + item.desc + '</div>' +
+    '<button class="wz-btn-ask" onclick="generateFile(\'' + item.id + '\',this)" style="width:100%;font-size:0.75rem">⚡ Generează</button>' +
+    '<div class="file-preview" style="display:none;margin-top:10px;font-size:0.75rem;color:var(--text2);max-height:120px;overflow-y:auto;white-space:pre-wrap;background:var(--bg3);padding:8px;border-radius:8px"></div>';
+  return d;
+}
+
+function populate(id, items, builder) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  items.forEach(item => el.appendChild(builder(item)));
+}
+
+// ════════════════════════════════════════════════════════════
+// INIȚIALIZARE LA DOM READY
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  // Step 1
+  populate('bizTypeGrid',   DATA.bizTypes,  i => bcard(i, true));
+  populate('bizSizePills',  DATA.bizSizes.map(s=>({label:s})),  i => pill(i.label,'size',true));
+  populate('bizStagePills', DATA.bizStages.map(s=>({label:s})), i => pill(i.label,'stage',true));
+
+  // Step 2
+  populate('revModelPills', DATA.revModels.map(s=>({label:s})), i => pill(i.label,'rev',false));
+
+  // Step 3
+  populate('objectivesGrid', DATA.objectives, i => acard(i));
+  populate('timeWastePills', DATA.timeWaste.map(s=>({label:s})), i => pill(i.label,'time',true));
+
+  // Step 4
+  populate('agentsExecGrid', DATA.agentsExec, i => acard(i));
+  populate('agentsSpecGrid', DATA.agentsSpec, i => acard(i));
+
+  // Step 5
+  populate('channelsPills', DATA.channels.map(s=>({label:s})), i => pill(i.label,'ch',false));
+  populate('budgetPills',   DATA.budgets.map(s=>({label:s})),   i => pill(i.label,'budget',true));
+
+  // Step 6
+  const autoEl = document.getElementById('autonomyCards');
+  if (autoEl) { autoEl.className = 'wz-card-grid wide'; autoEl.innerHTML = ''; DATA.autonomy.forEach(i => autoEl.appendChild(bcard(i, false))); }
+  populate('tonePills', DATA.tones.map(s=>({label:s})), i => pill(i.label,'tone',false));
+
+  // Step 7
+  const expEl = document.getElementById('aiExpCards');
+  if (expEl) { expEl.className = 'wz-card-grid wide'; expEl.innerHTML = ''; DATA.aiExp.forEach(i => expEl.appendChild(bcard(i, false))); }
+  const invEl = document.getElementById('setupInvCards');
+  if (invEl) { invEl.className = 'wz-card-grid wide'; invEl.innerHTML = ''; DATA.setupInv.forEach(i => invEl.appendChild(bcard(i, false))); }
+
+  // Step 8
+  populate('filesGrid', DATA.files, i => fileCard(i));
+
+  // Init navigare
+  showStep(1);
+});
+
+// ════════════════════════════════════════════════════════════
+// GENERARE FIȘIERE
+// ════════════════════════════════════════════════════════════
+const generatedFiles = {};
+
+async function generateFile(fileId, btn) {
+  const card = btn.closest('[data-file]');
+  const status = card.querySelector('.file-status');
+  const preview = card.querySelector('.file-preview');
+  const origText = btn.textContent;
+
+  btn.textContent = '⏳ Generez...'; btn.disabled = true;
+  if (status) status.textContent = 'Generez...';
+
+  const ctx = collectContext();
+
+  try {
+    const res = await fetch('/api/wizard/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({file: fileId, context: ctx})
+    });
+    const data = await res.json();
+    if (data.success && data.content) {
+      generatedFiles[fileId] = data.content;
+      if (status) { status.textContent = 'Gata ✅'; status.style.color = 'var(--green)'; }
+      card.style.borderColor = 'var(--green-border)';
+      card.style.background = 'var(--green-bg)';
+      if (preview) { preview.textContent = data.content.substring(0, 400) + '...'; preview.style.display = 'block'; }
+      updateGlobalStats();
+    } else {
+      if (status) status.textContent = 'Eroare ❌';
+      alert('Eroare: ' + (data.error || 'Necunoscut'));
+    }
+  } catch(e) {
+    if (status) status.textContent = 'Eroare ❌';
+    alert('Eroare rețea: ' + e.message);
+  } finally {
+    btn.textContent = origText; btn.disabled = false;
+  }
+}
+
+async function generateAll() {
+  const btn = document.getElementById('genAllBtn');
+  if (btn) { btn.textContent = '⏳ Generez...'; btn.disabled = true; }
+  for (const f of DATA.files) {
+    const card = document.querySelector('[data-file="' + f.id + '"]');
+    if (card) {
+      const genBtn = card.querySelector('button');
+      await generateFile(f.id, genBtn);
+      await new Promise(r => setTimeout(r, 800));
+    }
+  }
+  if (btn) { btn.textContent = '✅ Gata!'; btn.disabled = false; }
+}
+
+function collectContext() {
+  const ctx = {};
+  document.querySelectorAll('textarea,input[type=text]').forEach(el => {
+    if (el.id && el.value.trim()) ctx[el.id.replace('f_','')] = el.value.trim();
+  });
+  document.querySelectorAll('.wz-bcard.sel').forEach(el => {
+    const step = el.closest('.wz-step'); const sid = step ? step.dataset.step : '0';
+    if (!ctx['selected_s'+sid]) ctx['selected_s'+sid] = [];
+    ctx['selected_s'+sid].push(el.dataset.id || el.querySelector('.wz-blabel,.wz-aname')?.textContent);
+  });
+  document.querySelectorAll('.wz-acard.sel').forEach(el => {
+    if (!ctx['agents']) ctx['agents'] = [];
+    ctx['agents'].push(el.querySelector('.wz-aname')?.textContent);
+  });
+  document.querySelectorAll('.wz-pill.sel').forEach(el => {
+    const g = el.dataset.group;
+    if (!ctx['pill_'+g]) ctx['pill_'+g] = [];
+    ctx['pill_'+g].push(el.textContent);
+  });
+  return ctx;
+}
+
+function updateGlobalStats() {
+  const total = DATA.files.length;
+  const done = Object.keys(generatedFiles).length;
+  const pct = Math.round(done/total*100);
+  const pctEl = document.getElementById('globalPct');
+  const genEl = document.getElementById('totalGen');
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (genEl) genEl.textContent = done + '/' + total;
+}
 
 
 async function askAI(fieldId, label) {
