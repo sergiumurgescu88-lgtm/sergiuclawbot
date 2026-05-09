@@ -832,7 +832,7 @@ function fileCard(item) {
   desc.textContent = item.desc;
   
   const btn = document.createElement('button');
-  btn.style.cssText = 'width:100%;padding:10px;background:linear-gradient(135deg,#F5D050 0%,#C9A227 50%,#9A7610 100%);color:#111;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;box-shadow:0 0 10px rgba(201,162,39,0.4)';
+  btn.style.cssText = 'width:100%;padding:10px;background:#ffffff;color:#111;font-weight:700;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.82rem;box-shadow:0 2px 6px rgba(0,0,0,0.07)';
   btn.textContent = '⚡ Generează';
   btn.onclick = function() { generateFile(item.id, this); };
   
@@ -924,7 +924,20 @@ async function generateFile(fileId, btn) {
       if (status) { status.textContent = 'Gata ✅'; status.style.color = 'var(--green)'; }
       card.style.borderColor = 'var(--green-border)';
       card.style.background = 'var(--green-bg)';
-      if (preview) { preview.textContent = data.content.substring(0, 400) + '...'; preview.style.display = 'block'; }
+      btn.textContent = origText; btn.disabled = false;
+      if (preview) {
+        preview.style.display = 'block'; preview.textContent = '';
+        const paragraphs = data.content.substring(0, 800).split(/\n\n+/);
+        for (let pi = 0; pi < paragraphs.length; pi++) {
+          if (pi > 0) await new Promise(r => setTimeout(r, 15000));
+          const sentences = paragraphs[pi].match(/[^.!?\n]+[.!?]+(?:\s|$)|[^.!?\n]+$/g) || [paragraphs[pi]];
+          for (let si = 0; si < sentences.length; si++) {
+            if (si > 0) await new Promise(r => setTimeout(r, 5000));
+            preview.textContent += sentences[si];
+          }
+          preview.textContent += '\n\n';
+        }
+      }
       updateGlobalStats();
     } else {
       if (status) status.textContent = 'Eroare ❌';
@@ -933,7 +946,6 @@ async function generateFile(fileId, btn) {
   } catch(e) {
     if (status) status.textContent = 'Eroare ❌';
     alert('Eroare rețea: ' + e.message);
-  } finally {
     btn.textContent = origText; btn.disabled = false;
   }
 }
@@ -946,7 +958,7 @@ async function generateAll() {
     if (card) {
       const genBtn = card.querySelector('button');
       await generateFile(f.id, genBtn);
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 20000));
     }
   }
   if (btn) { btn.textContent = '✅ Gata!'; btn.disabled = false; }
