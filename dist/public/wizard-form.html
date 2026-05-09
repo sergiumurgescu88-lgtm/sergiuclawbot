@@ -175,6 +175,34 @@ textarea.wz-field{min-height:48px;resize:vertical}
 .wz-pill{padding:8px 16px;border:1.5px solid var(--border,#e5e7eb);border-radius:999px;background:#fff;cursor:pointer;font-size:0.82rem;font-weight:500;transition:all .2s}
 .wz-pill:hover{border-color:var(--gold,#FFD700)}
 .wz-pill.active{border-color:var(--gold,#FFD700);background:var(--gold,#FFD700);color:#000;font-weight:700}
+
+/* ═══ NEON CARDS ═══ */
+.wz-bcard, .wz-acard {
+  background: #fff !important;
+  border: 1.5px solid rgba(201,162,39,0.25) !important;
+  box-shadow: 0 0 0px rgba(201,162,39,0) !important;
+  transition: all .25s ease !important;
+}
+.wz-bcard:hover, .wz-acard:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 12px rgba(201,162,39,0.5), 0 0 28px rgba(201,162,39,0.2) !important;
+  transform: translateY(-2px) !important;
+}
+.wz-bcard.sel, .wz-acard.sel {
+  background: #fff !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 16px rgba(201,162,39,0.6), 0 0 40px rgba(201,162,39,0.25) !important;
+}
+.wz-pill:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 8px rgba(201,162,39,0.4) !important;
+}
+.wz-pill.sel {
+  background: #fff !important;
+  border-color: var(--gold) !important;
+  color: var(--gold-dark) !important;
+  box-shadow: 0 0 10px rgba(201,162,39,0.5) !important;
+}
 </style>
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
