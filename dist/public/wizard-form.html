@@ -816,39 +816,48 @@ function pill(text, group, single) {
 }
 
 function fileCard(item) {
-  const d = document.createElement('div');
+  var NAMES = {soul:'SOUL.md',identity:'IDENTITY.md',user:'USER.md',memory:'MEMORY.md',tools:'TOOLS.md',agents:'AGENTS.md',heartbeat:'HEARTBEAT.md',bootstrap:'BOOTSTRAP.md',agent_rd:'AGENT_RD.md'};
+  var d = document.createElement('div');
   d.className = 'wz-bcard'; d.dataset.file = item.id;
-  d.style.cssText = 'text-align:left;cursor:default;padding:16px;background:#fff;border:1.5px solid rgba(201,162,39,0.3);border-radius:12px;margin-bottom:10px';
-  
-  const header = document.createElement('div');
-  header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px';
-  header.innerHTML = '<span style="font-size:1.3rem">' + item.icon + '</span>' +
-    '<span style="font-size:0.85rem;font-weight:600;color:#111">' + item.label + '</span>';
-  
-  const status = document.createElement('span');
+  d.style.cssText = 'text-align:left;cursor:default;padding:16px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;margin-bottom:10px';
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px';
+  var iconEl = document.createElement('span'); iconEl.style.fontSize='1.2rem'; iconEl.textContent=item.icon;
+  var nameEl = document.createElement('span'); nameEl.style.cssText='font-size:0.85rem;font-weight:700;color:#111'; nameEl.textContent=item.label;
+  var status = document.createElement('span');
   status.className = 'file-status';
   status.style.cssText = 'margin-left:auto;font-size:0.7rem;color:#999;white-space:nowrap';
   status.textContent = 'Negenerat';
-  header.appendChild(status);
-  
-  const desc = document.createElement('div');
-  desc.style.cssText = 'font-size:0.78rem;color:#666;margin-bottom:12px';
+  header.appendChild(iconEl); header.appendChild(nameEl); header.appendChild(status);
+  var desc = document.createElement('div');
+  desc.style.cssText = 'font-size:0.78rem;color:#666;margin-bottom:12px;line-height:1.5';
   desc.textContent = item.desc;
-  
-  const btn = document.createElement('button');
-  btn.style.cssText = 'width:100%;padding:10px;background:#ffffff;color:#111;font-weight:700;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.82rem;box-shadow:0 2px 6px rgba(0,0,0,0.07)';
-  btn.textContent = '⚡ Generează';
-  btn.onclick = function() { generateFile(item.id, this); };
-  
-  const preview = document.createElement('div');
+  var genBtn = document.createElement('button');
+  genBtn.style.cssText = 'width:100%;padding:10px;background:#fff;color:#111;font-weight:700;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.82rem;margin-bottom:8px';
+  genBtn.textContent = '⚡ Generează';
+  genBtn.onclick = function() { generateFile(item.id, this); };
+  var dlBtn = document.createElement('button');
+  dlBtn.style.cssText = 'width:48%;padding:8px;background:#fff;color:#111;font-weight:600;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.78rem;display:none;margin-right:2%';
+  dlBtn.className = 'file-dl-btn';
+  dlBtn.textContent = '⬇ Descarcă';
+  dlBtn.onclick = function() {
+    var fname = NAMES[item.id]||item.id+'.md';
+    var blob = new Blob([generatedFiles[item.id]||''],{type:'text/markdown'});
+    var a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+  };
+  var pvBtn = document.createElement('button');
+  pvBtn.style.cssText = 'width:48%;padding:8px;background:#fff;color:#111;font-weight:600;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;font-size:0.78rem;display:none';
+  pvBtn.className = 'file-pv-btn';
+  pvBtn.textContent = 'Preview';
+  var preview = document.createElement('div');
   preview.className = 'file-preview';
-  preview.style.cssText = 'display:none;margin-top:10px;font-size:0.75rem;color:#444;max-height:120px;overflow-y:auto;white-space:pre-wrap;background:#f5f5f5;padding:8px;border-radius:8px';
-  
-  d.appendChild(header);
-  d.appendChild(desc);
-  d.appendChild(btn);
-  d.appendChild(preview);
+  preview.style.cssText = 'display:none;margin-top:10px;font-size:0.73rem;color:#333;max-height:180px;overflow-y:auto;white-space:pre-wrap;background:#f8f8f8;padding:10px;border-radius:8px;border:1px solid #eee;line-height:1.6';
+  pvBtn.onclick = function() { preview.style.display = preview.style.display==='none'?'block':'none'; };
+  var row = document.createElement('div'); row.style.cssText='display:flex;gap:4%';
+  row.appendChild(dlBtn); row.appendChild(pvBtn);
+  d.appendChild(header); d.appendChild(desc); d.appendChild(genBtn); d.appendChild(row); d.appendChild(preview);
   return d;
+}
 }
 
 function populate(id, items, builder) {
@@ -928,6 +937,9 @@ async function generateFile(fileId, btn) {
       if (status) { status.textContent = 'Gata ✅'; status.style.color = 'var(--green)'; }
       card.style.borderColor = 'var(--green-border)';
       card.style.background = 'var(--green-bg)';
+      var dl = card.querySelector('.file-dl-btn'); if(dl) dl.style.display='inline-block';
+      var pv = card.querySelector('.file-pv-btn'); if(pv) pv.style.display='inline-block';
+      btn.style.display='none';
       btn.textContent = origText; btn.disabled = false;
       if (preview) {
         preview.style.display = 'block'; preview.textContent = '';
