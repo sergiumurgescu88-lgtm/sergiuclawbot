@@ -457,426 +457,55 @@ textarea.wz-field{min-height:48px;resize:vertical}
   </div>
 </div>
 
+
+
+<script src="/assets/js/global-nav.js" defer></script>
+
 <script>
-// ═══ DATA ═══
-const BIZ_TYPES=[["🏪","B2C Local","Vinzi direct consumatorilor"],["🏢","B2B","Vinzi altor firme"],["🌐","E-commerce","Magazin online"],["🎓","Educație / Cursuri","Online sau offline"],["💻","SaaS / Tech","Software, aplicații"],["🔬","R&D / Inovație","Cercetare, prototipuri"],["🏗️","Construcții / Servicii","Manoperă, instalații"],["🏥","Medical / Wellness","Sănătate, beauty, spa"],["🍽️","HoReCa / Food","Restaurant, catering"],["🏠","Imobiliare","Vânzări, închirieri"],["⚖️","Consultanță / Legal","Avocatură, consulting"],["🎨","Creativ / Agenție","Marketing, design"],["🚚","Logistică / Transport","Livrări, depozitare"],["💰","Finanțe / Investiții","Trading, fonduri"],["🌿","Agri / Green / Energie","Ferme, eco, panouri"],["🎮","Entertainment / Gaming","Jocuri, streaming"],["✈️","Turism / Travel","Agenții, cazare"],["🏋️","Sport / Fitness","Săli, antrenament"],["🔧","Producție / Manufacturi","Fabrică, ateliere"],["🎵","Muzică / Artă / Media","Artiști, studiouri"],["🐾","Veterinar / Animale","Clinici, pet shop"],["🧑‍⚖️","ONG / Non-profit","Fundații, asociații"],["🏛️","Instituție / Autoritate","Public, municipal"],["➕","Altul","Specifică mai jos"]];
-const BIZ_SIZE=["👤 Solo / Freelancer","👥 Micro (2–5)","🏢 Mică (6–20)","🏬 Medie (20–100)","🏭 Corporație (100+)"];
-const BIZ_STAGE=["💡 Idee / pre-launch","🚀 Lansare (0–1 an)","📈 Creștere (1–3 ani)","🏆 Matur (3+ ani)","🔄 Pivot / restructurare"];
-const REV_MODEL=["Vânzare directă","Abonament / SaaS","Proiecte / Contracte","Comision / Afiliere","Publicitate / Media","Freemium","Consultanță / Timp","Licensing / IP","Grant / Finanțare","Marketplace"];
-const OBJECTIVES=[["🎯","Generare & calificare lead-uri"],["📈","Creșterea conversiei & vânzărilor"],["⚙️","Automatizare operațională"],["🔬","Research & Development"],["📢","Conținut & prezență online"],["🧠","Intelligence & decizie strategică"],["🤝","Relații clienți & suport"],["💰","Finanțe & raportare"],["🤖","Produs AI / Demo / Chatbot"],["📦","Supply chain & procurement"]];
-const TIME_WASTE=["Sub 5h","5–15h","15–30h","30h+ (criză)"];
-const AGENTS_EXEC=[["🎯","HUNTER — Leads","Caută prospecți și califică lead-uri"],["✍️","WRITER — Conținut","Generează postări și emailuri"],["📞","CLOSER — Vânzări","Follow-up și oferte personalizate"],["🛎️","SUPPORT — Clienți","Răspunde FAQ și reclamații"],["📊","ANALYST — KPI","Rapoarte și forecasting"],["🔭","SCOUT — Piață","Monitorizează competitorii"]];
-const AGENTS_SPEC=[["🗓️","SCHEDULER","Programări și calendar"],["🧾","FINANCE","Facturi și plăți"],["📦","OPS","Comenzi și stocuri"],["🧪","R&D","Tehnologii și validare"],["🎓","TRAINER","Onboarding și wiki"],["🏗️","PM","Task-uri și deadline-uri"]];
-const CHANNELS=["📱 WhatsApp","💬 Messenger","✉️ Email","💼 LinkedIn","📷 Instagram","📞 Voice AI"];
-const BUDGET=["$0 (Free tools)","$20 - $50","$50 - $200","$200+"];
-const AUTONOMY=[["✋","Aprobare pentru orice","Agentul pregătește, tu decizi și trimiți."],["⚡","Semi-autonom","Autonom intern, aprobare pt mesaje externe."],["🤖","Full autonom","Execută complet, primești raport zilnic."]];
-const TONE=["🧪 Expert tehnic","😊 Prietenos","👔 Profesional","⚡ Energic / Vânzări","🧘 Calmat / Empatic"];
-const AI_EXP=[["🌱","Începător","Am folosit ChatGPT casual, nu am automatizat serios."],["⚙️","Intermediar","Folosesc Make/Zapier, înțeleg API-uri de bază."],["🚀","Avansat","Lucrez cu API-uri și cod, configurez VPS."]];
-const SETUP_INV=[["🙋","Independent","Vreau să înțeleg și să modific singur."],["🤝","Colaborare","Implicat în decizii, dar nu singurul responsabil."],["🎁","Done-for-you","Văd rezultatele, nu intru în detalii tehnice."]];
-const FILES_META=[["SOUL","🧬"],["IDENTITY","🪪"],["RULES","⚖️"],["KNOWLEDGE","📚"],["TOOLS","🔧"],["WORKFLOWS","📈"],["MEMORY","🧠"],["VOICE","🎤"],["INTEGRATION","🔗"]];
-const MULTI=new Set(["biz_type","ch","tone","obj","rev_model","time_waste","budget","biz_size","biz_stage","agents"]);
-
-// ═══ STATE ═══
-let cur=1;const TOTAL=9;
-const sel={},vals={},genData={},progress={};
-let editingKey=null,editingText='';
-const token=localStorage.getItem('agentulmeu_token');
-
-// ═══ RENDER ═══
-function renderCards(containerId,data,group,wide){
-  const c=document.getElementById(containerId);
-  c.className='wz-card-grid'+(wide?' wide':'');
-  c.innerHTML=data.map(([icon,name,desc])=>`
-    <div class="wz-bcard" data-group="${group}" data-val="${name}" onclick="toggle('${group}','${name.replace(/'/g,"\\'")}',this)">
-      <span class="wz-bicon">${icon}</span>
-      <div class="wz-blabel">${name}</div>
-      ${desc?`<div class="wz-bsub">${desc}</div>`:''}
-    </div>
-  `).join('');
-}
-
-function renderPills(containerId,data,group){
-  const c=document.getElementById(containerId);
-  c.innerHTML=data.map(p=>`
-    <div class="wz-pill" data-group="${group}" data-val="${p}" onclick="toggle('${group}','${p.replace(/'/g,"\\'")}',this)">${p}</div>
-  `).join('');
-}
-
-function renderAcards(containerId,data,group){
-  const c=document.getElementById(containerId);
-  c.innerHTML=data.map(([icon,name,desc])=>`
-    <div class="wz-acard" data-group="${group}" data-val="${name}" onclick="toggle('${group}','${name.replace(/'/g,"\\'")}',this)">
-      <div class="wz-aicon">${icon}</div>
-      <div><div class="wz-aname">${name}</div><div class="wz-adesc">${desc}</div></div>
-    </div>
-  `).join('');
-}
-
-function renderDots(){
-  const d=document.getElementById('stepDots');
-  d.innerHTML=Array.from({length:TOTAL},(_,i)=>{
-    const cls=i+1===cur?'active':i+1<cur?'done':'';
-    return `<div class="wz-dot ${cls}" onclick="goToStep(${i+1})"></div>`;
-  }).join('');
-}
-
-function renderFilesGrid(){
-  const g=document.getElementById('filesGrid');
-  g.innerHTML=FILES_META.map(([key,icon])=>{
-    const p=progress[key];const done=!!genData[key];
-    return `
-      <div class="wz-bcard ${done?'sel':''}" style="text-align:center">
-        <span class="wz-bicon">${icon}</span>
-        <div class="wz-blabel">${key}.md</div>
-        <div class="wz-bsub">${p?.status||'Negenerat'}</div>
-        ${p&&p.pct>0&&p.pct<100?`<div style="margin-top:8px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden"><div style="height:100%;width:${p.pct}%;background:var(--gold-gradient);border-radius:2px"></div></div>`:''}
-        <div style="margin-top:12px;display:flex;gap:4px">
-          <button class="wz-btn-ask" style="flex:1" onclick="generateOne('${key}')">${done?'Regenerează':'⚡ Generează'}</button>
-          ${done?`<button class="wz-btn-ask" onclick="previewFile('${key}')">👁️</button>`:''}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderExportList(){
-  const el=document.getElementById('exportList');
-  const keys=Object.keys(genData);
-  if(keys.length===0){
-    el.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text2)">Nu ai generat încă niciun fișier.<br><br><button class="wz-btn-back" onclick="goToStep(8)">← Mergi la Pasul 8</button></div>';
-    return;
-  }
-  el.innerHTML=keys.map(key=>{
-    const meta=FILES_META.find(f=>f[0]===key);
-    return `
-      <div class="wz-acard sel-accent" style="cursor:default">
-        <div class="wz-aicon" style="font-size:1.5rem">${meta?.[1]||'📄'}</div>
-        <div style="flex:1"><div class="wz-aname" style="font-size:0.9rem">${key}.md</div><div class="wz-adesc">Gata pentru export / editare</div></div>
-        <div style="display:flex;gap:6px">
-          <button class="wz-btn-ask" onclick="startEdit('${key}')">📝</button>
-          <button class="wz-btn-ask" onclick="downloadOne('${key}')">⬇️</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// ═══ INIT ═══
-function init(){
-  renderCards('bizTypeGrid',BIZ_TYPES,'biz_type');
-  renderPills('bizSizePills',BIZ_SIZE,'biz_size');
-  renderPills('bizStagePills',BIZ_STAGE,'biz_stage');
-  renderPills('revModelPills',REV_MODEL,'rev_model');
-  renderCards('objectivesGrid',OBJECTIVES,'obj',true);
-  renderPills('timeWastePills',TIME_WASTE,'time_waste');
-  renderCards('agentsExecGrid',AGENTS_EXEC,'agents',true);
-  renderCards('agentsSpecGrid',AGENTS_SPEC,'agents',true);
-  renderPills('channelsPills',CHANNELS,'ch');
-  renderPills('budgetPills',BUDGET,'budget');
-  renderAcards('autonomyCards',AUTONOMY,'autonomy');
-  renderPills('tonePills',TONE,'tone');
-  renderAcards('aiExpCards',AI_EXP,'ai_exp');
-  renderAcards('setupInvCards',SETUP_INV,'setup_inv');
-  renderFilesGrid();
-  renderExportList();
-  renderDots();
-}
-
-// ═══ TOGGLE SELECTION ═══
-function toggle(group,item,el){
-  const curSel=sel[group]||[];
-  const has=curSel.includes(item);
-  if(MULTI.has(group)){
-    sel[group]=has?curSel.filter(i=>i!==item):[...curSel,item];
-  } else {
-    sel[group]=has?[]:[item];
-  }
-  // Update UI
-  const container=el.parentElement;
-  container.querySelectorAll('[data-group="'+group+'"]').forEach(c=>{
-    c.classList.toggle('sel',sel[group]?.includes(c.dataset.val));
-  });
-}
-
-// ═══ NAVIGATION ═══
-function showStep(step){
-  document.querySelectorAll('.wz-step').forEach(s=>{
-    s.classList.toggle('active',parseInt(s.dataset.step)===step);
-  });
-  cur=step;
-  document.getElementById('stepCounter').textContent=`${cur<10?'0':''}${cur} / 0${TOTAL}`;
-  document.getElementById('progressFill').style.width=Math.round((cur/TOTAL)*100)+'%';
-  document.getElementById('backBtn').style.visibility=cur>1?'visible':'hidden';
-  document.getElementById('nextBtn').textContent=cur===8?'Vezi Rezultate →':cur===TOTAL?'📦 Descarcă Tot':'Continuă →';
-  if(cur===8){renderFilesGrid();updateStats();}
-  if(cur===9)renderExportList();
-  renderDots();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function nextStep(){if(cur<TOTAL)showStep(cur+1)}
-function prevStep(){if(cur>1)showStep(cur-1)}
-function goToStep(s){if(s<=cur)showStep(s)}
-
-// ═══ BUILD SUMMARY ═══
-function buildSummary(){
-  const fv=id=>{const el=document.getElementById('f_'+id);return el?el.value:'';};
-  return `=== INTAKE AGENTULMEU ===
-Business: ${fv('biz_name')}
-Tip: ${(sel.biz_type||[]).join(', ')}
-Echipa: ${(sel.biz_size||[]).join(', ')}
-Maturitate: ${(sel.biz_stage||[]).join(', ')}
-Descriere: ${fv('biz_desc')}
-Produse: ${fv('biz_products')}
-Client: ${fv('biz_client')}
-Zona: ${fv('biz_zone')}
-Web: ${fv('biz_web')}
-Model Venit: ${(sel.rev_model||[]).join(', ')}
-Obiective: ${(sel.obj||[]).join(', ')}
-Problema: ${fv('pain_main')}
-Task-uri: ${fv('repetitive_tasks')}
-Timp pierdut: ${(sel.time_waste||[]).join(', ')}
-Prioritate 90z: ${fv('priority_90')}
-Agenti: ${(sel.agents||[]).join(', ')}
-Canale: ${(sel.ch||[]).join(', ')}
-CRM: ${fv('crm_tool')}
-Integrari: ${fv('integrations_wish')}
-Buget: ${(sel.budget||[]).join(', ')}
-Autonomie: ${(sel.autonomy||[]).join(', ')}
-Ton: ${(sel.tone||[]).join(', ')}
-Avantaj: ${fv('competitive_adv')}
-Restrictii: ${fv('restrictions')}
-Exp AI: ${(sel.ai_exp||[]).join(', ')}
-Setup: ${(sel.setup_inv||[]).join(', ')}
-Deadline: ${fv('deadline')}`;
-}
-
-// ═══ ASK AI ═══
-async function askAI(fieldId,label){
-  const btn=event.target.closest('.wz-btn-ask');
-  const ansEl=document.getElementById('ans_'+fieldId);
-  btn.classList.add('loading');
-  if(ansEl){ansEl.classList.add('show');ansEl.querySelector('.wz-ai-text').textContent='Se generează...';}
-  
-  try{
-    const r=await fetch('/api/wizard/ask-ai',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':token?'Bearer '+token:''},
-      body:JSON.stringify({question:`Sugerează un răspuns bun pentru: ${label}. Context: ${buildSummary().substring(0,500)}`,business_context:{}})
-    });
-    const d=await r.json();
-    if(d.success&&d.answer){
-      const formatted=d.answer.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-      if(ansEl)ansEl.querySelector('.wz-ai-text').innerHTML=formatted;
-      // Auto-fill the field
-      const field=document.getElementById('f_'+fieldId);
-      if(field&&!field.value)field.value=d.answer.replace(/\*\*/g,'').replace(/\*/g,'');
-    } else {
-      if(ansEl)ansEl.querySelector('.wz-ai-text').textContent='✕ '+ (d.error||'Eroare');
-    }
-  }catch(e){
-    if(ansEl)ansEl.querySelector('.wz-ai-text').textContent='✕ Eroare de conexiune';
-  }
-  btn.classList.remove('loading');
-}
-
-// ═══ GENERATE ONE ═══
-async function generateOne(key){
-  if(progress[key]?.status==='Generare...')return;
-  progress[key]={pct:10,status:'Generare...'};
-  renderFilesGrid();
-  
-  try{
-    const r=await fetch('/api/generate-file',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':token?'Bearer '+token:''},
-      body:JSON.stringify({file_type:key,intake_data:parseFormData()})
-    });
-    const d=await r.json();
-    if(d.content){
-      genData[key]=d.content;
-      progress[key]={pct:100,status:'Gata ✅'};
-      renderFilesGrid();
-      updateStats();
-      previewFile(key);
-    } else {
-      progress[key]={pct:0,status:'Eroare'};
-      renderFilesGrid();
-    }
-  }catch(e){
-    progress[key]={pct:0,status:'Eroare'};
-    renderFilesGrid();
-  }
-}
-
-// ═══ GENERATE ALL ═══
-async function generateAll(){
-  const btn=document.getElementById('genAllBtn');
-  btn.disabled=true;btn.textContent='🔄 Se generează...';
-  
-  try{
-    const r=await fetch('/api/generate-zip',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':token?'Bearer '+token:''},
-      body:JSON.stringify({intake_data:parseFormData()})
-    });
-    const d=await r.json();
-    if(d.job_id){
-      await pollJob(d.job_id);
-    }
-  }catch(e){}
-  btn.disabled=false;btn.textContent='🔄 Generează Toate';
-}
-
-async function pollJob(jobId){
-  for(let i=0;i<120;i++){
-    try{
-      const r=await fetch(`/api/job/${jobId}/result`,{headers:{'Authorization':token?'Bearer '+token:''}});
-      const d=await r.json();
-      const done=d.done||0;const total=d.total||9;
-      if(d.status==='done'){
-        if(d.files){
-          Object.keys(d.files).forEach(key=>{
-            if(d.files[key].ok){genData[key]=d.files[key].content||'';progress[key]={pct:100,status:'Gata ✅'};}
-          });
+// 🔘 Handler butoane "✨ Sugerează"
+document.querySelectorAll('button').forEach(btn => {
+  if (btn.textContent.includes('Sugerează') || btn.textContent.includes('Propune')) {
+    btn.addEventListener('click', async function() {
+      const parent = this.closest('.wz-field-wrap, .form-group, div');
+      const input = parent ? parent.querySelector('input, textarea') : null;
+      if (!input) return;
+      
+      const originalText = this.textContent;
+      this.textContent = '⏳...'; this.disabled = true;
+      try {
+        const res = await fetch('/api/wizard/ask-ai', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ prompt: input.placeholder || input.name || 'Sugerează un răspuns scurt pentru acest câmp.' })
+        });
+        const data = await res.json();
+        if (data.answer) {
+          input.value = data.answer;
+          input.focus();
+        } else {
+          alert('❌ ' + (data.error || 'Răspuns invalid'));
         }
-        renderFilesGrid();updateStats();
-        break;
+      } catch (e) {
+        alert('❌ Eroare rețea: ' + e.message);
+      } finally {
+        this.textContent = originalText; this.disabled = false;
       }
-      // Update progress for generating files
-      FILES_META.slice(0,done).forEach(([key])=>{
-        progress[key]={pct:100,status:'Gata ✅'};
-        genData[key]=genData[key]||'# '+key+'\n\nGenerat...';
-      });
-      renderFilesGrid();
-    }catch(e){}
-    await new Promise(r=>setTimeout(r,3000));
-  }
-}
-
-function parseFormData(){
-  const fv=id=>{const el=document.getElementById('f_'+id);return el?el.value:'';};
-  return {
-    business_name:fv('biz_name'),
-    business_category:(sel.biz_type||[]).join(', '),
-    description:fv('biz_desc'),
-    products:fv('biz_products'),
-    tone:(sel.tone||[]).join(', '),
-    objectives:(sel.obj||[]).join(', '),
-    channels:(sel.ch||[]).join(', '),
-    team_size:(sel.biz_size||[]).join(', '),
-    stage:(sel.biz_stage||[]).join(', '),
-    revenue_model:(sel.rev_model||[]).join(', '),
-    pain_points:fv('pain_main'),
-    repetitive_tasks:fv('repetitive_tasks'),
-    time_waste:(sel.time_waste||[]).join(', '),
-    priority_90:fv('priority_90'),
-    agents:(sel.agents||[]).join(', '),
-    crm:fv('crm_tool'),
-    integrations:fv('integrations_wish'),
-    budget:(sel.budget||[]).join(', '),
-    autonomy:(sel.autonomy||[]).join(', '),
-    competitive_advantage:fv('competitive_adv'),
-    restrictions:fv('restrictions'),
-    ai_experience:(sel.ai_exp||[]).join(', '),
-    setup_involvement:(sel.setup_inv||[]).join(', '),
-    deadline:fv('deadline'),
-    client_ideal:fv('biz_client'),
-    zone:fv('biz_zone'),
-    web:fv('biz_web')
-  };
-}
-
-function updateStats(){
-  const total=Object.keys(genData).length;
-  document.getElementById('totalGen').textContent=total;
-  document.getElementById('globalPct').textContent=Math.round((total/9)*100)+'%';
-}
-
-// ═══ PREVIEW ═══
-function previewFile(key){
-  document.getElementById('previewArea').style.display='block';
-  document.getElementById('previewLabel').textContent=key+'.md Preview';
-  document.getElementById('previewContent').textContent=genData[key]||'';
-}
-
-// ═══ EDIT ═══
-function startEdit(key){
-  editingKey=key;editingText=genData[key];
-  document.getElementById('editArea').style.display='block';
-  document.getElementById('editLabel').textContent=key+'.md';
-  document.getElementById('editContent').value=editingText;
-}
-function saveEdit(){
-  if(editingKey){genData[editingKey]=document.getElementById('editContent').value;alert('Salvat!');}
-  document.getElementById('editArea').style.display='none';editingKey=null;
-  renderExportList();
-}
-function closeEdit(){document.getElementById('editArea').style.display='none';editingKey=null;}
-
-// ═══ DOWNLOAD ═══
-function downloadOne(key){
-  const content=genData[key];if(!content)return;
-  const blob=new Blob([content],{type:'text/markdown'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=key+'.md';a.click();
-  URL.revokeObjectURL(url);
-}
-function downloadAll(){Object.keys(genData).forEach((k,i)=>setTimeout(()=>downloadOne(k),i*200));}
-
-// ═══ CHAT ═══
-function toggleChat(){document.getElementById('chatPanel').classList.toggle('open');}
-async function sendChat(){
-  const input=document.getElementById('chatInput');
-  const text=input.value.trim();if(!text)return;
-  const msgs=document.getElementById('chatMsgs');
-  msgs.innerHTML+=`<div class="wz-chat-msg user">${text}</div>`;
-  input.value='';
-  msgs.innerHTML+=`<div class="wz-chat-msg bot" id="chatLoading">...</div>`;
-  msgs.scrollTop=msgs.scrollHeight;
-  
-  try{
-    const r=await fetch('/api/wizard/ask-ai',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':token?'Bearer '+token:''},
-      body:JSON.stringify({question:text,business_context:{}})
     });
-    const d=await r.json();
-    const loading=document.getElementById('chatLoading');
-    if(loading){
-      if(d.success&&d.answer){
-        loading.textContent=d.answer;loading.classList.remove('bot');loading.classList.add('bot');
-      } else {
-        loading.textContent='✕ Eroare la generare.';
-      }
-      loading.removeAttribute('id');
-    }
-  }catch(e){
-    const loading=document.getElementById('chatLoading');
-    if(loading){loading.textContent='✕ Eroare de conexiune.';loading.removeAttribute('id');}
   }
-  msgs.scrollTop=msgs.scrollHeight;
-}
+});
 
-// ═══ START ═══
-init();
-</script>
-
-<script>
-// 🔧 Handler Pasul 8: Generare Fișiere
-function wizardStep8Handler() {
-  const btn = document.querySelector('button:contains("Generează Toate")') || 
-              document.querySelector('.wz-btn-action') || 
-              Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Generează Toate'));
+// 🔄 Handler buton "Generează Toate" (Pasul 8)
+function initGenerateAll() {
+  const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Generează Toate'));
   if (!btn) return;
-
+  
   btn.onclick = async function() {
     this.disabled = true; this.textContent = '⏳ Se generează...';
     try {
-      // Colectează toate datele din wizard
       const ctx = {};
       document.querySelectorAll('input, textarea, select').forEach(el => {
-        const key = el.name || el.id || el.placeholder;
-        if (key && el.value) ctx[key] = el.value;
+        const key = el.name || el.id || el.placeholder || `field_${Math.random().toString(36).slice(2,7)}`;
+        if (el.value && el.value.trim()) ctx[key] = el.value.trim();
       });
 
       const res = await fetch('/api/wizard/generate', {
@@ -887,26 +516,19 @@ function wizardStep8Handler() {
       const data = await res.json();
 
       if (data.success && data.files) {
-        // Update UI: marchează fișierele ca generate
-        const files = Object.keys(data.files);
-        files.forEach(f => {
-          const card = document.querySelector(`[data-file="${f}"]`) || 
-                       Array.from(document.querySelectorAll('.file-card, .wz-card, div')).find(c => c.textContent.includes(f));
-          if (card) {
-            const status = card.querySelector('.status, .file-status, span');
-            if (status) status.textContent = 'Generat ✅';
-          }
+        localStorage.setItem('wizardGeneratedFiles', JSON.stringify(data.files));
+        // Update UI
+        document.querySelectorAll('.file-card, .wz-card, [data-file]').forEach(card => {
+          const status = card.querySelector('.status, .file-status, span, p');
+          if (status) status.textContent = 'Generat ✅';
         });
-        // Update progres
-        const bar = document.querySelector('.progress-bar, .wz-progress-bar');
+        const bar = document.querySelector('.progress-bar, .wz-progress-bar, [role="progressbar"]');
         const txt = document.querySelector('.progress-text, .wz-progress-meta span');
         if (bar) bar.style.width = '100%';
         if (txt) txt.textContent = '100%';
-        
-        localStorage.setItem('wizardGeneratedFiles', JSON.stringify(data.files));
         alert('✅ Toate cele 9 fișiere au fost generate cu succes!');
       } else {
-        alert('❌ Eroare la generare: ' + (data.error || 'Răspuns invalid'));
+        alert('❌ Eroare generare: ' + (data.error || 'Răspuns invalid'));
       }
     } catch (e) {
       alert('❌ Eroare rețea: ' + e.message);
@@ -915,9 +537,143 @@ function wizardStep8Handler() {
     }
   };
 }
-document.addEventListener('DOMContentLoaded', wizardStep8Handler);
+document.addEventListener('DOMContentLoaded', initGenerateAll);
+
+
+async function askAI(fieldId, label) {
+    const input = document.getElementById('f_' + fieldId);
+    const ansBox = document.getElementById('ans_' + fieldId);
+    const btn = event && event.target ? event.target : null;
+    if (!input) { alert('Camp negasit: f_' + fieldId); return; }
+
+    const originalText = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = '⏳...'; btn.disabled = true; }
+
+    try {
+        const ctx = {};
+        document.querySelectorAll('textarea, input').forEach(el => {
+            if (el.id && el.value.trim()) ctx[el.id] = el.value.trim();
+        });
+        const prompt = 'Sugereaza o valoare scurta si practica in romana pentru campul: ' + label + '. Context business completat pana acum: ' + JSON.stringify(ctx);
+        const res = await fetch('/api/wizard/ask-ai', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({prompt: prompt})
+        });
+        const data = await res.json();
+        if (data.answer) {
+            input.value = data.answer;
+            input.focus();
+            if (ansBox) {
+                const txt = ansBox.querySelector('.wz-ai-text');
+                if (txt) txt.textContent = data.answer;
+                ansBox.style.display = 'block';
+            }
+        } else {
+            alert('Eroare: ' + (data.error || 'Raspuns invalid'));
+        }
+    } catch(e) {
+        alert('Eroare retea: ' + e.message);
+    } finally {
+        if (btn) { btn.textContent = originalText || '✨ Sugereaza'; btn.disabled = false; }
+    }
+}
+
+// ═══════════════════════════════════════
+// NAVIGARE WIZARD
+// ═══════════════════════════════════════
+let currentStep = 1;
+const totalSteps = 9;
+
+function showStep(n) {
+    document.querySelectorAll('.wz-step').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector('.wz-step[data-step="' + n + '"]');
+    if (target) target.classList.add('active');
+
+    const counter = document.getElementById('stepCounter');
+    if (counter) counter.textContent = String(n).padStart(2,'0') + ' / ' + String(totalSteps).padStart(2,'0');
+
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (backBtn) backBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.textContent = n === totalSteps ? 'Finalizează ✓' : 'Continuă →';
+
+    const dots = document.getElementById('stepDots');
+    if (dots) {
+        dots.innerHTML = '';
+        for (let i = 1; i <= totalSteps; i++) {
+            const d = document.createElement('div');
+            d.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (i === n ? 'var(--gold,#FFD700)' : 'var(--border,#ddd)');
+            dots.appendChild(d);
+        }
+    }
+
+    const bar = document.querySelector('.wz-progress-bar, .progress-bar, [role="progressbar"]');
+    if (bar) bar.style.width = Math.round((n / totalSteps) * 100) + '%';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function nextStep() {
+    if (currentStep < totalSteps) {
+        currentStep++;
+        showStep(currentStep);
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+    }
+}
+
+// ═══════════════════════════════════════
+// CHAT WIDGET
+// ═══════════════════════════════════════
+function toggleChat() {
+    const panel = document.getElementById('chatPanel');
+    if (panel) panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+}
+
+async function sendChat() {
+    const input = document.getElementById('chatInput');
+    const msgs = document.getElementById('chatMsgs');
+    if (!input || !msgs || !input.value.trim()) return;
+
+    const question = input.value.trim();
+    input.value = '';
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'wz-chat-msg user';
+    userMsg.textContent = question;
+    msgs.appendChild(userMsg);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    const botMsg = document.createElement('div');
+    botMsg.className = 'wz-chat-msg bot';
+    botMsg.textContent = '⏳ ...';
+    msgs.appendChild(botMsg);
+
+    try {
+        const res = await fetch('/api/wizard/ask-ai', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({prompt: question})
+        });
+        const data = await res.json();
+        botMsg.textContent = data.answer || data.error || 'Eroare necunoscută';
+    } catch(e) {
+        botMsg.textContent = '❌ Eroare: ' + e.message;
+    }
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    showStep(1);
+    initGenerateAll();
+});
+
 </script>
 
-<script src="/assets/js/global-nav.js" defer></script>
 </body>
 </html>
