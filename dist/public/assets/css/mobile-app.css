@@ -1,0 +1,96 @@
+/* 📱 MOBILE-FIRST APP DESIGN SYSTEM */
+:root {
+  --gold: #D4AF37;
+  --gold-light: #F3E5AB;
+  --dark: #0D0D1A;
+  --dark-2: #1A1A2E;
+  --text: #EAEAEA;
+  --text-muted: #A0A0B0;
+  --radius: 16px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Viewport & Reset Mobile */
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
+/* Touch Targets & Inputs */
+button, a, input, select, textarea {
+  min-height: 48px;
+  font-size: 16px; /* Previne zoom pe iOS */
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+/* Sticky Header App-Like */
+.nav-mobile {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 60px; background: rgba(13,13,26,0.95);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; z-index: 1000;
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+}
+.nav-mobile .logo { font-weight: 700; color: var(--gold); font-size: 18px; }
+.nav-mobile .hamburger { background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+/* Bottom Navigation (Mobile Only) */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: calc(70px + var(--safe-bottom));
+  background: var(--dark-2);
+  display: flex; justify-content: space-around; align-items: center;
+  border-top: 1px solid rgba(212,175,55,0.15);
+  z-index: 999; padding-bottom: var(--safe-bottom);
+}
+.bottom-nav a {
+  display: flex; flex-direction: column; align-items: center;
+  color: var(--text-muted); text-decoration: none; font-size: 11px;
+  padding: 8px 0; transition: 0.2s;
+}
+.bottom-nav a.active, .bottom-nav a:hover { color: var(--gold); }
+.bottom-nav a svg { width: 24px; height: 24px; margin-bottom: 4px; fill: currentColor; }
+
+/* Main Content Padding (evită suprapunerea cu nav-urile) */
+.main-content {
+  padding-top: 70px;
+  padding-bottom: calc(90px + var(--safe-bottom));
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cards & Sections Mobile */
+.card, .section {
+  background: var(--dark-2);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(212,175,55,0.1);
+}
+
+/* Wizard Mobile Optimizations */
+.wizard-step { display: none; }
+.wizard-step.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.wizard-progress { position: sticky; top: 60px; background: var(--dark); padding: 10px 16px; z-index: 90; }
+.wizard-actions { display: flex; gap: 12px; padding: 16px; position: sticky; bottom: calc(70px + var(--safe-bottom)); background: var(--dark); }
+.wizard-actions button { flex: 1; font-weight: 600; }
+
+/* Responsive Breakpoint: Desktop */
+@media (min-width: 769px) {
+  .bottom-nav, .nav-mobile .hamburger { display: none; }
+  .main-content { padding-top: 80px; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; }
+  .nav-desktop { display: flex !important; }
+}
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+}

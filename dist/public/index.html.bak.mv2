@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>AgentulMeu — Agentul AI care lucrează pentru tine</title>
 <meta name="description" content="Creează un agent AI personalizat pentru business-ul tău în 8 pași simpli. Integrare Telegram, WhatsApp, Dashboard. Fără cod, fără cloud.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -314,36 +314,27 @@ footer{text-align:center;padding:32px 24px;color:var(--text-3);font-size:0.8rem;
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
-<link rel="stylesheet" href="/assets/css/premium-design.css">
-<link rel="stylesheet" href="/assets/css/global-nav.css">
+<link rel="stylesheet" href="/assets/css/mobile-app.css">
 </head>
 <body>
-<nav class="global-nav" id="globalNav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">Agentul<span class="logo-accent">Meu</span></a>
-    <div class="nav-links desktop-only">
+<div class="main-content">
+
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
       <a href="/wizard-form">Wizard</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/install-page">Instalare</a>
       <a href="/docs">Docs</a>
-      <a href="/login">Autentificare</a>
-      <a href="/wizard-form" class="nav-cta">Începe Gratuit</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+      <a href="/wizard-form" class="btn-nav btn-nav-primary">Începe Gratuit</a>
     </div>
-    <button class="hamburger mobile-only" id="navToggle" aria-label="Meniu">☰</button>
   </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/wizard-form">🪄 Wizard</a>
-    <a href="/dashboard">📊 Dashboard</a>
-    <a href="/install-page">⚡ Instalare</a>
-    <a href="/docs">📚 Docs</a>
-    <a href="/login">🔑 Autentificare</a>
-    <a href="/wizard-form" class="mobile-cta">🚀 Începe Gratuit</a>
-  </div>
-  <div class="nav-overlay" id="navOverlay"></div>
 </nav>
-
-
-
 
 <main>
   <!-- HERO -->
@@ -604,6 +595,6 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
 </script>
-<script src="/assets/js/global-nav.js" defer></script>
+</div>
 </body>
 </html>

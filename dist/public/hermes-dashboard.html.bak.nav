@@ -131,33 +131,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 <link rel="stylesheet" href="/assets/css/premium-design.css">
-<link rel="stylesheet" href="/assets/css/global-nav.css">
 </head>
 <body>
-<nav class="global-nav" id="globalNav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">Agentul<span class="logo-accent">Meu</span></a>
-    <div class="nav-links desktop-only">
-      <a href="/wizard-form">Wizard</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/install-page">Instalare</a>
-      <a href="/docs">Docs</a>
-      <a href="/login">Autentificare</a>
-      <a href="/wizard-form" class="nav-cta">Începe Gratuit</a>
-    </div>
-    <button class="hamburger mobile-only" id="navToggle" aria-label="Meniu">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/wizard-form">🪄 Wizard</a>
-    <a href="/dashboard">📊 Dashboard</a>
-    <a href="/install-page">⚡ Instalare</a>
-    <a href="/docs">📚 Docs</a>
-    <a href="/login">🔑 Autentificare</a>
-    <a href="/wizard-form" class="mobile-cta">🚀 Începe Gratuit</a>
-  </div>
-  <div class="nav-overlay" id="navOverlay"></div>
-</nav>
-
 
 <div class="app">
   <!-- ═══ LEFT SIDEBAR ═══ -->
@@ -170,7 +145,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);displ
       <div class="status-badge"><span class="dot"></span> Online · v0.13</div>
     </div>
     
-    
+    <nav class="sb-nav">
+      <button class="new-chat-btn" onclick="newChat()">+ Conversație Nouă</button>
+      
+      <div class="sb-section">
+        <div class="sb-section-title">Conversații Recente</div>
+        <div class="sb-item active" onclick="loadConv('current')"><span class="icon">💬</span> Chat Live</div>
+        <div class="sb-item" onclick="loadConv('rezervari')"><span class="icon">📅</span> Rezervări Clienți</div>
+        <div class="sb-item" onclick="loadConv('suport')"><span class="icon">🛠️</span> Suport Tehnic</div>
+        <div class="sb-item" onclick="loadConv('vanzari')"><span class="icon">💰</span> Întrebări Prețuri</div>
+      </div>
+      
+      <div class="sb-section">
+        <div class="sb-section-title">Fișiere de Configurare</div>
+        <div class="sb-item" onclick="toggleRightPanel('SOUL')"><span class="icon">🧬</span> SOUL.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('IDENTITY')"><span class="icon">🪪</span> IDENTITY.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('MEMORY')"><span class="icon">🧠</span> MEMORY.md</div>
+        <div class="sb-item" onclick="toggleRightPanel('TOOLS')"><span class="icon">🔧</span> TOOLS.md</div>
+      </div>
+      
+      <div class="sb-section">
+        <div class="sb-section-title">Canale Active</div>
+        <div class="sb-item"><span class="icon">📱</span> Telegram <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
+        <div class="sb-item"><span class="icon">💬</span> WhatsApp <span style="margin-left:auto;font-size:0.7rem;color:var(--text3)">○</span></div>
+        <div class="sb-item"><span class="icon">🌐</span> Web Chat <span style="margin-left:auto;font-size:0.7rem;color:var(--green)">●</span></div>
+      </div>
+    </nav>
     
     <div class="sb-footer">
       <button onclick="window.location.href='/dashboard'">← Înapoi la Dashboard</button>
@@ -353,6 +353,5 @@ function loadConv(type) {
 
 messageInput.focus();
 </script>
-<script src="/assets/js/global-nav.js" defer></script>
 </body>
 </html>

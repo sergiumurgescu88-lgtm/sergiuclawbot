@@ -169,34 +169,8 @@ textarea.wz-field{min-height:48px;resize:vertical}
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
-<link rel="stylesheet" href="/assets/css/premium-design.css">
-<link rel="stylesheet" href="/assets/css/global-nav.css">
 </head>
 <body>
-<nav class="global-nav" id="globalNav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">Agentul<span class="logo-accent">Meu</span></a>
-    <div class="nav-links desktop-only">
-      <a href="/wizard-form">Wizard</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/install-page">Instalare</a>
-      <a href="/docs">Docs</a>
-      <a href="/login">Autentificare</a>
-      <a href="/wizard-form" class="nav-cta">Începe Gratuit</a>
-    </div>
-    <button class="hamburger mobile-only" id="navToggle" aria-label="Meniu">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/wizard-form">🪄 Wizard</a>
-    <a href="/dashboard">📊 Dashboard</a>
-    <a href="/install-page">⚡ Instalare</a>
-    <a href="/docs">📚 Docs</a>
-    <a href="/login">🔑 Autentificare</a>
-    <a href="/wizard-form" class="mobile-cta">🚀 Începe Gratuit</a>
-  </div>
-  <div class="nav-overlay" id="navOverlay"></div>
-</nav>
-
 
 <div class="wz-shell">
   <!-- HEADER -->
@@ -238,25 +212,25 @@ textarea.wz-field{min-height:48px;resize:vertical}
     <div class="wz-step-sub">Informațiile de bază din care agentul construiește înțelegerea completă a contextului tău.</div>
     
     <div class="wz-field-wrap">
-      <div class="wz-field-label">Numele business-ului / brandului <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('biz_name','Nume business')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Numele business-ului / brandului <button class="wz-btn-ask" onclick="askAI('biz_name','Nume business')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_biz_name" placeholder="ex: NeoTerm.ro" rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_biz_name"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
     
     <div class="wz-field-wrap">
-      <div class="wz-field-label">Ce face business-ul — în 2 propoziții <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('biz_desc','Descriere business')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Ce face business-ul — în 2 propoziții <button class="wz-btn-ask" onclick="askAI('biz_desc','Descriere business')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_biz_desc" placeholder="ex: Instalăm izolație celulozică pentru case și hale industriale..." rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_biz_desc"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
     
     <div class="wz-field-wrap">
-      <div class="wz-field-label">Produse / servicii principale (cu prețuri) <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('biz_products','Produse și prețuri')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Produse / servicii principale (cu prețuri) <button class="wz-btn-ask" onclick="askAI('biz_products','Produse și prețuri')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_biz_products" placeholder="ex: Izolație celulozică — 80 lei/mp, Consultanță energetică — 500 lei..." rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_biz_products"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
     
     <div class="wz-field-wrap">
-      <div class="wz-field-label">Clientul ideal <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('biz_client','Client ideal')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Clientul ideal <button class="wz-btn-ask" onclick="askAI('biz_client','Client ideal')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_biz_client" placeholder="ex: Proprietari case noi, 35–55 ani, venit mediu-mare..." rows="2"></textarea>
     </div>
     
@@ -285,13 +259,13 @@ textarea.wz-field{min-height:48px;resize:vertical}
     <div class="wz-card-grid wide" id="objectivesGrid"></div>
     
     <div class="wz-field-wrap" style="margin-top:20px">
-      <div class="wz-field-label">Problema #1 acum <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('pain_main','Problema principală')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Problema #1 acum <button class="wz-btn-ask" onclick="askAI('pain_main','Problema principală')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_pain_main" placeholder="ex: Pierd 3–4 ore pe zi răspunzând la întrebări repetitive..." rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_pain_main"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
     
     <div class="wz-field-wrap">
-      <div class="wz-field-label">Task-uri repetitive săptămânale <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('repetitive_tasks','Task-uri repetitive')">✨ Sugerează</button></div>
+      <div class="wz-field-label">Task-uri repetitive săptămânale <button class="wz-btn-ask" onclick="askAI('repetitive_tasks','Task-uri repetitive')">✨ Sugerează</button></div>
       <textarea class="wz-field" id="f_repetitive_tasks" placeholder="ex: Verificarea stocului, follow-up clienți, rapoarte..." rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_repetitive_tasks"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
@@ -300,7 +274,7 @@ textarea.wz-field{min-height:48px;resize:vertical}
     <div class="wz-pill-wrap" id="timeWastePills"></div>
     
     <div class="wz-field-wrap" style="margin-top:20px">
-      <div class="wz-field-label">Prioritate următoarele 90 de zile <button class="btn-suggest" class="wz-btn-ask" onclick="askAI('priority_90','Prioritate 90 zile')">✨ Propune</button></div>
+      <div class="wz-field-label">Prioritate următoarele 90 de zile <button class="wz-btn-ask" onclick="askAI('priority_90','Prioritate 90 zile')">✨ Propune</button></div>
       <textarea class="wz-field" id="f_priority_90" placeholder="ex: Automatizarea fluxului de proforme și follow-up" rows="2"></textarea>
       <div class="wz-ai-answer" id="ans_priority_90"><div class="wz-ai-label">🤖 AI Sugestie</div><div class="wz-ai-text"></div></div>
     </div>
@@ -862,62 +836,69 @@ init();
 </script>
 
 <script>
-// 🔧 Handler Pasul 8: Generare Fișiere
-function wizardStep8Handler() {
-  const btn = document.querySelector('button:contains("Generează Toate")') || 
-              document.querySelector('.wz-btn-action') || 
-              Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Generează Toate'));
-  if (!btn) return;
-
-  btn.onclick = async function() {
-    this.disabled = true; this.textContent = '⏳ Se generează...';
-    try {
-      // Colectează toate datele din wizard
-      const ctx = {};
-      document.querySelectorAll('input, textarea, select').forEach(el => {
-        const key = el.name || el.id || el.placeholder;
-        if (key && el.value) ctx[key] = el.value;
-      });
-
-      const res = await fetch('/api/wizard/generate', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ context: ctx })
-      });
-      const data = await res.json();
-
-      if (data.success && data.files) {
-        // Update UI: marchează fișierele ca generate
-        const files = Object.keys(data.files);
-        files.forEach(f => {
-          const card = document.querySelector(`[data-file="${f}"]`) || 
-                       Array.from(document.querySelectorAll('.file-card, .wz-card, div')).find(c => c.textContent.includes(f));
-          if (card) {
-            const status = card.querySelector('.status, .file-status, span');
-            if (status) status.textContent = 'Generat ✅';
-          }
-        });
-        // Update progres
-        const bar = document.querySelector('.progress-bar, .wz-progress-bar');
-        const txt = document.querySelector('.progress-text, .wz-progress-meta span');
-        if (bar) bar.style.width = '100%';
-        if (txt) txt.textContent = '100%';
-        
-        localStorage.setItem('wizardGeneratedFiles', JSON.stringify(data.files));
-        alert('✅ Toate cele 9 fișiere au fost generate cu succes!');
-      } else {
-        alert('❌ Eroare la generare: ' + (data.error || 'Răspuns invalid'));
-      }
-    } catch (e) {
-      alert('❌ Eroare rețea: ' + e.message);
-    } finally {
-      this.disabled = false; this.textContent = '🔄 Generează Toate';
+// Colectare & persistență date wizard
+window.wizardData = JSON.parse(localStorage.getItem('wizardData') || '{}');
+function collectWizardData() {
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    if (el.name || el.id) {
+      window.wizardData[el.name || el.id] = el.value;
     }
-  };
+  });
+  localStorage.setItem('wizardData', JSON.stringify(window.wizardData));
 }
-document.addEventListener('DOMContentLoaded', wizardStep8Handler);
+// Hook pe butoanele "Next" / "Înapoi"
+document.querySelectorAll('button').forEach(btn => {
+  if (btn.textContent.includes('Next') || btn.textContent.includes('Înapoi') || btn.textContent.includes('Vezi Rezultate')) {
+    btn.addEventListener('click', collectWizardData);
+  }
+});
+
+// Generare Step 8
+async function generateAllFiles() {
+  collectWizardData();
+  const btnAll = document.querySelector('button:contains("Generează Toate")') || document.querySelector('button[onclick*="Generează"]');
+  if (btnAll) btnAll.disabled = true;
+  
+  const files = ['SOUL.md','IDENTITY.md','RULES.md','KNOWLEDGE.md','TOOLS.md','WORKFLOWS.md','MEMORY.md','VOICE.md','INTEGRATION.md'];
+  let generated = 0;
+  
+  try {
+    const res = await fetch('/api/wizard/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ context: window.wizardData })
+    });
+    const data = await res.json();
+    if (data.success && data.files) {
+      files.forEach(f => {
+        const card = document.querySelector(`.file-card[data-file="${f}"]`) || document.querySelector(`div:has(span:contains("${f}"))`);
+        if (card) {
+          card.querySelector('.status') && (card.querySelector('.status').textContent = 'Generat ✅');
+          card.querySelector('button') && (card.querySelector('button').disabled = true);
+        }
+        generated++;
+        document.querySelector('.progress-bar') && (document.querySelector('.progress-bar').style.width = `${(generated/files.length)*100}%`);
+        document.querySelector('.progress-text') && (document.querySelector('.progress-text').textContent = `${Math.round((generated/files.length)*100)}%`);
+      });
+      localStorage.setItem('wizardGeneratedFiles', JSON.stringify(data.files));
+      alert('✅ Toate cele 9 fișiere au fost generate cu succes! Apasă "Vezi Rezultate" pentru a continua.');
+    } else {
+      alert('❌ Eroare la generare: ' + (data.error || 'Răspuns invalid'));
+    }
+  } catch (e) {
+    alert('❌ Eroare rețea: ' + e.message);
+  } finally {
+    if (btnAll) btnAll.disabled = false;
+  }
+}
+
+// Bind la butonul "Generează Toate"
+document.querySelectorAll('button').forEach(btn => {
+  if (btn.textContent.includes('Generează Toate')) {
+    btn.onclick = generateAllFiles;
+  }
+});
 </script>
 
-<script src="/assets/js/global-nav.js" defer></script>
 </body>
 </html>

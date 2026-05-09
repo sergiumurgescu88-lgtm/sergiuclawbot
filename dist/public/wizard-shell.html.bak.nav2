@@ -197,8 +197,23 @@ footer{text-align:center;padding:32px;color:var(--text-3);font-size:0.78rem;bord
   <div class="nav-overlay" id="navOverlay"></div>
 </nav>
 
-
-
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/assets/uploads/logoagentulmeu/logo_nav.png" alt="AgentulMeu" style="height:40px;width:auto;border-radius:8px;object-fit:cover">
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/wizard" style="color:var(--text);font-weight:600">Wizard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/docs">Docs</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+      <a href="/dashboard" class="btn-nav btn-nav-primary">Dashboard →</a>
+    </div>
+  </div>
+</nav>
 
 <main style="flex:1">
   <!-- HERO -->

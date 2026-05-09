@@ -1,0 +1,99 @@
+/* 🌐 Global Navigation - Premium Light Theme */
+.global-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 64px; z-index: 9999;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 2px 12px rgba(30,58,95,0.06);
+  transition: all 0.2s ease;
+}
+.nav-container {
+  max-width: 1200px; margin: 0 auto;
+  height: 100%; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-size: 1.25rem; font-weight: 800; color: #1E3A5F; text-decoration: none;
+  letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px;
+}
+.logo-accent { color: #D4AF37; }
+.nav-links {
+  display: flex; align-items: center; gap: 24px;
+}
+.nav-links a {
+  color: #4A5568; text-decoration: none; font-size: 0.92rem; font-weight: 500;
+  transition: color 0.2s; padding: 8px 0;
+}
+.nav-links a:hover { color: #D4AF37; }
+.nav-cta {
+  background: linear-gradient(135deg, #B8962E, #D4AF37, #E8C547) !important;
+  color: #0A0A0A !important; font-weight: 600 !important;
+  padding: 10px 20px !important; border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(212,175,55,0.3) !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(212,175,55,0.4) !important; }
+
+.hamburger {
+  display: none; background: none; border: none; font-size: 1.6rem;
+  color: #1E3A5F; cursor: pointer; padding: 8px; min-width: 44px; min-height: 44px;
+}
+.mobile-menu {
+  position: fixed; top: 64px; right: -100%; width: 280px;
+  height: calc(100vh - 64px); background: #FFFFFF;
+  border-left: 1px solid #E2E8F0; box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+  padding: 24px 20px; display: flex; flex-direction: column; gap: 8px;
+  transition: right 0.25s cubic-bezier(0.4,0,0.2,1); z-index: 9998;
+  overflow-y: auto;
+}
+.mobile-menu.open { right: 0; }
+.mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-radius: 12px; color: #1E3A5F;
+  text-decoration: none; font-weight: 500; font-size: 1rem;
+  transition: background 0.2s; min-height: 48px;
+}
+.mobile-menu a:hover { background: rgba(212,175,55,0.08); }
+.mobile-cta {
+  margin-top: 12px; text-align: center; justify-content: center;
+  background: linear-gradient(135deg, #B8962E, #D4AF37, #E8C547) !important;
+  color: #0A0A0A !important; font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(212,175,55,0.3) !important;
+}
+.nav-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(2px); z-index: 9997;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.nav-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* 📱 Mobile Breakpoint */
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+  .global-nav { height: 56px; }
+  .mobile-menu { top: 56px; height: calc(100vh - 56px); }
+  body { padding-top: 64px !important; }
+}
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+  .desktop-only { display: flex !important; }
+  body { padding-top: 72px !important; }
+}
+
+/* Ascunde header-e vechi care se suprapun */
+
+/* 📱 Hamburger Button - Mobile Compact */
+@media (max-width: 768px) {
+  .hamburger, #navToggle {
+    font-size: 1.15rem !important;
+    padding: 5px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}

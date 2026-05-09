@@ -55,7 +55,6 @@ input:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,7
   </div>
   <div class="nav-overlay" id="navOverlay"></div>
 </nav>
-
 <div class="card">
   <div class="logo"></div>
   <h1>Creează cont gratuit</h1>

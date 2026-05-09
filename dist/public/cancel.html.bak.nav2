@@ -87,8 +87,18 @@ footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;bord
   <div class="nav-overlay" id="navOverlay"></div>
 </nav>
 
-
-
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+    </div>
+  </div>
+</nav>
 
 <main>
   <div class="cancel-card">

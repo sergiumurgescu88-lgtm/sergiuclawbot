@@ -342,8 +342,22 @@ footer{text-align:center;padding:32px 24px;color:var(--text-3);font-size:0.8rem;
   <div class="nav-overlay" id="navOverlay"></div>
 </nav>
 
-
-
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/wizard-form">Wizard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/docs">Docs</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+      <a href="/wizard-form" class="btn-nav btn-nav-primary">Începe Gratuit</a>
+    </div>
+  </div>
+</nav>
 
 <main>
   <!-- HERO -->

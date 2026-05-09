@@ -28,34 +28,8 @@ input:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,7
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
-<link rel="stylesheet" href="/assets/css/premium-design.css">
-<link rel="stylesheet" href="/assets/css/global-nav.css">
 </head>
 <body>
-<nav class="global-nav" id="globalNav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">Agentul<span class="logo-accent">Meu</span></a>
-    <div class="nav-links desktop-only">
-      <a href="/wizard-form">Wizard</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/install-page">Instalare</a>
-      <a href="/docs">Docs</a>
-      <a href="/login">Autentificare</a>
-      <a href="/wizard-form" class="nav-cta">Începe Gratuit</a>
-    </div>
-    <button class="hamburger mobile-only" id="navToggle" aria-label="Meniu">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/wizard-form">🪄 Wizard</a>
-    <a href="/dashboard">📊 Dashboard</a>
-    <a href="/install-page">⚡ Instalare</a>
-    <a href="/docs">📚 Docs</a>
-    <a href="/login">🔑 Autentificare</a>
-    <a href="/wizard-form" class="mobile-cta">🚀 Începe Gratuit</a>
-  </div>
-  <div class="nav-overlay" id="navOverlay"></div>
-</nav>
-
 <div class="card">
   <div class="logo"></div>
   <h1>Creează cont gratuit</h1>
@@ -116,6 +90,5 @@ document.getElementById('regForm').addEventListener('submit', async e => {
   btn.textContent = 'Creează Cont'; btn.disabled = false;
 });
 </script>
-<script src="/assets/js/global-nav.js" defer></script>
 </body>
 </html>

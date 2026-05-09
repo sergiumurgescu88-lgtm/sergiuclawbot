@@ -170,33 +170,8 @@ textarea.wz-field{min-height:48px;resize:vertical}
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 <link rel="stylesheet" href="/assets/css/premium-design.css">
-<link rel="stylesheet" href="/assets/css/global-nav.css">
 </head>
 <body>
-<nav class="global-nav" id="globalNav">
-  <div class="nav-container">
-    <a href="/" class="nav-logo">Agentul<span class="logo-accent">Meu</span></a>
-    <div class="nav-links desktop-only">
-      <a href="/wizard-form">Wizard</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/install-page">Instalare</a>
-      <a href="/docs">Docs</a>
-      <a href="/login">Autentificare</a>
-      <a href="/wizard-form" class="nav-cta">Începe Gratuit</a>
-    </div>
-    <button class="hamburger mobile-only" id="navToggle" aria-label="Meniu">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/wizard-form">🪄 Wizard</a>
-    <a href="/dashboard">📊 Dashboard</a>
-    <a href="/install-page">⚡ Instalare</a>
-    <a href="/docs">📚 Docs</a>
-    <a href="/login">🔑 Autentificare</a>
-    <a href="/wizard-form" class="mobile-cta">🚀 Începe Gratuit</a>
-  </div>
-  <div class="nav-overlay" id="navOverlay"></div>
-</nav>
-
 
 <div class="wz-shell">
   <!-- HEADER -->
@@ -918,6 +893,5 @@ function wizardStep8Handler() {
 document.addEventListener('DOMContentLoaded', wizardStep8Handler);
 </script>
 
-<script src="/assets/js/global-nav.js" defer></script>
 </body>
 </html>

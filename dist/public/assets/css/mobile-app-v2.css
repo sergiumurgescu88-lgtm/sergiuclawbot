@@ -1,0 +1,154 @@
+/* 📱 MOBILE-FIRST APP OVERRIDES (max-width: 768px) */
+@media (max-width: 768px) {
+  /* 1. Layout & Grids → 1 coloană */
+  .files-grid, .charts-grid, .stats-row, .steps-overview, .pricing-grid,
+  .wz-card-grid, .wz-stats-row, .framework-card, .report-section,
+  .form-section, .command-section, .instructions, .hero-cta {
+    grid-template-columns: 1fr !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* 2. Main Content Padding (evită suprapunerea cu bottom-nav) */
+  .main-content {
+    padding-top: 70px !important;
+    padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 3. Typography & Lizibilitate */
+  body, p, li, span, div, label, .subtitle, .faq-answer, .file-desc,
+  .wz-step-sub, .wz-adesc, .chart-bar-header, .stat-card .stat-value {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+  h1 { font-size: 1.7rem !important; line-height: 1.2 !important; }
+  h2 { font-size: 1.35rem !important; }
+  h3 { font-size: 1.1rem !important; }
+  .hero { padding: 90px 16px 32px !important; }
+  .hero h1 { font-size: 1.6rem !important; }
+
+  /* 4. Touch Targets ≥48px & iOS Zoom Fix */
+  button, a.btn, .wz-btn-next, .wz-btn-action, .btn-checkout, .btn-back,
+  .btn-next, .new-chat-btn, .send-btn, .copy-btn, .fs-btn, .wz-chat-toggle {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    border-radius: 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  input, textarea, select, .form-input, .wz-field-wrap input, .wz-field-wrap textarea {
+    min-height: 48px !important;
+    font-size: 16px !important; /* Previne zoom automat iOS */
+    padding: 12px 14px !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 5. Fixed Elements & Panels Mobile */
+  .bottom-nav {
+    height: calc(65px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  }
+  .mobile-menu { width: 85vw !important; max-width: 300px !important; }
+  
+  /* Sidebar & Chat Panels → Slide-over pe mobil */
+  .sidebar, aside.sidebar, .wz-chat-panel, .rp-body, .logs-panel {
+    position: fixed !important;
+    left: -100% !important;
+    top: 60px !important;
+    width: 88vw !important;
+    height: calc(100vh - 60px) !important;
+    transition: left 0.25s ease !important;
+    z-index: 950 !important;
+    border-radius: 0 16px 16px 0 !important;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4) !important;
+  }
+  .sidebar.open, aside.sidebar.open, .wz-chat-panel.open { left: 0 !important; }
+  .wz-chat-toggle { bottom: calc(75px + env(safe-area-inset-bottom)) !important; }
+
+  /* 6. Cards, Containers & Spacing */
+  .card, .faq-box, .price-display, .next-steps, .req-box, .info-box,
+  .wz-md-preview, pre, .chart-card, .stat-card, .file-card, .framework-card {
+    padding: 16px !important;
+    margin: 0 0 14px !important;
+    border-radius: 14px !important;
+  }
+  .hero-cta a { width: 100% !important; text-align: center !important; }
+  .wz-nav { flex-direction: column !important; gap: 10px !important; }
+  .wz-nav button { width: 100% !important; }
+
+  /* 7. Overflow & Scroll */
+  .code-block, pre, .wz-md-preview, table, .daily-chart, .features-list {
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  img, svg, video { max-width: 100% !important; height: auto !important; }
+}
+
+/* 🔧 AUDIT FIXES: iOS Zoom, Safe Area, Bottom Overlap */
+@media (max-width: 768px) {
+  /* 1. Force 16px on ALL interactive elements → previne iOS zoom */
+  input, textarea, select, button, a.btn, [role="button"],
+  .wz-field-wrap input, .wz-field-wrap textarea, .form-input,
+  .wz-btn-next, .wz-btn-action, .btn-checkout, .btn-back, .btn-next,
+  .new-chat-btn, .send-btn, .copy-btn, .fs-btn, .wz-chat-toggle {
+    font-size: 16px !important;
+    min-height: 48px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* 2. Ridică elementele fixed/sticky deasupra bottom nav + safe area */
+  [style*="position: fixed"][style*="bottom:"],
+  [style*="position: sticky"][style*="bottom:"],
+  .wz-chat-toggle, .fs-btn, .wz-chat-panel, .logs-panel,
+  .wz-nav, .wizard-actions {
+    bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* 3. Padding global pentru a evita conținut tăiat jos */
+  body, .main-content, .app, .wz-shell, main {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* 4. Safe-area top pentru header-e fixe (notch/dynamic island) */
+  nav, .nav-mobile, .topbar, .wz-header, header, .sb-header {
+    top: env(safe-area-inset-top, 0px) !important;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  /* 5. Previne overflow orizontal și layout shift */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    scroll-behavior: smooth !important;
+  }
+  *, *::before, *::after {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+/* 🔧 FORCE MOBILE OVERRIDES */
+@media (max-width: 768px) {
+  input, textarea, select, button, a, [role="button"], .btn {
+    font-size: 16px !important;
+    min-height: 48px !important;
+    -webkit-text-size-adjust: 100% !important;
+  }
+  [style*="bottom:"][style*="position: fixed"],
+  [style*="bottom:"][style*="position: sticky"],
+  .bottom-nav, .wz-chat-toggle, .fs-btn, .wz-nav {
+    bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  html, body, .main-content, .app, .wz-shell {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+    overflow-x: hidden !important;
+  }
+}

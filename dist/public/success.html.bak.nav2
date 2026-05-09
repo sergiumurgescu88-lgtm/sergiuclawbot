@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plată Anulată — AgentulMeu</title>
+<title>Plată Reușită — AgentulMeu</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#fff;--bg-2:#f8f9fa;--text:#111;--text-2:#555;--text-3:#888;--accent:#C9A227;--red:#dc2626;--border:rgba(0,0,0,0.06);--shadow-lg:0 12px 40px rgba(0,0,0,0.08);--radius-xl:28px}
+:root{--bg:#fff;--bg-2:#f8f9fa;--text:#111;--text-2:#555;--text-3:#888;--accent:#C9A227;--green:#16a34a;--border:rgba(0,0,0,0.06);--shadow-lg:0 12px 40px rgba(0,0,0,0.08);--radius-xl:28px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.6}
 .fade-in{animation:fadeInUp .5s ease-out both}
@@ -17,43 +19,42 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;box-shadow:0 4px 12px rgba(249,115,22,0.3)}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green),#15803d);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;box-shadow:0 4px 12px rgba(22,163,74,0.3)}
 .nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
 .nav-logo-text span{color:var(--accent)}
 .nav-links{display:flex;align-items:center;gap:24px}
 .nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
 .nav-links a:hover{color:var(--text)}
 .btn-nav{padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all .2s}
-.btn-nav-ghost{color:var(--text);border:1px solid var(--border-2);background:transparent}
-.btn-nav-ghost:hover{border-color:var(--text)}
+.btn-nav-primary{background:var(--accent);color:#fff}
+.btn-nav-primary:hover{transform:translateY(-1px)}
 
 main{flex:1;padding:88px 24px 60px;max-width:560px;margin:0 auto;width:100%;text-align:center}
 
-.cancel-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:48px 40px;box-shadow:var(--shadow-lg);animation:fadeInUp .5s ease-out both}
+.success-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:48px 40px;box-shadow:var(--shadow-lg);animation:fadeInUp .5s ease-out both}
 
-.x-circle{width:80px;height:80px;margin:0 auto 24px;animation:scaleIn .5s ease-out .2s both}
-.x-circle svg{width:100%;height:100%}
-.x-circle .circle{fill:none;stroke:var(--red);stroke-width:3;stroke-dasharray:166;stroke-dashoffset:166;animation:checkDraw .6s ease-out .4s forwards}
-.x-circle .x-mark{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round;stroke-dasharray:48;stroke-dashoffset:48;animation:checkDraw .3s ease-out .8s forwards}
-@keyframes checkDraw{to{stroke-dashoffset:0}}
+.check-circle{width:80px;height:80px;margin:0 auto 24px;animation:scaleIn .5s ease-out .2s both}
+.check-circle svg{width:100%;height:100%}
+.check-circle .circle{fill:none;stroke:var(--green);stroke-width:3;stroke-dasharray:166;stroke-dashoffset:166;animation:checkDraw .6s ease-out .4s forwards}
+.check-circle .check{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;stroke-dasharray:48;stroke-dashoffset:48;animation:checkDraw .3s ease-out .8s forwards}
 
-h1{font-size:1.6rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
+h1{font-size:1.6rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px;color:var(--green)}
 .subtitle{color:var(--text-2);font-size:0.92rem;margin-bottom:32px}
 
-.faq-box{text-align:left;background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:28px}
-.faq-box h3{font-size:0.9rem;font-weight:700;margin-bottom:16px}
-.faq-box p{color:var(--text-2);font-size:0.85rem;line-height:1.6;margin-bottom:12px}
-.faq-box p:last-child{margin-bottom:0}
-.faq-box strong{color:var(--text)}
+.next-steps{text-align:left;background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:28px}
+.next-steps h3{font-size:0.9rem;font-weight:700;margin-bottom:16px}
+.next-steps ol{padding-left:20px;color:var(--text-2);font-size:0.88rem}
+.next-steps li{margin-bottom:10px;line-height:1.5}
+.next-steps li strong{color:var(--text)}
 
-.btn-back{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:14px;border:none;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .3s ease;font-family:Inter,sans-serif;background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(249,115,22,0.25);text-decoration:none}
-.btn-back:hover{background:#ea580c;transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.35)}
+.btn-next{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:14px;border:none;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .3s ease;font-family:Inter,sans-serif;background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(249,115,22,0.25);text-decoration:none}
+.btn-next:hover{background:#ea580c;transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.35)}
 
 footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;border-top:1px solid var(--border)}
 
 @media(max-width:600px){
   .nav-links{display:none}
-  .cancel-card{padding:32px 24px}
+  .success-card{padding:32px 24px}
 }
 </style>
   
@@ -87,29 +88,43 @@ footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;bord
   <div class="nav-overlay" id="navOverlay"></div>
 </nav>
 
-
-
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/dashboard" class="btn-nav btn-nav-primary">Mergi la Dashboard</a>
+    </div>
+  </div>
+</nav>
 
 <main>
-  <div class="cancel-card">
-    <div class="x-circle">
+  <div class="success-card">
+    <div class="check-circle">
       <svg viewBox="0 0 52 52">
         <circle class="circle" cx="26" cy="26" r="25"/>
-        <path class="x-mark" d="M16 16l20 20M36 16L16 36"/>
+        <path class="check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
       </svg>
     </div>
     
-    <h1>Plata a fost anulată</h1>
-    <p class="subtitle">Contul tău rămâne neschimbat. Nu s-a efectuat nicio taxare.</p>
+    <h1>Plată reușită! 🎉</h1>
+    <p class="subtitle">Mulțumim! Contul tău a fost activat cu succes.</p>
     
-    <div class="faq-box">
-      <h3>❓ Întrebări frecvente:</h3>
-      <p><strong>Pot încerca din nou?</strong><br>Da, poți reveni oricând la pagina de checkout pentru a finaliza plata.</p>
-      <p><strong>Datele mele sunt în siguranță?</strong><br>Absolut. Nu stocăm date de card. Totul se procesează prin Stripe.</p>
-      <p><strong>Am nevoie de ajutor?</strong><br>Contactează-ne la <a href="mailto:suport@agentulmeu.online" style="color:var(--accent)">suport@agentulmeu.online</a></p>
+    <div class="next-steps">
+      <h3>📋 Următorii pași:</h3>
+      <ol>
+        <li><strong>Completează wizard-ul</strong> — Definește business-ul tău în 8 pași simpli</li>
+        <li><strong>Generează fișierele MD</strong> — AI-ul creează automat cele 9 module</li>
+        <li><strong>Instalează Hermes</strong> — O singură comandă pe VPS-ul tău</li>
+        <li><strong>Conectează canalele</strong> — Telegram, WhatsApp sau Web Chat</li>
+      </ol>
     </div>
     
-    <a href="/#pricing" class="btn-back">← Înapoi la Prețuri</a>
+    <a href="/dashboard" class="btn-next">🚀 Mergi la Dashboard</a>
   </div>
 </main>
 
