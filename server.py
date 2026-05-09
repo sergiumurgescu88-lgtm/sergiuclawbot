@@ -1435,7 +1435,7 @@ def wizard_ask_ai_public():
     try:
         import requests
         data = request.json or {}
-        question = data.get('question', '')
+        question = data.get('prompt') or data.get('question') or ''
         context = data.get('business_context', {})
         if not question:
             return jsonify({"success": False, "error": "Intrebarea este goala"}), 400
@@ -1450,23 +1450,15 @@ Context business (daca exista):
 Raspunde direct, in limba romana, in maxim 3-4 propozitii. Fara introduceri lungi. Fii practic si orientat spre actiune."""
 
         # Folosim cheia Gemini furnizată
-        gemini_key = "AIzaSyCyR_6s8QPP2Xm8VDyzL3b37RagWxcgpW4"
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
-        
-        payload = {
-            "contents": [
-                {
-                    "parts": [{"text": prompt}]
-                }
-            ]
-        }
-
-        resp = requests.post(url, json=payload, timeout=15)
+        OR_KEY = __import__("os").environ.get("OPENROUTER_API_KEY", "")
+        resp = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={"Authorization": "Bearer " + OR_KEY, "Content-Type": "application/json", "HTTP-Referer": "https://agentulmeu.online"},
+            json={"model": "google/gemini-2.0-flash-001", "messages": [{"role": "user", "content": prompt}], "max_tokens": 512},
+            timeout=20
+        )
         resp.raise_for_status()
-        result = resp.json()
-        
-        # Parsare răspuns Gemini
-        answer = result['candidates'][0]['content']['parts'][0]['text'].strip()
+        answer = resp.json()["choices"][0]["message"]["content"].strip()
         return jsonify({"success": True, "answer": answer})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
