@@ -1,161 +1,91 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Înregistrare — AgentulMeu.online</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --obsidian: #050c18; --navy: #0a1628; --gold: #d97706; --gold-light: #f59e0b;
-      --teal: #0d9488; --teal-light: #14b8a6; --warm-white: #f8f4ef;
-      --muted: #8b9ab5; --border: rgba(255,255,255,0.08); --error: #f87171; --success: #34d399;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'DM Sans', sans-serif; background: var(--obsidian); color: var(--warm-white);
-      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
-      background-image: linear-gradient(rgba(13,148,136,0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(13,148,136,0.03) 1px, transparent 1px);
-      background-size: 64px 64px;
-    }
-    .card {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 24px; padding: 2.5rem; max-width: 480px; width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
-    h1 { font-family: 'DM Serif Display', serif; font-size: 1.75rem; margin-bottom: 0.5rem; text-align: center; }
-    .subtitle { text-align: center; color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
-    .form-group { margin-bottom: 1.25rem; }
-    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--warm-white); }
-    input {
-      width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05); color: var(--warm-white); font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13,148,136,0.2); }
-    input::placeholder { color: var(--muted); }
-    .btn {
-      width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--obsidian); font-weight: 700; padding: 0.875rem; border-radius: 14px;
-      border: none; cursor: pointer; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(217,119,6,0.35); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .btn-ghost {
-      background: transparent; border: 1px solid var(--border); color: var(--warm-white);
-      margin-top: 1rem;
-    }
-    .btn-ghost:hover { border-color: var(--gold); }
-    .status { margin-top: 1rem; font-size: 0.9rem; min-height: 1.5rem; text-align: center; }
-    .status.error { color: var(--error); }
-    .status.success { color: var(--success); }
-    .footer { margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
-    .footer a { color: var(--teal); text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
-    .password-wrap { position: relative; }
-    .toggle-pass {
-      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem;
-    }
-    .toggle-pass:hover { color: var(--warm-white); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Înregistrare — AgentulMeu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff;color:#111;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.card{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:24px;padding:48px 40px;width:100%;max-width:460px;box-shadow:0 12px 40px rgba(0,0,0,0.06);animation:fadeInUp .5s ease-out}
+.logo{text-align:center;margin-bottom:32px}
+.logo-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#16a34a,#15803d);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:12px;box-shadow:0 4px 12px rgba(22,163,74,0.3);animation:float 4s ease-in-out infinite}
+h1{font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:4px}
+.subtitle{text-align:center;color:#888;font-size:0.88rem;margin-bottom:32px}
+label{display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px;color:#555}
+input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);background:#f8f9fa;font-size:0.92rem;font-family:Inter,sans-serif;transition:all .2s;color:#111}
+input:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,0.1);background:#fff}
+.btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .3s ease;font-family:Inter,sans-serif}
+.btn-primary{background:#16a34a;color:#fff;box-shadow:0 4px 12px rgba(22,163,74,0.25)}
+.btn-primary:hover{background:#15803d;transform:translateY(-2px);box-shadow:0 6px 20px rgba(22,163,74,0.35)}
+.link{text-align:center;margin-top:20px;font-size:0.85rem;color:#888}
+.link a{color:#16a34a;text-decoration:none;font-weight:600}
+.error{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);color:#dc2626;padding:10px 14px;border-radius:10px;font-size:0.82rem;margin-bottom:16px;display:none}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Creează cont</h1>
-    <p class="subtitle">Începe să-ți construiești agenții AI în 2 minute</p>
-    
-    <form id="registerForm">
-      <div class="form-group">
-        <label for="username">Nume utilizator *</label>
-        <input type="text" id="username" name="username" required minlength="3" maxlength="30" placeholder="ex: antreprenor_pro">
-      </div>
-      <div class="form-group">
-        <label for="email">Email *</label>
-        <input type="email" id="email" name="email" required placeholder="nume@business.ro">
-      </div>
-      <div class="form-group">
-        <label for="password">Parolă *</label>
-        <div class="password-wrap">
-          <input type="password" id="password" name="password" required minlength="6" placeholder="Minim 6 caractere">
-          <button type="button" class="toggle-pass" onclick="togglePass()">Arată</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="full_name">Nume complet (opțional)</label>
-        <input type="text" id="full_name" name="full_name" placeholder="Prenume Nume">
-      </div>
-      
-      <button type="submit" class="btn" id="submitBtn">
-        <span id="btnText">Creează cont gratuit</span>
-      </button>
-    </form>
-    
-    <div class="status" id="status"></div>
-    
-    <button class="btn btn-ghost" onclick="window.location.href='/login'">Ai deja cont? Autentifică-te</button>
-    
-    <div class="footer">
-      Prin înregistrare accepți <a href="#">Termenii</a> și <a href="#">Politica de confidențialitate</a>.
+<div class="card">
+  <div class="logo"><div class="logo-icon">A</div></div>
+  <h1>Creează cont gratuit</h1>
+  <p class="subtitle">Începe să-ți construiești agentul AI în 2 minute</p>
+  <div class="error" id="error"></div>
+  <form id="regForm" style="display:grid;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div><label for="username">Username *</label><input type="text" id="username" required placeholder="username"></div>
+      <div><label for="email">Email *</label><input type="email" id="email" required placeholder="email@exemplu.ro"></div>
     </div>
-  </div>
-
-  <script>
-    function togglePass() {
-      const p = document.getElementById('password');
-      p.type = p.type === 'password' ? 'text' : 'password';
-      event.target.textContent = p.type === 'password' ? 'Arată' : 'Ascunde';
+    <div><label for="full_name">Nume complet</label><input type="text" id="full_name" placeholder="Prenume Nume"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div><label for="password">Parolă *</label><input type="password" id="password" required placeholder="minim 6 caractere"></div>
+      <div><label for="password2">Confirmă parola *</label><input type="password" id="password2" required placeholder="repetă parola"></div>
+    </div>
+    <button type="submit" class="btn btn-primary">Creează Cont</button>
+  </form>
+  <p class="link">Ai deja cont? <a href="/login">Autentificare</a></p>
+</div>
+<script>
+document.getElementById('regForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = 'Se creează contul...'; btn.disabled = true;
+  const p1 = document.getElementById('password').value;
+  const p2 = document.getElementById('password2').value;
+  if (p1 !== p2) {
+    const err = document.getElementById('error');
+    err.textContent = 'Parolele nu coincid';
+    err.style.display = 'block';
+    btn.textContent = 'Creează Cont'; btn.disabled = false;
+    return;
+  }
+  try {
+    const r = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        password: p1,
+        full_name: document.getElementById('full_name').value
+      })
+    });
+    const d = await r.json();
+    if (d.token) {
+      localStorage.setItem('agentulmeu_token', d.token);
+      window.location.href = '/dashboard';
+    } else {
+      const err = document.getElementById('error');
+      err.textContent = d.error || 'Înregistrare eșuată';
+      err.style.display = 'block';
     }
-
-    document.getElementById('registerForm').onsubmit = async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      const btnText = document.getElementById('btnText');
-      const status = document.getElementById('status');
-      
-      btn.disabled = true;
-      btnText.textContent = 'Se creează contul...';
-      status.textContent = '';
-      status.className = 'status';
-
-      const data = {
-        username: document.getElementById('username').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        password: document.getElementById('password').value,
-        full_name: document.getElementById('full_name').value.trim()
-      };
-
-      try {
-        const res = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const json = await res.json();
-        
-        if (!res.ok) throw new Error(json.error || 'Eroare la înregistrare');
-        
-        status.textContent = '✓ Cont creat! Te redirecționăm...',
-        status.className = 'status success';
-        
-        // Salvează token dacă e returnat
-        if (json.token) localStorage.setItem('agentulmeu_token', json.token);
-        
-        // Redirect după 1.5s
-        setTimeout(() => {
-          window.location.href = json.redirect || '/dashboard';
-        }, 1500);
-        
-      } catch (err) {
-        console.error(err);
-        status.textContent = '✗ ' + err.message;
-        status.className = 'status error';
-        btn.disabled = false;
-        btnText.textContent = 'Creează cont gratuit';
-      }
-    };
-  </script>
+  } catch(e) {
+    document.getElementById('error').textContent = 'Eroare de conexiune';
+    document.getElementById('error').style.display = 'block';
+  }
+  btn.textContent = 'Creează Cont'; btn.disabled = false;
+});
+</script>
 </body>
 </html>

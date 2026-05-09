@@ -175,6 +175,56 @@ app.get('/api/genhealth', (_req, res) => {
 });
 
 // Single file
+
+// ═══ HYBRID AI ROUTING + CONFIDENCE CHECK ═══
+function needsFallback(content, intake) {
+  if (!content || content.length < 80) return true;
+  const lower = content.toLowerCase();
+  const negativeSignals = ['nu stiu', 'nu pot', 'nu am', 'nu sunt sigur', 'i cannot', 'i dont know', 'sorry', 'error'];
+  if (negativeSignals.some(s => lower.includes(s))) return true;
+  if (intake?.business_name && !content.toLowerCase().includes(intake.business_name.toLowerCase().substring(0, 4))) return true;
+  return false;
+}
+
+async function callAIWithFallback(prompt, intake, useKimiDirect = false) {
+  const OpenAI = require('openai');
+  
+  // Try Ollama first (fast, free, local)
+  if (!useKimiDirect) {
+    try {
+      const ollama = new OpenAI({ baseURL: 'http://localhost:11434/v1', apiKey: 'ollama' });
+      const res = await ollama.chat.completions.create({
+        model: 'llama3.2:1b',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 2000,
+        temperature: 0.7
+      });
+      const content = res.choices[0]?.message?.content || '';
+      if (!needsFallback(content, intake)) {
+        return { content, source: 'ollama-local', chars: content.length };
+      }
+      console.log('[HYBRID] Ollama weak response, falling back to Kimi...');
+    } catch (e) {
+      console.log('[HYBRID] Ollama unavailable, using Kimi:', e.message);
+    }
+  }
+  
+  // Fallback to Kimi k2.6 (high quality)
+  const kimi = new OpenAI({
+    baseURL: 'https://api.moonshot.ai/v1',
+    apiKey: process.env.KIMI_API_KEY
+  });
+  const res = await kimi.chat.completions.create({
+    model: 'kimi-k2.6',
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: 3000,
+    temperature: 0.5,
+    thinking: { type: 'disabled' }
+  });
+  const content = res.choices[0]?.message?.content || '';
+  return { content, source: 'kimi-k2.6', chars: content.length };
+}
+
 app.post('/api/generate-file', async (req, res) => {
   const { file_type, intake_data } = req.body || {};
   if (!PROMPTS[file_type]) return res.status(400).json({ error: 'Invalid file_type' });

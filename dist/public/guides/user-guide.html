@@ -2,279 +2,218 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<title>Ghid Utilizator - AgentulMeu.online</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghid de Utilizare — AgentulMeu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@page { size: A4; margin: 2cm; }
-body { font-family: Georgia, serif; line-height: 1.6; color: #333; max-width: 100%; }
-h1 { font-size: 28px; color: #0d47a1; border-bottom: 3px solid #0d47a1; padding-bottom: 10px; }
-h2 { font-size: 20px; color: #1565c0; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-top: 30px; }
-h3 { font-size: 16px; color: #1976d2; margin-top: 20px; }
-.cover { text-align: center; padding: 80px 0; }
-.cover h1 { font-size: 36px; border: none; color: #0d47a1; }
-.cover .subtitle { font-size: 18px; color: #666; margin-top: 20px; }
-.cover .version { font-size: 14px; color: #999; margin-top: 40px; }
-.step { border-left: 4px solid #0d47a1; padding-left: 15px; margin: 15px 0; }
-.tip { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 10px 15px; margin: 15px 0; }
-.warning { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px 15px; margin: 15px 0; }
-code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
-pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 13px; }
-ul li { margin: 8px 0; }
-.footer { text-align: center; font-size: 12px; color: #999; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--bg-2:#f8f9fa;--text:#111;--text-2:#555;--text-3:#888;--accent:#C9A227;--green:#16a34a;--blue:#2563eb;--border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);--shadow-lg:0 12px 40px rgba(0,0,0,0.08);--radius:12px;--radius-lg:16px}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.7}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff}
+.nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-nav-ghost{color:var(--text);border:1px solid var(--border-2);background:transparent}
+
+.guide-layout{display:grid;grid-template-columns:260px 1fr;gap:48px;max-width:1200px;margin:0 auto;padding:88px 24px 60px}
+
+.sidebar{position:sticky;top:88px;height:fit-content;max-height:calc(100vh - 112px);overflow-y:auto;padding-right:16px}
+.sidebar h3{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px}
+.sidebar-nav{list-style:none}
+.sidebar-nav li{margin-bottom:4px}
+.sidebar-nav a{display:block;padding:8px 12px;border-radius:8px;font-size:0.85rem;color:var(--text-2);text-decoration:none;transition:all .2s;border-left:2px solid transparent}
+.sidebar-nav a:hover{color:var(--text);background:var(--bg-2)}
+.sidebar-nav a.active{color:var(--accent);border-left-color:var(--accent);background:rgba(249,115,22,0.04)}
+
+.content h1{font-size:2rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
+.content h1 span{color:var(--accent)}
+.content .subtitle{color:var(--text-2);font-size:1rem;margin-bottom:48px}
+.content h2{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border)}
+.content h2:first-of-type{border:none;padding-top:0;margin-top:0}
+.content h3{font-size:1.1rem;font-weight:600;margin:24px 0 12px}
+.content p{color:var(--text-2);margin-bottom:16px;font-size:0.92rem}
+.content ul,.content ol{color:var(--text-2);margin:0 0 16px 20px;font-size:0.92rem}
+.content li{margin-bottom:8px}
+.content strong{color:var(--text);font-weight:600}
+.content a{color:var(--accent);text-decoration:none}
+.content a:hover{text-decoration:underline}
+.content code{font-family:'JetBrains Mono',monospace;font-size:0.82rem;background:var(--bg-2);padding:2px 6px;border-radius:4px;color:var(--green)}
+.content pre{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:16px 0 24px;overflow-x:auto}
+.content pre code{background:none;padding:0;color:var(--green);font-size:0.85rem;line-height:1.7}
+.info-box{border-radius:var(--radius);padding:16px 20px;margin:16px 0 24px;font-size:0.88rem;line-height:1.6}
+.info-box.tip{background:rgba(22,163,74,0.04);border:1px solid rgba(22,163,74,0.12);color:var(--text-2)}
+.info-box.warn{background:rgba(249,115,22,0.04);border:1px solid rgba(249,115,22,0.12);color:var(--text-2)}
+.info-box strong{color:var(--text)}
+.content table{width:100%;border-collapse:collapse;margin:16px 0 24px}
+.content th,.content td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:0.88rem}
+.content th{font-weight:600;color:var(--text-3);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em}
+.content td{color:var(--text-2)}
+
+footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;border-top:1px solid var(--border)}
+
+@media(max-width:900px){
+  .guide-layout{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none;border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:32px}
+  .sidebar-nav{display:flex;flex-wrap:wrap;gap:4px}
+  .sidebar-nav a{border-left:none;border-bottom:2px solid transparent;padding:6px 10px;font-size:0.8rem}
+  .sidebar-nav a.active{border-bottom-color:var(--accent);border-left-color:transparent}
+  .nav-links{display:none}
+}
 </style>
 </head>
 <body>
 
-<div class="cover">
-<h1>AgentulMeu.online</h1>
-<div class="subtitle">Ghid Utilizator - Cum sa Creezi si sa Folosesti Agenti AI</div>
-<div class="version">Versiunea 1.0 | Mai 2026</div>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/wizard">Wizard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+    </div>
+  </div>
+</nav>
+
+<div class="guide-layout">
+  <aside class="sidebar">
+    <h3>Cuprins</h3>
+    <ul class="sidebar-nav">
+      <li><a href="#intro" class="active">Introducere</a></li>
+      <li><a href="#install">Instalare</a></li>
+      <li><a href="#wizard">Wizard 8 Pași</a></li>
+      <li><a href="#files">Cele 9 Fișiere MD</a></li>
+      <li><a href="#hermes">Hermes Agent</a></li>
+      <li><a href="#channels">Canale de Comunicare</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <h1>Ghid de Utilizare <span>AgentulMeu</span></h1>
+    <p class="subtitle">Tot ce trebuie să știi pentru a crea, configura și gestiona agenții tăi AI.</p>
+
+    <h2 id="intro">📖 Introducere</h2>
+    <p><strong>AgentulMeu.online</strong> este platforma română de creare și gestionare a agenților AI pentru business-uri de orice dimensiune. Platforma generează automat un <strong>Knowledge Base</strong> complet (9 fișiere MD) pe baza informațiilor tale de business.</p>
+    <div class="info-box tip">
+      <strong>💡 Pentru cine este?</strong> Pentru business-uri românești non-tehnice care vor să automatizeze comunicarea cu clienții prin Telegram, WhatsApp sau Web Chat, fără să scrie cod.
+    </div>
+
+    <h2 id="install">⚡ Instalare</h2>
+    <p>Există două moduri de a instala agentul pe VPS-ul tău:</p>
+    <h3>Metoda 1: One-liner (Recomandat)</h3>
+    <pre><code>curl -fsSL https://agentulmeu.online/install | sudo bash</code></pre>
+    <h3>Metoda 2: Pagina Interactivă</h3>
+    <p>Vizitează <a href="/install-page">agentulmeu.online/install-page</a>, completează formularul și copiază comanda personalizată.</p>
+    <div class="info-box warn">
+      <strong>⚠️ Cerințe minime:</strong> Ubuntu 22.04+, 4GB RAM (8GB recomandat), 10GB disk, acces root/sudo.
+    </div>
+
+    <h2 id="wizard">🧙 Wizard 8 Pași</h2>
+    <p>Wizard-ul este instrumentul principal de configurare. Te ghidează prin toți pașii necesari:</p>
+    <table>
+      <tr><th>Pas</th><th>Ce completezi</th><th>Rezultat</th></tr>
+      <tr><td>1. Profil Business</td><td>Categorie, echipă, maturitate</td><td>Context general</td></tr>
+      <tr><td>2. Identitate</td><td>Nume, descriere, produse, prețuri</td><td>IDENTITY.md</td></tr>
+      <tr><td>3. Obiective</td><td>Scopuri, probleme, priorități</td><td>SOUL.md parțial</td></tr>
+      <tr><td>4. Echipa Agenți</td><td>Tipuri de agenți necesari</td><td>AGENTS.md</td></tr>
+      <tr><td>5. Canale</td><td>Telegram, WhatsApp, CRM</td><td>TOOLS.md</td></tr>
+      <tr><td>6. Personalitate</td><td>Ton, reguli, autonomie</td><td>SOUL.md complet</td></tr>
+      <tr><td>7. Context Tehnic</td><td>Nivel experiență, deadline</td><td>BOOTSTRAP.md</td></tr>
+      <tr><td>8. Review</td><td>Confirmare finală</td><td>Generare ZIP</td></tr>
+    </table>
+
+    <h2 id="files">📁 Cele 9 Fișiere MD</h2>
+    <table>
+      <tr><th>Fișier</th><th>Rol</th></tr>
+      <tr><td><strong>SOUL.md</strong></td><td>Personalitatea, valorile, regulile absolute</td></tr>
+      <tr><td><strong>IDENTITY.md</strong></td><td>Profilul business-ului, ton, limbă, program</td></tr>
+      <tr><td><strong>USER.md</strong></td><td>Profilul tău, preferințe, priorități</td></tr>
+      <tr><td><strong>MEMORY.md</strong></td><td>Context business, produse, prețuri, USP</td></tr>
+      <tr><td><strong>TOOLS.md</strong></td><td>Canale, CRM, API-uri, buget, comenzi</td></tr>
+      <tr><td><strong>AGENTS.md</strong></td><td>Sub-agenți specializați, workflow-uri</td></tr>
+      <tr><td><strong>HEARTBEAT.md</strong></td><td>Task-uri proactive, rutine, trigger-e</td></tr>
+      <tr><td><strong>BOOTSTRAP.md</strong></td><td>Checklist lansare, pași critici, fallback</td></tr>
+      <tr><td><strong>AGENT_RD.md</strong></td><td>Research framework, validare idei</td></tr>
+    </table>
+
+    <h2 id="hermes">🤖 Hermes Agent</h2>
+    <p><strong>Hermes Agent</strong> (de la Nous Research) este framework-ul open-source recomandat.</p>
+    <ul>
+      <li><strong>Learning loop nativ</strong> — devine mai bun în timp din interacțiuni</li>
+      <li><strong>SOUL.md în system prompt</strong> — exact ce generezi tu în wizard</li>
+      <li><strong>Arhitectură sigură</strong> — container hardening, self-hosted</li>
+    </ul>
+    <pre><code>hermes              # Start chat
+hermes setup        # Configurare API keys
+hermes config       # Vezi configurația
+hermes gateway      # Pornește gateway-ul
+hermes update       # Update la ultima versiune</code></pre>
+
+    <h2 id="channels">💬 Canale de Comunicare</h2>
+    <h3>Telegram</h3>
+    <ol>
+      <li>Deschide Telegram și caută <strong>@BotFather</strong></li>
+      <li>Trimite <code>/newbot</code> și urmează instrucțiunile</li>
+      <li>Copiază token-ul primit</li>
+      <li>Adaugă token-ul în <code>~/.hermes/.env</code></li>
+    </ol>
+
+    <h2 id="dashboard">📊 Dashboard</h2>
+    <p>Dashboard-ul (<a href="/dashboard">agentulmeu.online/dashboard</a>) este centrul tău de control:</p>
+    <ul>
+      <li><strong>Generare fișiere</strong> — Generează individual sau toate cele 9 fișiere MD</li>
+      <li><strong>Progress live</strong> — Vezi statusul generării în timp real (SSE)</li>
+      <li><strong>Preview & Download</strong> — Vizualizează și descarcă fiecare fișier</li>
+      <li><strong>ZIP Export</strong> — Descarcă toate fișierele într-un singur arhivă</li>
+    </ul>
+
+    <h2 id="troubleshooting">🔧 Troubleshooting</h2>
+    <h3>Agentul nu pornește</h3>
+    <pre><code>systemctl status hermes-agent
+journalctl -u hermes-agent -f</code></pre>
+    <h3>Ollama nu răspunde</h3>
+    <pre><code>systemctl restart ollama
+ollama list</code></pre>
+
+    <h2 id="faq">❓ FAQ</h2>
+    <p><strong>Am nevoie de cunoștințe tehnice?</strong><br>Nu. Wizard-ul este complet ghidat. Instalarea se face cu o singură comandă.</p>
+    <p><strong>Ce se întâmplă cu datele mele?</strong><br>Totul rulează pe VPS-ul tău. Datele nu pleacă nicăieri — 100% self-hosted.</p>
+    <div class="info-box tip">
+      <strong>📞 Ai nevoie de ajutor?</strong> Contactează-ne la <a href="mailto:suport@agentulmeu.online">suport@agentulmeu.online</a> sau alege planul <strong>Done-For-You</strong>.
+    </div>
+  </main>
 </div>
 
-<h2>Cuprins</h2>
-<ol>
-<li>Ce este AgentulMeu.online?</li>
-<li>Cum creezi un cont</li>
-<li>Cum creezi primul tau agent AI</li>
-<li>Cum folosesti chat-ul cu agentul</li>
-<li>Cum configurezi alertele Telegram</li>
-<li>Dashboard - Monitorizare sistem</li>
-<li>Comenzi utile pentru mentenanta</li>
-<li>Solutii pentru probleme comune</li>
-</ol>
+<footer>© 2026 AgentulMeu.online · Made in România 🇷🇴</footer>
 
-<h2>1. Ce este AgentulMeu.online?</h2>
-<p>AgentulMeu.online este o platforma care iti permite sa creezi, antrenezi si interactionezi cu agenti AI autonomi specializati pentru business-ul tau. Fiecare agent are un rol specific:</p>
-<ul>
-<li><strong>Hunter</strong> - Gaseste si califica prospecti</li>
-<li><strong>Writer</strong> - Genereaza continut marketing</li>
-<li><strong>Closer</strong> - Converteste lead-uri in vanzari</li>
-<li><strong>Support</strong> - Raspunde la intrebari clienti</li>
-<li><strong>Analyst</strong> - Analizeaza metrici si trenduri</li>
-<li><strong>Scout</strong> - Monitorizeaza competitori</li>
-</ul>
-
-<div class="tip">
-Agentii functioneaza local pe serverul tau prin Ollama LLM, deci datele tale raman private.
-</div>
-
-<h2>2. Cum creezi un cont</h2>
-<div class="step">
-<h3>Pasul 1 - Acceseaza pagina de inregistrare</h3>
-<p>Deschide <code>https://agentulmeu.online/register</code> in browser.</p>
-</div>
-<div class="step">
-<h3>Pasul 2 - Completeaza formularul</h3>
-<ul>
-<li><strong>Nume complet</strong> - Cum vrei sa apari in platforma</li>
-<li><strong>Username</strong> - Un nume unic de utilizator</li>
-<li><strong>Email</strong> - Adresa ta de email</li>
-<li><strong>Parola</strong> - Minim 6 caractere</li>
-<li><strong>Confirma parola</strong> - Trebuie sa coincida</li>
-</ul>
-</div>
-<div class="step">
-<h3>Pasul 3 - Valideaza informatiile</h3>
-<p>Formularul verifica automat daca username-ul este disponibil si daca parolele coincid.</p>
-</div>
-<div class="step">
-<h3>Pasul 4 - Submit</h3>
-<p>Apasa butonul "Creeaza Cont". Vei fi redirectionat automat la pagina de login.</p>
-</div>
-
-<div class="tip">
-Dupa inregistrare, foloseste butonul "Intra in cont" pentru a te autentifica.
-</div>
-
-<h2>3. Cum creezi primul tau agent AI</h2>
-<div class="step">
-<h3>Pasul 1 - Navigheaza la "Creeaza Agent"</h3>
-<p>Din meniul principal sau Dashboard, apasa pe "Creeaza Agent Nou".</p>
-</div>
-<div class="step">
-<h3>Pasul 2 - Alege tipul de agent</h3>
-<p>Selecteaza unul din cele 6 tipuri disponibile:</p>
-<ul>
-<li>Hunter - pentru generarea de lead-uri</li>
-<li>Writer - pentru continut marketing</li>
-<li>Closer - pentru vanzari</li>
-<li>Support - pentru suport clienti</li>
-<li>Analyst - pentru analiza datelor</li>
-<li>Scout - pentru intelligence de piata</li>
-</ul>
-</div>
-<div class="step">
-<h3>Pasul 3 - Configureaza identitatea</h3>
-<ul>
-<li><strong>Numele agentului</strong> - ex: "NeoTerm Hunter"</li>
-<li><strong>Numele business-ului</strong> - ex: "NeoTerm.ro"</li>
-<li><strong>Descriere</strong> - Cu ce se ocupa business-ul</li>
-</ul>
-</div>
-<div class="step">
-<h3>Pasul 4 - Seteaza contextul</h3>
-<ul>
-<li><strong>Regiune</strong> - Zona geografica tinta</li>
-<li><strong>Client ideal</strong> - Profilul clientului tinta</li>
-<li><strong>USP</strong> - Ce te diferentiaza</li>
-<li><strong>Ton de voce</strong> - Cum vorbeste agentul</li>
-<li><strong>Canale</strong> - Email, Telegram, WhatsApp</li>
-</ul>
-</div>
-<div class="step">
-<h3>Pasul 5 - Configureaza regulile</h3>
-<ul>
-<li><strong>Nivel de autonomie</strong> - Manual / Semi / Full</li>
-<li><strong>Reguli absolute</strong> - Ce NU are voie sa faca</li>
-</ul>
-</div>
-<div class="step">
-<h3>Pasul 6 - Lanseaza agentul</h3>
-<p>Apasa "Lanseaza Agentul". Sistemul va genera automat fisierul .AGENT.md prin AI (Ollama).</p>
-</div>
-
-<div class="warning">
-Generarea dureaza 30-120 secunde in functie de modelul LLM selectat. Nu inchide pagina!
-</div>
-
-<h2>4. Cum folosesti chat-ul cu agentul</h2>
-<div class="step">
-<h3>Pasul 1 - Acceseaza lista de agenti</h3>
-<p>Mergi la <code>https://agentulmeu.online/agents</code> pentru a vedea toti agentii creati.</p>
-</div>
-<div class="step">
-<h3>Pasul 2 - Deschide chat-ul</h3>
-<p>Apasa butonul "Deschide Chat" pe card-ul agentului dorit.</p>
-</div>
-<div class="step">
-<h3>Pasul 3 - Conversationeaza</h3>
-<p>Scrie mesajul tau si apasa Enter sau butonul de trimitere. Agentul va raspunde folosind modelul AI local.</p>
-</div>
-
-<div class="tip">
-<strong>Suggestion buttons:</strong> Foloseste butoanele rapide de sub chat pentru intrebari frecvente.
-</div>
-
-<h3>Functionalitati chat</h3>
-<ul>
-<li><strong>Istoric</strong> - Conversatiile sunt salvate in localStorage</li>
-<li><strong>Copy</strong> - Copiaza orice mesaj cu click pe iconita</li>
-<li><strong>Clear</strong> - Sterge conversatia curenta</li>
-<li><strong>Typing indicator</strong> - Vezi cand agentul "scrie"</li>
-</ul>
-
-<h2>5. Cum configurezi alertele Telegram</h2>
-<div class="step">
-<h3>Pasul 1 - Obtine un bot Telegram</h3>
-<p>Vorbeste cu <code>@BotFather</code> pe Telegram si creeaza un bot nou. Copiaza token-ul.</p>
-</div>
-<div class="step">
-<h3>Pasul 2 - Obtine chat ID</h3>
-<p>Trimite un mesaj bot-ului tau, apoi acceseaza <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code> pentru a afla chat_id.</p>
-</div>
-<div class="step">
-<h3>Pasul 3 - Configureaza pe VPS</h3>
-<pre>echo "TELEGRAM_BOT_TOKEN=token_tau" >> /var/www/agentulmeu.online/.env
-echo "TELEGRAM_ADMIN_CHAT_ID=chat_id_tau" >> /var/www/agentulmeu.online/.env</pre>
-</div>
-<div class="step">
-<h3>Pasul 4 - Testeaza</h3>
-<pre>alert-me test "Primul meu alerta!"</pre>
-</div>
-
-<div class="tip">
-Vei primi alerte automat pentru: backup complet, service down, resurse critice.
-</div>
-
-<h2>6. Dashboard - Monitorizare sistem</h2>
-<p>Dashboard-ul ofera o vedere de ansamblu in timp real asupra sistemului:</p>
-<ul>
-<li><strong>API Flask</strong> - Status backend</li>
-<li><strong>Hermes Agent</strong> - Disponibilitate framework</li>
-<li><strong>Ollama LLM</strong> - Conexiune model AI</li>
-<li><strong>Agenti activi</strong> - Numarul de agenti creati</li>
-</ul>
-
-<h3>Badge-ul de status</h3>
-<ul>
-<li><strong>Verde</strong> - Toate serviciile functionale</li>
-<li><strong>Galben</strong> - Un serviciu are probleme</li>
-<li><strong>Rosu</strong> - API sau Hermes offline</li>
-</ul>
-
-<h3>Click pe badge</h3>
-<p>Deschide un modal cu detalii tehnice: uptime, timp de raspuns, spatiu disk, ultimul backup.</p>
-
-<h2>7. Comenzi utile pentru mentenanta</h2>
-
-<h3>Status si monitorizare</h3>
-<pre>
-agentulmeu-status              # Status rapid al sistemului
-agentulmeu-health              # Verificare health manuala
-</pre>
-
-<h3>Backup</h3>
-<pre>
-agentulmeu-backup              # Backup manual
-ls /opt/backups/agentulmeu/daily/  # Lista backup-uri
-</pre>
-
-<h3>Telegram</h3>
-<pre>
-alert-me "Mesaj personalizat"  # Trimite alerta manuala
-</pre>
-
-<h3>Log-uri</h3>
-<pre>
-tail -f /var/log/agentulmeu/health.log   # Monitorizare in timp real
-tail -f /var/log/agentulmeu/backup.log   # Log backup
-tail -f /var/log/agentulmeu/telegram.log # Log alerte
-</pre>
-
-<h3>Servicii sistem</h3>
-<pre>
-sudo systemctl restart agentulmeu-flask  # Restart backend
-sudo systemctl restart nginx             # Restart web server
-sudo systemctl status agentulmeu-flask   # Status serviciu
-</pre>
-
-<h2>8. Solutii pentru probleme comune</h2>
-
-<h3>"Conectare pierduta" in browser</h3>
-<div class="warning">
-Verifica ca Flask sa ruleze: <code>systemctl status agentulmeu-flask</code>. Daca e oprit: <code>systemctl restart agentulmeu-flask</code>
-</div>
-
-<h3>Agentul nu raspunde in chat</h3>
-<ol>
-<li>Verifica Ollama: <code>ollama list</code></li>
-<li>Asigura-te ca modelul llama3.2:1b e descarcat: <code>ollama pull llama3.2:1b</code></li>
-<li>Verifica log-urile: <code>journalctl -u agentulmeu-flask -n 20</code></li>
-</ol>
-
-<h3>Eroare 401 la salvare agent</h3>
-<div class="warning">
-Trebuie sa fii autentificat. Daca sesiunea a expirat, reautentifica-te la /login.
-</div>
-
-<h3>Nu primesc alerte Telegram</h3>
-<ol>
-<li>Verifica token-ul: <code>grep TELEGRAM /var/www/agentulmeu.online/.env</code></li>
-<li>Verifica chat ID-ul</li>
-<li>Testeaza manual: <code>alert-me test</code></li>
-</ol>
-
-<h3>Backup nu functioneaza</h3>
-<ol>
-<li>Verifica directorul: <code>ls -la /opt/backups/agentulmeu/daily/</code></li>
-<li>Verifica cron: <code>crontab -l | grep agentulmeu</code></li>
-<li>Ruleaza manual: <code>agentulmeu-backup</code></li>
-</ol>
-
-<div class="footer">
-<p>AgentulMeu.online - Agenti AI autonomi pentru business-ul tau romanesc</p>
-<p>Documentatie completa: https://github.com/sergiumurgescu88-lgtm/agentulmeu-online</p>
-<p>Suport: Deschide un issue pe GitHub sau contacteaza prin Telegram</p>
-</div>
-
+<script>
+const sections = document.querySelectorAll('h2[id]');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
 </body>
 </html>

@@ -3,83 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plată reușită — AgentulMeu.online</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Plată Reușită — AgentulMeu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--obsidian:#050c18;--navy:#0a1628;--navy-2:#0f2040;--gold:#d97706;--gold-light:#f59e0b;--gold-pale:#fbbf24;--teal:#0d9488;--teal-light:#14b8a6;--warm-white:#f8f4ef;--muted:#8b9ab5;}
-body{font-family:'DM Sans',sans-serif;background:var(--obsidian);color:var(--warm-white);min-height:100vh;display:flex;flex-direction:column;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
-nav{position:relative;z-index:10;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);}
-.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--warm-white);text-decoration:none;}
-.logo span{color:var(--gold);}
-main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;}
-.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:56px 48px;width:100%;max-width:520px;text-align:center;}
-.icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(13,148,136,0.2),rgba(13,148,136,0.05));border:2px solid rgba(13,148,136,0.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 28px;}
-.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px;justify-content:center;}
-.eyebrow::before,.eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(13,148,136,0.4));}
-.eyebrow::after{background:linear-gradient(90deg,rgba(13,148,136,0.4),transparent);}
-.eyebrow span{font-size:0.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-light);white-space:nowrap;}
-h1{font-family:'DM Serif Display',serif;font-size:2.2rem;margin-bottom:12px;line-height:1.2;}
-.subtitle{color:var(--muted);font-size:1rem;margin-bottom:36px;line-height:1.6;}
-.plan-badge{display:inline-block;background:linear-gradient(135deg,rgba(217,119,6,0.15),rgba(245,158,11,0.08));border:1px solid rgba(217,119,6,0.3);border-radius:50px;padding:8px 20px;font-size:0.85rem;color:var(--gold-pale);font-weight:600;margin-bottom:32px;letter-spacing:.05em;}
-.steps{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;margin-bottom:32px;text-align:left;}
-.steps-title{font-size:0.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px;}
-.step{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
-.step:last-child{margin-bottom:0;}
-.step-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
-.step-text{font-size:0.9rem;color:var(--warm-white);line-height:1.4;}
-.step-text span{color:var(--muted);font-size:0.82rem;display:block;margin-top:2px;}
-.btn-gold{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;border:none;border-radius:12px;padding:14px 32px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s;}
-.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
-.btn-ghost{display:inline-block;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 28px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;text-decoration:none;transition:all .2s;margin-left:12px;}
-.btn-ghost:hover{color:var(--warm-white);border-color:rgba(255,255,255,0.2);}
-footer{position:relative;z-index:1;text-align:center;padding:24px;color:var(--muted);font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.04);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--bg-2:#f8f9fa;--text:#111;--text-2:#555;--text-3:#888;--accent:#C9A227;--green:#16a34a;--border:rgba(0,0,0,0.06);--shadow-lg:0 12px 40px rgba(0,0,0,0.08);--radius-xl:28px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.6}
+.fade-in{animation:fadeInUp .5s ease-out both}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green),#15803d);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;box-shadow:0 4px 12px rgba(22,163,74,0.3)}
+.nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-nav-primary{background:var(--accent);color:#fff}
+.btn-nav-primary:hover{transform:translateY(-1px)}
+
+main{flex:1;padding:88px 24px 60px;max-width:560px;margin:0 auto;width:100%;text-align:center}
+
+.success-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:48px 40px;box-shadow:var(--shadow-lg);animation:fadeInUp .5s ease-out both}
+
+.check-circle{width:80px;height:80px;margin:0 auto 24px;animation:scaleIn .5s ease-out .2s both}
+.check-circle svg{width:100%;height:100%}
+.check-circle .circle{fill:none;stroke:var(--green);stroke-width:3;stroke-dasharray:166;stroke-dashoffset:166;animation:checkDraw .6s ease-out .4s forwards}
+.check-circle .check{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;stroke-dasharray:48;stroke-dashoffset:48;animation:checkDraw .3s ease-out .8s forwards}
+
+h1{font-size:1.6rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px;color:var(--green)}
+.subtitle{color:var(--text-2);font-size:0.92rem;margin-bottom:32px}
+
+.next-steps{text-align:left;background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:28px}
+.next-steps h3{font-size:0.9rem;font-weight:700;margin-bottom:16px}
+.next-steps ol{padding-left:20px;color:var(--text-2);font-size:0.88rem}
+.next-steps li{margin-bottom:10px;line-height:1.5}
+.next-steps li strong{color:var(--text)}
+
+.btn-next{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:14px;border:none;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .3s ease;font-family:Inter,sans-serif;background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(249,115,22,0.25);text-decoration:none}
+.btn-next:hover{background:#ea580c;transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.35)}
+
+footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;border-top:1px solid var(--border)}
+
+@media(max-width:600px){
+  .nav-links{display:none}
+  .success-card{padding:32px 24px}
+}
 </style>
 </head>
 <body>
+
 <nav>
-  <a href="/" class="logo">Agentul<span>Meu</span></a>
-</nav>
-<main>
-  <div class="card">
-    <div class="icon">✓</div>
-    <div class="eyebrow"><span>Plată confirmată</span></div>
-    <h1>Bine ai venit!</h1>
-    <p class="subtitle">Plata a fost procesată cu succes. Contul tău a fost activat și poți începe să îți configurezi agentul AI.</p>
-    <div class="plan-badge" id="planBadge">Plan activat</div>
-    <div class="steps">
-      <div class="steps-title">Pașii următori</div>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text">Completează Wizard-ul de configurare
-          <span>8 pași simpli pentru a-ți defini agentul perfect</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text">Generează fișierele agentului tău
-          <span>SOUL, IDENTITY, MEMORY și alte 6 fișiere — ~15 minute</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">Descarcă și instalează agentul
-          <span>ZIP cu toate fișierele gata de instalare pe Hermes</span>
-        </div>
-      </div>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/dashboard" class="btn-nav btn-nav-primary">Mergi la Dashboard</a>
     </div>
-    <a href="/dashboard" class="btn-gold">Mergi la Dashboard →</a>
-    <a href="/" class="btn-ghost">Acasă</a>
+  </div>
+</nav>
+
+<main>
+  <div class="success-card">
+    <div class="check-circle">
+      <svg viewBox="0 0 52 52">
+        <circle class="circle" cx="26" cy="26" r="25"/>
+        <path class="check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+    
+    <h1>Plată reușită! 🎉</h1>
+    <p class="subtitle">Mulțumim! Contul tău a fost activat cu succes.</p>
+    
+    <div class="next-steps">
+      <h3>📋 Următorii pași:</h3>
+      <ol>
+        <li><strong>Completează wizard-ul</strong> — Definește business-ul tău în 8 pași simpli</li>
+        <li><strong>Generează fișierele MD</strong> — AI-ul creează automat cele 9 module</li>
+        <li><strong>Instalează Hermes</strong> — O singură comandă pe VPS-ul tău</li>
+        <li><strong>Conectează canalele</strong> — Telegram, WhatsApp sau Web Chat</li>
+      </ol>
+    </div>
+    
+    <a href="/dashboard" class="btn-next">🚀 Mergi la Dashboard</a>
   </div>
 </main>
-<footer>© 2026 AgentulMeu.online</footer>
-<script>
-const params = new URLSearchParams(window.location.search);
-const plan = params.get('plan') || '';
-const badge = document.getElementById('planBadge');
-const names = {starter:'Starter — $29/lună', professional:'Professional — $99/lună', doneforyou:'Done-For-You — $299'};
-if(names[plan]) badge.textContent = names[plan] + ' ✓';
-</script>
+
+<footer>© 2026 AgentulMeu.online · Made in România 🇷🇴</footer>
 </body>
 </html>

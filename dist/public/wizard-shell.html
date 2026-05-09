@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wizard — AgentulMeu</title>
+<meta name="description" content="Generează 9 fișiere MD perfect configurate pentru agentul tău AI. Setup automat. Fără cod.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg-2:#fafafa;--bg-3:#f5f5f5;
+  --text:#0a0a0a;--text-2:#444;--text-3:#777;
+  --gold:#C9A227;--gold-light:#E8C547;--gold-dark:#A68521;
+  --gold-glow:rgba(201,162,39,0.12);
+  --gold-gradient:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);
+  --gold-shadow:0 8px 32px rgba(201,162,39,0.25);
+  --gold-shadow-lg:0 16px 48px rgba(201,162,39,0.3);
+  --green:#16a34a;--blue:#2563eb;--purple:#7c3aed;
+  --border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md:0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg:0 16px 48px rgba(0,0,0,0.08);
+  --shadow-xl:0 24px 64px rgba(0,0,0,0.10);
+  --radius:16px;--radius-lg:20px;--radius-xl:28px;
+}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.6}
+.fade-in{animation:fadeInUp .6s ease-out both}
+.float{animation:float 6s ease-in-out infinite}
+
+/* ═══ NAV PREMIUM ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:38px;height:38px;border-radius:11px;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:#0a0a0a;box-shadow:var(--gold-shadow)}
+.nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-nav-ghost{color:var(--text);border:1px solid var(--border-2);background:transparent}
+.btn-nav-ghost:hover{border-color:var(--gold);color:var(--gold-dark)}
+.btn-nav-primary{background:var(--gold-gradient);color:#0a0a0a;box-shadow:var(--gold-shadow);border:none}
+.btn-nav-primary:hover{transform:translateY(-2px);box-shadow:var(--gold-shadow-lg)}
+
+/* ═══ HERO ═══ */
+.hero{padding:120px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(201,162,39,0.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-glow);border:1px solid rgba(201,162,39,0.2);border-radius:999px;padding:8px 18px 8px 12px;font-size:0.82rem;font-weight:600;color:var(--gold-dark);margin-bottom:24px;animation:fadeInUp .6s ease-out both}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;letter-spacing:-0.04em;line-height:1.1;margin-bottom:16px;animation:fadeInUp .6s ease-out .1s both}
+.hero h1 .gold{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--text-2);font-size:1.1rem;max-width:600px;margin:0 auto 32px;line-height:1.7;animation:fadeInUp .6s ease-out .2s both}
+.hero-cta{animation:fadeInUp .6s ease-out .3s both}
+
+/* ═══ PREMIUM GOLD BUTTON ═══ */
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:14px;
+  background:var(--gold-gradient);color:#0a0a0a;
+  font-size:1rem;font-weight:700;text-decoration:none;
+  box-shadow:var(--gold-shadow);border:none;cursor:pointer;
+  transition:all .3s cubic-bezier(0.25,0.46,0.45,0.94);
+  position:relative;overflow:hidden;font-family:Inter,sans-serif;
+}
+.btn-gold::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+  transition:left .6s ease;
+}
+.btn-gold:hover::before{left:100%}
+.btn-gold:hover{transform:translateY(-4px);box-shadow:var(--gold-shadow-lg)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-gold:disabled::before{display:none}
+
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 28px;border-radius:14px;
+  background:var(--bg);color:var(--text);
+  font-size:0.92rem;font-weight:600;text-decoration:none;
+  border:1.5px solid var(--border-2);box-shadow:var(--shadow-sm);
+  transition:all .3s ease;cursor:pointer;font-family:Inter,sans-serif;
+}
+.btn-outline:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(201,162,39,0.15);transform:translateY(-2px)}
+
+/* ═══ FILES GRID PREMIUM ═══ */
+.files-section{padding:0 24px 80px;max-width:1100px;margin:0 auto;width:100%}
+.files-section h2{font-size:1.3rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px;text-align:center}
+.files-section .subtitle{color:var(--text-2);font-size:0.95rem;text-align:center;margin-bottom:40px}
+
+.files-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.file-card{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px 24px;
+  position:relative;overflow:hidden;
+  transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.file-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold-gradient);opacity:0;transition:opacity .3s ease;
+}
+.file-card:hover{
+  transform:translateY(-8px);box-shadow:var(--shadow-xl);
+  border-color:rgba(201,162,39,0.2);
+}
+.file-card:hover::after{opacity:1}
+
+.file-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--gold-glow);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:16px;
+}
+.file-name{font-size:0.95rem;font-weight:700;margin-bottom:4px}
+.file-desc{font-size:0.8rem;color:var(--text-3);margin-bottom:16px;line-height:1.5;min-height:36px}
+.file-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:999px;
+  font-size:0.72rem;font-weight:600;margin-bottom:16px;
+}
+.file-status.pending{background:var(--bg-3);color:var(--text-3)}
+.file-status.generating{background:var(--gold-glow);color:var(--gold-dark)}
+.file-status.generating .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite}
+.file-status.done{background:rgba(22,163,74,0.08);color:var(--green);border:1px solid rgba(22,163,74,0.15)}
+
+.file-actions{display:flex;gap:8px}
+.file-actions .btn{flex:1;justify-content:center;padding:8px 12px;font-size:0.78rem;border-radius:10px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:Inter,sans-serif}
+.file-actions .btn-generate{background:var(--gold-gradient);color:#0a0a0a;box-shadow:0 4px 12px rgba(201,162,39,0.2);position:relative;overflow:hidden}
+.file-actions .btn-generate::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s ease}
+.file-actions .btn-generate:hover::before{left:100%}
+.file-actions .btn-generate:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,162,39,0.3)}
+.file-actions .btn-preview{background:var(--bg-3);color:var(--text)}
+.file-actions .btn-preview:hover{background:var(--border)}
+.file-actions .btn-download{background:var(--green);color:#fff}
+.file-actions .btn-download:hover{opacity:.85}
+
+/* ═══ FAQ ═══ */
+.faq-section{padding:0 24px 80px;max-width:700px;margin:0 auto;width:100%}
+.faq-section h2{font-size:1.3rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:32px;text-align:center}
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0}
+.faq-question{font-weight:600;font-size:0.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .2s}
+.faq-question:hover{color:var(--gold-dark)}
+.faq-answer{color:var(--text-2);font-size:0.88rem;line-height:1.6;margin-top:12px;display:none}
+.faq-item.open .faq-answer{display:block}
+.faq-item.open .faq-toggle{transform:rotate(45deg)}
+.faq-toggle{font-size:1.2rem;color:var(--text-3);transition:transform .3s ease}
+
+/* ═══ FOOTER ═══ */
+footer{text-align:center;padding:32px;color:var(--text-3);font-size:0.78rem;border-top:1px solid var(--border)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .files-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+}
+@media(max-width:600px){
+  .files-grid{grid-template-columns:1fr}
+  .hero{padding:100px 16px 40px}
+  .files-section,.faq-section{padding:0 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/wizard" style="color:var(--text);font-weight:600">Wizard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/docs">Docs</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+      <a href="/dashboard" class="btn-nav btn-nav-primary">Dashboard →</a>
+    </div>
+  </div>
+</nav>
+
+<main style="flex:1">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span class="dot"></span> Wizard 8 Pași · AI Assist · Gratuit</div>
+    <h1>Telefonul tău<br>devine cel mai <span class="gold">bun angajat</span></h1>
+    <p>Generează 9 fișiere MD perfect configurate pentru agentul tău AI. Setup automat pe Android sau VPS. Fără cod. Fără complicații.</p>
+    <div class="hero-cta" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="/dashboard" class="btn-gold">📁 Completează Cele 9 Fișiere Gratuit</a>
+      <a href="/install-page" class="btn-outline">⚡ Instalare pe VPS</a>
+    </div>
+  </section>
+
+  <!-- FILES GRID -->
+  <section class="files-section">
+    <h2>📁 Cele 9 Fișiere MD — Structură Completă</h2>
+    <p class="subtitle">Fiecare fișier este generat cu AI assist, validat pentru consistență și gata de import în OpenClaw sau Hermes.</p>
+    
+    <div class="files-grid">
+      <div class="file-card fade-in">
+        <div class="file-icon">🎯</div>
+        <div class="file-name">SOUL.md</div>
+        <div class="file-desc">Misiune, valori, reguli absolute, autonomie</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.1s">
+        <div class="file-icon">🪪</div>
+        <div class="file-name">IDENTITY.md</div>
+        <div class="file-desc">Profil agent, ton, limbă, program de lucru</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.2s">
+        <div class="file-icon">👤</div>
+        <div class="file-name">USER.md</div>
+        <div class="file-desc">Profilul tău, preferințe, priorități 90 zile</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.3s">
+        <div class="file-icon">🧠</div>
+        <div class="file-name">MEMORY.md</div>
+        <div class="file-desc">Context business, produse, prețuri, USP</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.4s">
+        <div class="file-icon">🛠️</div>
+        <div class="file-name">TOOLS.md</div>
+        <div class="file-desc">Canale, CRM, API-uri AI, buget, comenzi</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.5s">
+        <div class="file-icon">🤖</div>
+        <div class="file-name">AGENTS.md</div>
+        <div class="file-desc">Echipa de sub-agenți, workflow-uri, pipeline</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.6s">
+        <div class="file-icon">💓</div>
+        <div class="file-name">HEARTBEAT.md</div>
+        <div class="file-desc">Task-uri proactive, rutine, trigger-e, alerte</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.7s">
+        <div class="file-icon">🚀</div>
+        <div class="file-name">BOOTSTRAP.md</div>
+        <div class="file-desc">Checklist lansare, pași critici, fallback plan</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+
+      <div class="file-card fade-in" style="animation-delay:.8s">
+        <div class="file-icon">🔬</div>
+        <div class="file-name">AGENT_RD.md</div>
+        <div class="file-desc">Research framework, validare idei, surse</div>
+        <div class="file-status pending">Negenerat</div>
+        <div class="file-actions">
+          <button class="btn btn-generate" onclick="window.location.href='/dashboard'">⚡ Generează</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>❓ Întrebări Frecvente</h2>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        Am nevoie de cunoștințe tehnice?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Nu. Wizard-ul este complet ghidat. Fiecare pas are explicații clare și sugestii AI. Instalarea se face cu o singură comandă.</div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        Ce se întâmplă cu datele mele?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Totul rulează pe VPS-ul tău. Datele nu pleacă nicăieri — 100% self-hosted. Tu deții totul.</div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        Pot migra de la OpenClaw la Hermes?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Da! Hermes are comanda <code style="background:var(--bg-2);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--green)">hermes claw migrate</code> care importă automat configurația din OpenClaw.</div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        Cât durează generarea fișierelor?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Aproximativ 15 minute pentru toate cele 9 fișiere. AI-ul generează fiecare modul individual, iar tu poți face preview și edita înainte de download.</div>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 AgentulMeu.online · Made in România 🇷🇴</footer>
+
+<script>
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+</body>
+</html>

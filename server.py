@@ -42,6 +42,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from flask import Flask, request, jsonify, send_file, g
 from flask_cors import CORS
+from intent_module import classify_intent
+from reports_module import get_weekly_stats, format_telegram_report, send_telegram_report, send_email_report
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -772,7 +774,7 @@ def _call_ollama(prompt, fast=False):
                     {"role": "system", "content": "Esti expert in configurarea agentilor AI pentru business-uri romanesti. Genereaza continut complet si detaliat exclusiv in limba romana. Respecta intocmai structura ceruta."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.72,
+                temperature=1,
                 max_tokens=8000
             )
             msg = resp.choices[0].message
@@ -913,6 +915,32 @@ def kb_pricing():
 
 # ===== SPA FALLBACK =====
 
+
+@app.route('/install/command', methods=['GET'])
+def install_command():
+    """Returnează comanda one-liner pentru instalare"""
+    domain = request.args.get('domain', '')
+    telegram_token = request.args.get('telegram_token', '')
+    telegram_chat_id = request.args.get('telegram_chat_id', '')
+    business_name = request.args.get('business_name', 'Business-ul Meu')
+    agent_name = request.args.get('agent_name', 'AgentulMeu')
+    
+    env_vars = f"AGENT_NAME='{agent_name}' BUSINESS_NAME='{business_name}'"
+    if telegram_token:
+        env_vars += f" TELEGRAM_TOKEN='{telegram_token}'"
+    if telegram_chat_id:
+        env_vars += f" TELEGRAM_CHAT_ID='{telegram_chat_id}'"
+    if domain:
+        env_vars += f" DOMAIN='{domain}'"
+    
+    command = f"{env_vars} curl -fsSL https://agentulmeu.online/install | sudo bash"
+    
+    return jsonify({
+        "command": command,
+        "script_url": "https://agentulmeu.online/install",
+        "instructions": "Rulează comanda de mai sus pe VPS-ul tău Ubuntu 22.04/24.04"
+    })
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def spa_catch_all(path):
@@ -1049,6 +1077,394 @@ def api_stripe_webhook():
                 app.logger.error(f"DB error subscription update: {e}")
 
     return jsonify({'received': True}), 200
+
+
+
+@app.route('/api/intent/classify', methods=['POST'])
+def api_intent_classify():
+    """Clasifica intentia unui mesaj"""
+    data = request.get_json()
+    if not data or 'message' not in data:
+        return jsonify({'error': 'message required'}), 400
+    
+    result = classify_intent(data['message'])
+    return jsonify(result)
+
+
+@app.route('/api/intent/stats', methods=['GET'])
+@require_auth
+def api_intent_stats():
+    """Returneaza statistici pe intentii pentru userul curent"""
+    user_id = g.user['id']
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='conversations'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS conversations (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER,
+                    message TEXT,
+                    response TEXT,
+                    intent TEXT,
+                    confidence REAL,
+                    channel TEXT DEFAULT 'unknown',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            conn.commit()
+        
+        cursor.execute("""
+            SELECT intent, COUNT(*) as count, AVG(confidence) as avg_confidence
+            FROM conversations 
+            WHERE user_id = ? AND created_at >= datetime('now', '-7 days')
+            GROUP BY intent ORDER BY count DESC
+        """, (user_id,))
+        
+        stats = []
+        total = 0
+        for row in cursor.fetchall():
+            stats.append({
+                'intent': row['intent'],
+                'count': row['count'],
+                'avg_confidence': round(row['avg_confidence'] or 0, 2)
+            })
+            total += row['count']
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'period': '7 zile',
+            'total_conversations': total,
+            'intents': stats
+        })
+        
+    except Exception as e:
+        app.logger.error(f"Intent stats error: {e}")
+        return jsonify({
+            'success': True,
+            'period': '7 zile',
+            'total_conversations': 0,
+            'intents': []
+        })
+
+
+@app.route('/api/intent/log', methods=['POST'])
+@require_auth
+def api_intent_log():
+    """Log o conversatie cu intent tagging automat"""
+    data = request.get_json()
+    if not data or 'message' not in data:
+        return jsonify({'error': 'message required'}), 400
+    
+    user_id = g.user['id']
+    message = data['message']
+    response = data.get('response', '')
+    channel = data.get('channel', 'web')
+    
+    intent_result = classify_intent(message)
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS conversations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                message TEXT,
+                response TEXT,
+                intent TEXT,
+                confidence REAL,
+                channel TEXT DEFAULT 'unknown',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        cursor.execute("""
+            INSERT INTO conversations (user_id, message, response, intent, confidence, channel)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (user_id, message, response, intent_result['intent'], intent_result['confidence'], channel))
+        
+        conn.commit()
+        conv_id = cursor.lastrowid
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'conversation_id': conv_id,
+            'intent': intent_result
+        })
+        
+    except Exception as e:
+        app.logger.error(f"Intent log error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+
+@app.route('/api/reports/weekly', methods=['GET'])
+@require_auth
+def api_reports_weekly():
+    """Returnează raportul săptămânal pentru userul curent"""
+    user_id = g.user['id']
+    stats = get_weekly_stats(user_id)
+    return jsonify(stats)
+
+
+@app.route('/api/reports/send-telegram', methods=['POST'])
+@require_auth
+def api_reports_send_telegram():
+    """Trimite raportul săptămânal pe Telegram"""
+    data = request.get_json()
+    if not data or 'telegram_token' not in data or 'chat_id' not in data:
+        return jsonify({'error': 'telegram_token and chat_id required'}), 400
+    
+    business_name = data.get('business_name', 'Business-ul tău')
+    result = send_telegram_report(data['telegram_token'], data['chat_id'], business_name)
+    return jsonify(result)
+
+
+@app.route('/api/reports/send-email', methods=['POST'])
+@require_auth
+def api_reports_send_email():
+    """Trimite raportul săptămânal pe Email"""
+    data = request.get_json()
+    if not data or 'email' not in data:
+        return jsonify({'error': 'email required'}), 400
+    
+    business_name = data.get('business_name', 'Business-ul tău')
+    result = send_email_report(data['email'], business_name)
+    return jsonify(result)
+
+
+@app.route('/api/reports/configure', methods=['POST'])
+@require_auth
+def api_reports_configure():
+    """Configurează rapoartele automate pentru user"""
+    data = request.get_json()
+    user_id = g.user['id']
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        # Creează tabela dacă nu există
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS user_report_config (
+                user_id INTEGER PRIMARY KEY,
+                telegram_token TEXT,
+                telegram_chat_id TEXT,
+                email TEXT,
+                enabled INTEGER DEFAULT 1,
+                business_name TEXT,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Upsert config
+        cursor.execute("""
+            INSERT OR REPLACE INTO user_report_config 
+            (user_id, telegram_token, telegram_chat_id, email, enabled, business_name, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """, (
+            user_id,
+            data.get('telegram_token', ''),
+            data.get('telegram_chat_id', ''),
+            data.get('email', ''),
+            1 if data.get('enabled', True) else 0,
+            data.get('business_name', 'Business-ul tău')
+        ))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'success': True, 'message': 'Configurație salvată'})
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/reports/config', methods=['GET'])
+@require_auth
+def api_reports_get_config():
+    """Returnează configurația rapoartelor pentru user"""
+    user_id = g.user['id']
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS user_report_config (
+                user_id INTEGER PRIMARY KEY,
+                telegram_token TEXT,
+                telegram_chat_id TEXT,
+                email TEXT,
+                enabled INTEGER DEFAULT 1,
+                business_name TEXT,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        cursor.execute("SELECT * FROM user_report_config WHERE user_id = ?", (user_id,))
+        row = cursor.fetchone()
+        conn.close()
+        
+        if row:
+            return jsonify({
+                'success': True,
+                'config': {
+                    'telegram_token': row['telegram_token'],
+                    'telegram_chat_id': row['telegram_chat_id'],
+                    'email': row['email'],
+                    'enabled': bool(row['enabled']),
+                    'business_name': row['business_name']
+                }
+            })
+        else:
+            return jsonify({
+                'success': True,
+                'config': {
+                    'telegram_token': '',
+                    'telegram_chat_id': '',
+                    'email': '',
+                    'enabled': True,
+                    'business_name': 'Business-ul tău'
+                }
+            })
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+@app.route('/api/wizard/ask-ai', methods=['POST'])
+@require_auth
+def wizard_ask_ai():
+    """Generează răspuns automat pentru o întrebare din wizard"""
+    data = request.get_json()
+    if not data or 'question' not in data: 
+        return jsonify({'error': 'question required'}), 400
+    
+    question = data['question']
+    business_context = data.get('business_context', {})
+    
+    try:
+        from openai import OpenAI
+        kimi = OpenAI(
+            base_url='https://api.moonshot.ai/v1',
+            api_key=os.getenv('KIMI_API_KEY')
+        )
+        
+        prompt = f"""Ești un consultant expert pentru antreprenori români. Răspunde scurt și practic la întrebarea de mai jos.
+
+Context business: {json.dumps(business_context, ensure_ascii=False)[:500]}
+
+Întrebare: {question}
+
+Răspunde în maxim 3 propoziții, în română, cu sfaturi acționabile. Fără introduceri, fără concluzii."""
+
+        res = kimi.chat.completions.create(
+            model='kimi-k2.6',
+            messages=[{'role': 'user', 'content': prompt}],
+            max_tokens=200,
+            temperature=1
+        )
+        
+        answer = res.choices[0].message.content.strip()
+        return jsonify({'success': True, 'answer': answer})
+        
+    except Exception as e:
+        app.logger.error(f"Ask AI error: {e}")
+        return jsonify({'error': 'Eroare la generarea răspunsului'}), 500
+
+
+@app.route('/api/wizard/businesses', methods=['GET'])
+@require_auth
+def wizard_get_businesses():
+    """Returnează lista de business-uri configurate de user"""
+    user_id = g.user['id']
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get profiles for this user
+        cursor.execute("""
+            SELECT id, filename, data, created_at 
+            FROM profiles 
+            WHERE user_id = ? 
+            ORDER BY created_at DESC
+        """, (user_id,))
+        
+        businesses = []
+        for row in cursor.fetchall():
+            try:
+                profile_data = json.loads(row['data']) if row['data'] else {}
+                businesses.append({
+                    'id': row['id'],
+                    'name': profile_data.get('business_name', 'Business nou'),
+                    'category': profile_data.get('business_category', 'Nespecificat'),
+                    'created_at': row['created_at'],
+                    'preview': {
+                        'tone': profile_data.get('tone', ''),
+                        'objectives': profile_data.get('objectives', '')
+                    }
+                })
+            except:
+                continue
+        
+        conn.close()
+        return jsonify({'success': True, 'businesses': businesses})
+        
+    except Exception as e:
+        app.logger.error(f"Get businesses error: {e}")
+        return jsonify({'success': True, 'businesses': []})
+
+
+@app.route('/api/wizard/business', methods=['POST'])
+@require_auth
+def wizard_create_business():
+    """Creează un nou profil de business pentru wizard"""
+    data = request.get_json()
+    if not data or 'business_name' not in data: 
+        return jsonify({'error': 'business_name required'}), 400
+    
+    user_id = g.user['id']
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        profile_data = {
+            'business_name': data['business_name'],
+            'business_category': data.get('category', ''),
+            'tone': data.get('tone', ''),
+            'objectives': data.get('objectives', ''),
+            'created_via': 'wizard_multi'
+        }
+        
+        cursor.execute("""
+            INSERT INTO profiles (user_id, filename, data, created_at)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+        """, (user_id, f"business_{data['business_name'].lower().replace(' ', '_')}.json", json.dumps(profile_data)))
+        
+        conn.commit()
+        profile_id = cursor.lastrowid
+        conn.close()
+        
+        return jsonify({'success': True, 'profile_id': profile_id})
+        
+    except Exception as e:
+        app.logger.error(f"Create business error: {e}")
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

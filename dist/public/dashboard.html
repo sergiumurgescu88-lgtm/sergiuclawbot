@@ -1,375 +1,1134 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — AgentulMeu</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    :root {
-      --obsidian: #050c18; --navy: #0a1628; --navy-2: #0f2040; --navy-3: #1a3360;
-      --gold: #d97706; --gold-light: #f59e0b; --gold-pale: #fbbf24;
-      --teal: #0d9488; --teal-light: #14b8a6;
-      --warm-white: #f8f4ef; --muted: #8b9ab5;
-      --border: rgba(255,255,255,0.07); --border-gold: rgba(217,119,6,0.3);
-    }
-    body {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      background: var(--obsidian); color: var(--warm-white);
-      min-height: 100vh; -webkit-font-smoothing: antialiased;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.013) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.013) 1px,transparent 1px);
-      background-size: 64px 64px; pointer-events: none; z-index: 0;
-    }
-    .serif { font-family: 'DM Serif Display', serif; font-weight: 400; letter-spacing: -0.02em; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — AgentulMeu</title>
+<meta name="description" content="Panoul tău de control. Generează fișiere MD, monitorizează agenții și descarcă configurările.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(5,12,24,0.88); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav-inner {
-      max-width: 1160px; margin: 0 auto; padding: 0 1.5rem;
-      height: 64px; display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
-    .nav-logo-mark {
-      width: 34px; height: 34px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-pale));
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: #1a0a00; font-weight: 700;
-    }
-    .nav-logo-text { font-size: 1.05rem; font-weight: 600; color: var(--warm-white); }
-    .nav-logo-text span { color: var(--gold-light); }
-    .nav-right { display: flex; align-items: center; gap: 1rem; }
-    .user-pill {
-      display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-      border-radius: 100px; padding: 0.35rem 0.9rem 0.35rem 0.5rem;
-      font-size: 0.82rem; color: var(--warm-white);
-    }
-    .user-avatar {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-pale));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 700; color: #1a0a00;
-    }
-    .btn-logout {
-      background: none; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px; padding: 0.4rem 0.9rem;
-      color: var(--muted); font-size: 0.82rem; cursor: pointer;
-      font-family: 'DM Sans', sans-serif; transition: all 0.2s;
-    }
-    .btn-logout:hover { color: var(--warm-white); border-color: rgba(255,255,255,0.25); }
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
 
-    /* MAIN */
-    main { padding: 88px 1.5rem 4rem; max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+/* ═══ ANIMATIONS ═══ */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes progressPulse{0%,100%{opacity:1}50%{opacity:.7}}
 
-    /* HEADER */
-    .dash-header { padding: 2.5rem 0 2rem; }
-    .dash-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.8rem;
-    }
-    .dash-eyebrow::before, .dash-eyebrow::after {
-      content: ''; display: block; width: 18px; height: 1px; background: var(--gold); opacity: 0.55;
-    }
-    .dash-title { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; }
-    .dash-sub { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
+.float{animation:float 6s ease-in-out infinite}
+.float-slow{animation:floatSlow 8s ease-in-out infinite}
+.float-delay{animation:float 6s ease-in-out 2s infinite}
+.fade-in{animation:fadeInUp .6s ease-out both}
+.fade-in-1{animation:fadeInUp .6s ease-out .1s both}
+.fade-in-2{animation:fadeInUp .6s ease-out .2s both}
+.fade-in-3{animation:fadeInUp .6s ease-out .3s both}
+.scale-in{animation:scaleIn .4s ease-out both}
 
-    /* CARDS */
-    .card {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 20px; padding: 1.75rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .card:hover { border-color: rgba(217,119,6,0.2); transform: translateY(-2px); }
-    .card-icon {
-      width: 44px; height: 44px; border-radius: 12px; margin-bottom: 1rem;
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-    }
-    .card-icon-gold { background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.25); }
-    .card-icon-teal { background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.25); }
-    .card-icon-blue { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25); }
-    .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .card p { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:all .3s ease}
+nav.scrolled{box-shadow:var(--shadow-md)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:#fff;box-shadow:0 4px 14px rgba(249,115,22,0.3)}
+.nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s ease;border-radius:1px}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-user{display:flex;align-items:center;gap:12px}
+.nav-avatar{width:36px;height:36px;border-radius:10px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:var(--text-2);border:1px solid var(--border)}
+.nav-logout{padding:7px 16px;border-radius:9px;font-size:0.82rem;font-weight:600;color:var(--text-2);text-decoration:none;border:1px solid var(--border);background:transparent;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.nav-logout:hover{border-color:var(--red);color:var(--red);background:rgba(220,38,38,0.04)}
 
-    /* GRID */
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+/* ═══ MAIN ═══ */
+main{flex:1;padding:100px 32px 80px;max-width:1280px;margin:0 auto;width:100%}
 
-    /* WIZARD CTA */
-    .wizard-cta {
-      background: linear-gradient(135deg, rgba(217,119,6,0.08), rgba(13,148,136,0.06));
-      border: 1px solid rgba(217,119,6,0.2);
-      border-radius: 24px; padding: 2.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;
-    }
-    .wizard-cta-text h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
-    .wizard-cta-text p { font-size: 0.875rem; color: var(--muted); }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.875rem 2rem; border-radius: 12px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.9375rem;
-      font-weight: 600; cursor: pointer; transition: all 0.22s;
-      border: none; text-decoration: none; white-space: nowrap;
-    }
-    .btn-gold {
-      background: linear-gradient(135deg, var(--gold), var(--gold-pale));
-      color: #1a0a00; box-shadow: 0 4px 24px rgba(217,119,6,0.35);
-    }
-    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(217,119,6,0.52); }
-    .btn-ghost {
-      background: rgba(255,255,255,0.05); color: var(--warm-white);
-      border: 1px solid rgba(255,255,255,0.13);
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.09); }
+/* ═══ WELCOME SECTION ═══ */
+.welcome-section{margin-bottom:48px;animation:fadeInUp .6s ease-out both}
+.welcome-section h1{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
+.welcome-section h1 .wave{display:inline-block;animation:float 3s ease-in-out infinite}
+.welcome-section p{color:var(--text-2);font-size:1rem;max-width:600px}
+.welcome-actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
 
-    /* PROFILE CARD */
-    .profile-card {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 20px; padding: 1.75rem;
-    }
-    .profile-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .profile-avatar {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-pale));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; font-weight: 700; color: #1a0a00;
-      font-family: 'DM Serif Display', serif;
-    }
-    .profile-name { font-size: 1.05rem; font-weight: 600; }
-    .profile-email { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
-    .profile-field { margin-bottom: 1rem; }
-    .profile-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
-    .profile-value { font-size: 0.9rem; color: var(--warm-white); }
-    .divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+/* ═══ BUTTONS ═══ */
+.btn{padding:12px 24px;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(0.25,0.46,0.45,0.94);font-family:Inter,sans-serif;border:none;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(249,115,22,0.25)}
+.btn-primary:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(249,115,22,0.35)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1.5px solid var(--border-2);box-shadow:var(--shadow-sm)}
+.btn-secondary:hover{border-color:var(--text);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,0.25)}
+.btn-green:hover{background:#15803d;transform:translateY(-2px);box-shadow:0 6px 24px rgba(22,163,74,0.35)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,0.25)}
+.btn-blue:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 6px 24px rgba(37,99,235,0.35)}
+.btn-ghost{background:transparent;color:var(--text-2);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-sm{padding:8px 16px;font-size:0.8rem;border-radius:10px}
+.btn-lg{padding:16px 32px;font-size:0.95rem;border-radius:14px}
 
-    /* STATS ROW */
-    .stat-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .stat-chip {
-      display: flex; align-items: center; gap: 0.4rem;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 100px; padding: 0.3rem 0.85rem; font-size: 0.78rem; color: var(--muted);
-    }
-    .stat-chip .dot { width: 7px; height: 7px; border-radius: 50%; }
-    .dot-gold { background: var(--gold-light); }
-    .dot-teal { background: var(--teal-light); }
-    .dot-green { background: #86efac; }
+/* ═══ FRAMEWORK SELECTOR ═══ */
+.framework-section{margin-bottom:56px}
+.framework-section h2{font-size:1.15rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em}
+.framework-section .subtitle{color:var(--text-2);font-size:0.9rem;margin-bottom:24px}
+.framework-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.framework-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:32px;position:relative;overflow:hidden;transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94)}
+.framework-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;opacity:0;transition:opacity .3s ease}
+.framework-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl)}
+.framework-card:hover::before{opacity:1}
+.framework-card.blue::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
+.framework-card.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.framework-card.recommended{border-color:var(--accent);box-shadow:var(--shadow-float)}
+.framework-card.recommended::before{opacity:1}
+.framework-badge{position:absolute;top:16px;right:16px;background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+.framework-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.framework-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.framework-icon.blue-icon{background:var(--blue-glow)}
+.framework-icon.orange-icon{background:var(--accent-glow)}
+.framework-name{font-size:1.1rem;font-weight:700;margin-bottom:2px}
+.framework-desc{font-size:0.8rem;color:var(--text-3)}
+.framework-features{list-style:none;margin-bottom:24px}
+.framework-features li{padding:8px 0;font-size:0.85rem;color:var(--text-2);display:flex;align-items:flex-start;gap:8px;border-bottom:1px solid var(--border)}
+.framework-features li:last-child{border:none}
+.framework-features .check{color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.framework-features code{background:var(--bg-2);padding:2px 7px;border-radius:5px;font-size:0.78rem;font-family:'JetBrains Mono',monospace;color:var(--green)}
 
-    /* FILE GRID */
-    .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
-    .file-chip {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.9rem 1rem;
-      display: flex; flex-direction: column; gap: 0.3rem;
-      transition: border-color 0.2s;
-    }
-    .file-chip:hover { border-color: rgba(217,119,6,0.22); }
-    .file-chip-icon { font-size: 1.2rem; }
-    .file-chip-name { font-size: 0.8rem; font-weight: 600; }
-    .file-chip-desc { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+/* ═══ SECTION HEADERS ═══ */
+.section-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+.section-header h2{font-size:1.15rem;font-weight:700;letter-spacing:-0.02em}
+.section-header .section-actions{display:flex;gap:10px;flex-wrap:wrap}
 
-    /* EMPTY STATE */
-    .empty-state {
-      text-align: center; padding: 3rem 2rem;
-      color: var(--muted); font-size: 0.875rem;
-    }
-    .empty-state-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.5; }
+/* ═══ GENERATION PROGRESS ═══ */
+.progress-section{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.progress-info{flex:1;min-width:200px}
+.progress-info .label{font-size:0.82rem;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.progress-bar-outer{height:8px;background:var(--bg-3);border-radius:4px;overflow:hidden}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:4px;transition:width .5s cubic-bezier(0.25,0.46,0.45,0.94);min-width:0}
+.progress-bar-inner.generating{animation:progressPulse 1.5s ease-in-out infinite}
+.progress-count{font-size:1.4rem;font-weight:800;color:var(--accent);white-space:nowrap}
+.progress-status{font-size:0.78rem;color:var(--text-3);margin-top:2px}
 
-    /* SECTION TITLE */
-    .section-label {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* ═══ FILES GRID ═══ */
+.files-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px}
+.file-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;position:relative;overflow:hidden;transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94)}
+.file-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0;transition:opacity .3s ease}
+.file-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:rgba(249,115,22,0.15)}
+.file-card:hover::before{opacity:1}
+.file-card.done{border-color:rgba(22,163,74,0.2)}
+.file-card.done::before{background:linear-gradient(90deg,var(--green),#15803d)}
+.file-card.done:hover{border-color:rgba(22,163,74,0.3)}
+.file-card.generating{border-color:rgba(249,115,22,0.3)}
+.file-card.generating::before{opacity:1;animation:progressPulse 1.5s ease-in-out infinite}
 
-    /* LOADER */
-    #loader {
-      position: fixed; inset: 0; z-index: 200;
-      background: var(--obsidian); display: flex; align-items: center; justify-content: center;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spin { width: 32px; height: 32px; border: 2px solid rgba(217,119,6,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.file-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px}
+.file-icon.orange{background:var(--accent-glow)}
+.file-icon.green{background:var(--green-glow)}
+.file-icon.blue{background:var(--blue-glow)}
+.file-icon.purple{background:var(--purple-glow)}
 
-    @media (max-width: 640px) {
-      .wizard-cta { flex-direction: column; }
-      .grid-3 { grid-template-columns: 1fr; }
-    }
-  </style>
-<link rel="stylesheet" href="/assets/design-system.css">
+.file-name{font-size:0.95rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.file-desc{font-size:0.8rem;color:var(--text-3);margin-bottom:16px;line-height:1.5;min-height:36px}
+
+.file-status{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:600;margin-bottom:16px}
+.file-status.pending{background:var(--bg-3);color:var(--text-3)}
+.file-status.generating{background:var(--accent-glow);color:var(--accent)}
+.file-status.generating .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1s ease-in-out infinite}
+.file-status.done{background:var(--green-glow);color:var(--green)}
+
+.file-actions{display:flex;gap:8px}
+.file-actions .btn{flex:1;justify-content:center;padding:8px 12px;font-size:0.78rem;border-radius:10px}
+
+/* ═══ STATS ROW ═══ */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center;transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94)}
+.stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.stat-card .stat-icon{font-size:1.3rem;margin-bottom:8px}
+.stat-card .stat-value{font-size:1.8rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px}
+.stat-card .stat-value.orange{color:var(--accent)}
+.stat-card .stat-value.green{color:var(--green)}
+.stat-card .stat-value.blue{color:var(--blue)}
+.stat-card .stat-label{font-size:0.78rem;color:var(--text-3);font-weight:500}
+
+/* ═══ REPORTS SECTION ═══ */
+.reports-section{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:36px;margin-bottom:56px;transition:all .4s ease}
+.reports-section:hover{box-shadow:var(--shadow-lg)}
+.reports-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px}
+.reports-header h2{font-size:1.15rem;font-weight:700;letter-spacing:-0.02em}
+.reports-header .subtitle{color:var(--text-2);font-size:0.88rem;margin-top:4px}
+.reports-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.chart-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s ease}
+.chart-card:hover{border-color:var(--border-2)}
+.chart-card h3{font-size:0.9rem;font-weight:700;margin-bottom:16px}
+
+.chart-bar{margin-bottom:12px}
+.chart-bar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.chart-bar-label{font-size:0.8rem;font-weight:600;color:var(--text)}
+.chart-bar-value{font-size:0.78rem;color:var(--text-3)}
+.chart-bar-track{height:8px;background:var(--bg-3);border-radius:4px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(0.25,0.46,0.45,0.94)}
+
+.daily-chart{display:flex;align-items:flex-end;gap:8px;height:100px;padding-top:10px}
+.daily-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.daily-bar-value{font-size:0.7rem;color:var(--text-3);font-weight:600}
+.daily-bar-track{width:100%;background:var(--bg-3);border-radius:4px 4px 0 0;min-height:4px;transition:height .5s ease}
+.daily-bar-label{font-size:0.65rem;color:var(--text-3)}
+
+.top-questions{margin-top:0}
+.top-question{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.top-question:last-child{border:none}
+.top-question .rank{width:28px;height:28px;border-radius:8px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;color:var(--accent);flex-shrink:0}
+.top-question .text{flex:1;font-size:0.85rem;color:var(--text)}
+.top-question .count{font-size:0.72rem;color:var(--text-3);font-weight:600;background:var(--bg-2);padding:3px 10px;border-radius:8px}
+
+/* ═══ HOW SECTION ═══ */
+.how-section{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-xl);padding:36px;margin-bottom:56px}
+.how-section h2{font-size:1.1rem;font-weight:700;margin-bottom:24px}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.how-step{text-align:center}
+.how-step .step-num{width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;margin-bottom:10px;box-shadow:0 4px 12px rgba(249,115,22,0.3)}
+.how-step h3{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+.how-step p{font-size:0.8rem;color:var(--text-3);line-height:1.5}
+
+/* ═══ MODAL ═══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-xl);animation:fadeInUp .3s ease-out}
+.modal-header{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:1rem;font-weight:700}
+.modal-close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-3);transition:color .2s;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text);background:var(--bg-2)}
+.modal-body{padding:28px;overflow-y:auto;flex:1}
+.modal-body pre{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;font-size:0.82rem;line-height:1.7;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--green);font-family:'JetBrains Mono',monospace}
+.modal-footer{padding:16px 28px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* ═══ FORM INPUTS ═══ */
+.form-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-2);color:var(--text);font-size:0.88rem;font-family:Inter,sans-serif;transition:all .2s}
+.form-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,0.1);background:var(--bg)}
+
+/* ═══ FOOTER ═══ */
+footer{text-align:center;padding:32px;color:var(--text-3);font-size:0.78rem;border-top:1px solid var(--border)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  .files-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  main{padding:88px 16px 60px}
+  .files-grid{grid-template-columns:1fr}
+  .framework-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .charts-grid{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .nav-inner{padding:0 16px}
+  .progress-section{flex-direction:column;text-align:center}
+  .section-header{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr}
+  .welcome-actions{flex-direction:column}
+  .welcome-actions .btn{width:100%;justify-content:center}
+}
+
+:root{
+  --bg:#ffffff;--bg-2:#fafafa;--bg-3:#f5f5f5;
+  --text:#0a0a0a;--text-2:#444444;--text-3:#777777;
+  --gold:#C9A227;--gold-light:#E8C547;--gold-dark:#A68521;
+  --gold-glow:rgba(201,162,39,0.12);
+  --gold-gradient:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);
+  --gold-shadow:0 8px 32px rgba(201,162,39,0.25);
+  --gold-shadow-lg:0 16px 48px rgba(201,162,39,0.3);
+  --green:#16a34a;--blue:#2563eb;--purple:#7c3aed;--red:#dc2626;
+  --border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md:0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg:0 16px 48px rgba(0,0,0,0.08);
+  --shadow-xl:0 24px 64px rgba(0,0,0,0.10);
+  --radius:16px;--radius-lg:20px;--radius-xl:28px;
+}
+
+/* ═══ PREMIUM GOLD BUTTONS ═══ */
+.btn-primary{
+  background:var(--gold-gradient)!important;color:#0a0a0a!important;
+  box-shadow:var(--gold-shadow)!important;border:none!important;
+  position:relative;overflow:hidden;font-weight:700!important;
+}
+.btn-primary::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+  transition:left .6s ease;
+}
+.btn-primary:hover::before{left:100%}
+.btn-primary:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:var(--gold-shadow-lg)!important;
+}
+
+.btn-secondary,.btn-ghost{
+  background:var(--bg)!important;color:var(--text)!important;
+  border:1.5px solid var(--border-2)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+.btn-secondary:hover,.btn-ghost:hover{
+  border-color:var(--gold)!important;
+  box-shadow:0 4px 16px rgba(201,162,39,0.15)!important;
+  transform:translateY(-2px)!important;
+}
+
+.btn-green{
+  background:linear-gradient(135deg,#16a34a,#22c55e)!important;
+  color:#fff!important;box-shadow:0 8px 24px rgba(22,163,74,0.25)!important;
+}
+.btn-green:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 12px 36px rgba(22,163,74,0.35)!important;
+}
+
+.btn-blue{
+  background:linear-gradient(135deg,#2563eb,#3b82f6)!important;
+  color:#fff!important;box-shadow:0 8px 24px rgba(37,99,235,0.25)!important;
+}
+.btn-blue:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 12px 36px rgba(37,99,235,0.35)!important;
+}
+
+/* ═══ PREMIUM CARDS ═══ */
+.file-card,.stat-card,.chart-card,.reports-section,.how-section,.framework-card{
+  background:var(--bg)!important;
+  border:1.5px solid var(--border)!important;
+  transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94)!important;
+  position:relative;overflow:hidden;
+}
+.file-card::after,.stat-card::after,.chart-card::after,.framework-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold-gradient);opacity:0;transition:opacity .3s ease;
+}
+.file-card:hover,.stat-card:hover,.chart-card:hover{
+  transform:translateY(-8px)!important;
+  box-shadow:var(--shadow-xl)!important;
+  border-color:rgba(201,162,39,0.2)!important;
+}
+.file-card:hover::after,.stat-card:hover::after,.chart-card:hover::after{
+  opacity:1;
+}
+
+.file-card.done{border-color:rgba(22,163,74,0.25)!important}
+.file-card.done::after{background:linear-gradient(90deg,#16a34a,#22c55e)!important}
+
+/* ═══ GOLD ACCENTS ═══ */
+.nav-logo-icon{background:var(--gold-gradient)!important;box-shadow:0 4px 14px rgba(201,162,39,0.3)!important}
+.nav-logo-text span{color:var(--gold)!important}
+.stat-value.orange{color:var(--gold)!important}
+.progress-bar-inner{background:var(--gold-gradient)!important}
+.file-status.generating{background:var(--gold-glow)!important;color:var(--gold-dark)!important}
+.file-status.generating .dot{background:var(--gold)!important}
+.file-icon.orange{background:var(--gold-glow)!important}
+.framework-badge{background:var(--gold-gradient)!important;color:#0a0a0a!important}
+.framework-card.recommended{border-color:var(--gold)!important;box-shadow:var(--gold-shadow)!important}
+.framework-card.orange::before{background:var(--gold-gradient)!important}
+.sidebar-logo-icon{background:var(--gold-gradient)!important}
+
+</style>
 </head>
 <body>
 
-<div id="loader"><div class="spin"></div></div>
-
-<nav>
+<!-- ═══ NAV ═══ -->
+<nav id="mainNav">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <div class="nav-logo-mark">A</div>
-      <span class="nav-logo-text">Agentul<span>Meu</span></span>
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
     </a>
-    <div class="nav-right">
-      <div class="user-pill">
-        <div class="user-avatar" id="navAvatar">?</div>
-        <span id="navUsername">...</span>
-      </div>
-      <button class="btn-logout" onclick="logout()">Ieșire</button>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/wizard">Wizard</a>
+      <a href="/dashboard" style="color:var(--text);font-weight:600">Dashboard</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/docs">Docs</a>
+    </div>
+    <div class="nav-user">
+      <div class="nav-avatar" id="navAvatar">D</div>
+      <button class="nav-logout" onclick="logout()">Logout</button>
     </div>
   </div>
 </nav>
 
 <main>
-  <div class="dash-header">
-    <div class="dash-eyebrow">Contul meu</div>
-    <h1 class="serif dash-title">Bună ziua, <span id="greetName" style="color:var(--gold-light)">...</span> 👋</h1>
-    <p class="dash-sub">Gestionează agentul tău AI și fișierele de configurare.</p>
-  </div>
-
-  <!-- WIZARD CTA -->
-  <div class="wizard-cta">
-    <div class="wizard-cta-text">
-      <h2 class="serif">Creează sau actualizează agentul tău</h2>
-      <p>Completează Wizard-ul în 8 pași și generează automat cele 9 fișiere MD pentru agentul tău.</p>
-    </div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
-      <a href="/wizard" class="btn btn-gold">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        Pornește Wizard-ul
-      </a>
+  <!-- ═══ WELCOME ═══ -->
+  <div class="welcome-section">
+    <h1>Bună ziua, <span id="userName">—</span> <span class="wave">👋</span></h1>
+    <p>Generează fișierele de configurare pentru agentul tău AI. Alege framework-ul, generează cele 9 module și instalează pe VPS.</p>
+    <div class="welcome-actions">
+      <a href="/wizard" class="btn btn-primary btn-lg">🚀 Deschide Wizard</a>
+      <a href="/install-page" class="btn btn-secondary btn-lg">⚡ Instalare pe VPS</a>
     </div>
   </div>
 
-  <div class="grid-2">
-    <!-- PROFIL -->
-    <div class="profile-card">
-      <div class="section-label">Profilul tău</div>
-      <div class="profile-header">
-        <div class="profile-avatar" id="profileAvatar">?</div>
-        <div>
-          <div class="profile-name" id="profileName">—</div>
-          <div class="profile-email" id="profileEmail">—</div>
+  <!-- ═══ FRAMEWORK SELECTOR ═══ -->
+  <div class="framework-section fade-in">
+    <h2>🤖 Alege Framework-ul Agentului</h2>
+    <p class="subtitle">Ambele sunt open-source și puternice. Testează-le live și alege-l pe cel potrivit.</p>
+    <div class="framework-grid">
+      <!-- OPENCLAW -->
+      <div class="framework-card blue fade-in-1">
+        <div class="framework-header">
+          <div class="framework-icon blue-icon">🐺</div>
+          <div>
+            <div class="framework-name">OpenClaw</div>
+            <div class="framework-desc">Framework matur, stabil, production-ready</div>
+          </div>
         </div>
+        <ul class="framework-features">
+          <li><span class="check">✓</span> Agent single-thread, rapid și predictibil</li>
+          <li><span class="check">✓</span> Configurare simplă, fără dependențe complexe</li>
+          <li><span class="check">✓</span> Ideal pentru MVP-uri și business-uri mici</li>
+          <li><span class="check">✓</span> Comunitate activă, documentație solidă</li>
+        </ul>
+        <button onclick="window.open('https://vlad.neoterm.ro','_blank')" class="btn btn-blue" style="width:100%;justify-content:center">🧪 Testează OpenClaw Live →</button>
       </div>
-      <div class="divider"></div>
-      <div class="profile-field">
-        <div class="profile-label">Rol</div>
-        <div class="profile-value" id="profileRole">—</div>
-      </div>
-      <div class="profile-field">
-        <div class="profile-label">Status cont</div>
-        <div class="profile-value">
-          <span class="stat-chip"><span class="dot dot-green"></span>Activ</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- CUM FUNCȚIONEAZĂ -->
-    <div class="card" style="cursor:default">
-      <div class="section-label">Cum funcționează</div>
-      <div style="display:flex;flex-direction:column;gap:1rem">
-        <div style="display:flex;align-items:flex-start;gap:0.85rem">
-          <div style="min-width:28px;height:28px;border-radius:8px;background:rgba(217,119,6,0.12);border:1px solid rgba(217,119,6,0.25);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--gold-light)">1</div>
-          <div><div style="font-size:0.875rem;font-weight:600;margin-bottom:0.2rem">Completezi Wizard-ul</div><div style="font-size:0.78rem;color:var(--muted)">8 pași simpli despre business-ul tău</div></div>
+      <!-- HERMES -->
+      <div class="framework-card orange recommended fade-in-2">
+        <div class="framework-badge">Recomandat</div>
+        <div class="framework-header">
+          <div class="framework-icon orange-icon">🦉</div>
+          <div>
+            <div class="framework-name">Hermes Agent</div>
+            <div class="framework-desc">Learning loop nativ, multi-agent, enterprise</div>
+          </div>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:0.85rem">
-          <div style="min-width:28px;height:28px;border-radius:8px;background:rgba(13,148,136,0.12);border:1px solid rgba(13,148,136,0.25);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--teal-light)">2</div>
-          <div><div style="font-size:0.875rem;font-weight:600;margin-bottom:0.2rem">AI generează 9 fișiere MD</div><div style="font-size:0.78rem;color:var(--muted)">SOUL, IDENTITY, USER, MEMORY, TOOLS, AGENTS, HEARTBEAT, BOOTSTRAP, AGENT_RD</div></div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:0.85rem">
-          <div style="min-width:28px;height:28px;border-radius:8px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#93c5fd">3</div>
-          <div><div style="font-size:0.875rem;font-weight:600;margin-bottom:0.2rem">Descarci ZIP-ul</div><div style="font-size:0.78rem;color:var(--muted)">Instalezi Hermes Agent cu un singur curl</div></div>
-        </div>
+        <ul class="framework-features">
+          <li><span class="check">✓</span> Învață din interacțiuni, devine mai bun în timp</li>
+          <li><span class="check">✓</span> Sub-agenți specializați, workflow-uri complexe</li>
+          <li><span class="check">✓</span> Container hardening, self-hosted securizat</li>
+          <li><span class="check">✓</span> <code>hermes claw migrate</code> — import din OpenClaw</li>
+        </ul>
+        <button onclick="window.open('https://hermes.agentulmeu.online','_blank')" class="btn btn-primary" style="width:100%;justify-content:center">🧪 Testează Hermes Live →</button>
       </div>
     </div>
   </div>
 
-  <!-- FIȘIERE MD -->
-  <div class="section-label" style="margin-top:0.5rem">Fișierele agentului tău</div>
-  <div class="files-grid" style="margin-bottom:2rem">
-    <div class="file-chip"><div class="file-chip-icon">💫</div><div class="file-chip-name">SOUL.md</div><div class="file-chip-desc">Misiune & valori</div></div>
-    <div class="file-chip"><div class="file-chip-icon">👤</div><div class="file-chip-name">IDENTITY.md</div><div class="file-chip-desc">Profil agent</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🎯</div><div class="file-chip-name">USER.md</div><div class="file-chip-desc">Profilul tău</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🧠</div><div class="file-chip-name">MEMORY.md</div><div class="file-chip-desc">Context business</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🛠️</div><div class="file-chip-name">TOOLS.md</div><div class="file-chip-desc">Canale & API-uri</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🤖</div><div class="file-chip-name">AGENTS.md</div><div class="file-chip-desc">Sub-agenți</div></div>
-    <div class="file-chip"><div class="file-chip-icon">💓</div><div class="file-chip-name">HEARTBEAT.md</div><div class="file-chip-desc">Rutine & alerte</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🚀</div><div class="file-chip-name">BOOTSTRAP.md</div><div class="file-chip-desc">Checklist lansare</div></div>
-    <div class="file-chip"><div class="file-chip-icon">🔬</div><div class="file-chip-name">AGENT_RD.md</div><div class="file-chip-desc">Research framework</div></div>
+  <!-- ═══ FILES SECTION ═══ -->
+  <div class="fade-in-2">
+    <div class="section-header">
+      <div>
+        <h2>📁 Dashboard — Cele 9 Fișiere MD</h2>
+      </div>
+      <div class="section-actions">
+        <button class="btn btn-primary" id="generateAllBtn" onclick="generateAll()">🔄 Generează Toate (9 rămase)</button>
+        <button class="btn btn-green" id="downloadZipBtn" onclick="downloadZip()" disabled>📦 Descarcă ZIP (0/9)</button>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-section" id="progressSection" style="display:none">
+      <div class="progress-info">
+        <div class="label" id="progressLabel">Se generează...</div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="progressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-status" id="progressStatus">Se pregătește generarea...</div>
+      </div>
+      <div style="text-align:center">
+        <div class="progress-count" id="progressCount">0/9</div>
+      </div>
+    </div>
+
+    <!-- FILES GRID -->
+    <div class="files-grid" id="filesGrid">
+      <!-- Rendered by JS -->
+    </div>
   </div>
 
-  <div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:0.82rem">
-    Generează fișierele completând Wizard-ul. Fiecare sesiune durează ~15 min.
-    <br><a href="/wizard" style="color:var(--gold-light);text-decoration:none;font-weight:500">→ Pornește acum</a>
+  <!-- ═══ REPORTS SECTION ═══ -->
+  <div class="reports-section fade-in-3" id="reportsSection">
+    <div class="reports-header">
+      <div>
+        <h2>📊 Rapoarte & Analitică</h2>
+        <p class="subtitle">Statistici conversații, ROI estimat și configurare rapoarte automate.</p>
+      </div>
+      <div class="reports-actions">
+        <button class="btn btn-ghost btn-sm" onclick="exportPDF()">📄 Export PDF</button>
+        <button class="btn btn-ghost btn-sm" onclick="openReportConfig()">⚙️ Configurare</button>
+        <button class="btn btn-primary btn-sm" onclick="sendTestReport()">📤 Trimite Test</button>
+      </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="stats-row" id="reportStatsCards">
+      <div class="stat-card">
+        <div class="stat-icon">💬</div>
+        <div class="stat-value orange" id="rptTotalConv">—</div>
+        <div class="stat-label">Conversații</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-value green" id="rptHoursSaved">—</div>
+        <div class="stat-label">Ore Economisite</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-value" id="rptAppointments">—</div>
+        <div class="stat-label">Programări</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-value green" id="rptValueLei">—</div>
+        <div class="stat-label">Valoare Estimată</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>📈 Distribuție Intenții</h3>
+        <div id="intentsChart">
+          <p style="color:var(--text-3);font-size:0.82rem;text-align:center;padding:20px 0">Nu există date încă. Conversațiile vor apărea aici automat.</p>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>📱 Canale de Comunicare</h3>
+        <div id="channelsChart">
+          <p style="color:var(--text-3);font-size:0.82rem;text-align:center;padding:20px 0">Nu există date încă.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY CHART -->
+    <div class="chart-card" style="margin-bottom:24px">
+      <h3>📅 Conversații pe Zile (Ultimele 7 zile)</h3>
+      <div id="dailyChart">
+        <p style="color:var(--text-3);font-size:0.82rem;text-align:center;padding:20px 0">Nu există date încă.</p>
+      </div>
+    </div>
+
+    <!-- TOP QUESTIONS -->
+    <div class="chart-card">
+      <h3>❓ Top Întrebări Clienți</h3>
+      <div id="topQuestions">
+        <p style="color:var(--text-3);font-size:0.82rem;text-align:center;padding:20px 0">Nu există date încă.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <div class="how-section fade-in-3">
+    <h2>📖 Cum funcționează</h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Completează Wizard-ul</h3>
+        <p>Definește business-ul în 8 pași simpli. AI-ul te ajută cu sugestii.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Generează Fișierele</h3>
+        <p>AI-ul generează cele 9 module MD. Preview și download individual sau ZIP.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Instalează pe VPS</h3>
+        <p>O singură comandă curl. Hermes + Ollama + Telegram în ~10 minute.</p>
+      </div>
+    </div>
   </div>
 </main>
 
-<script>
-  const token = localStorage.getItem('agentulmeu_token');
-  if (!token) { window.location.href = '/login'; }
+<!-- ═══ PREVIEW MODAL ═══ -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="previewTitle">Preview</h3>
+      <button class="modal-close" onclick="closeModal('previewModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <pre id="previewContent">Se încarcă...</pre>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('previewModal')">Închide</button>
+      <button class="btn btn-primary" id="previewDownloadBtn" onclick="downloadFile()">📥 Descarcă .md</button>
+    </div>
+  </div>
+</div>
 
-  async function loadUser() {
+<!-- ═══ REPORT CONFIG MODAL ═══ -->
+<div class="modal-overlay" id="reportConfigModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h3>⚙️ Configurare Rapoarte Automate</h3>
+      <button class="modal-close" onclick="closeModal('reportConfigModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text-2);font-size:0.85rem;margin-bottom:24px">Configurează unde și cum vrei să primești rapoartele săptămânale automate (în fiecare luni la 09:00).</p>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px">Nume Business</label>
+        <input type="text" id="cfgBusinessName" class="form-input" placeholder="ex: Restaurant La Crama">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px">📧 Email pentru rapoarte <span style="color:var(--text-3);font-weight:400">(opțional)</span></label>
+        <input type="email" id="cfgEmail" class="form-input" placeholder="nume@business.ro">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px">📱 Telegram Bot Token <span style="color:var(--text-3);font-weight:400">(opțional)</span></label>
+        <input type="text" id="cfgTelegramToken" class="form-input" placeholder="ex: 123456:ABC-DEF...">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px">📱 Telegram Chat ID <span style="color:var(--text-3);font-weight:400">(opțional)</span></label>
+        <input type="text" id="cfgTelegramChatId" class="form-input" placeholder="ex: 987654321">
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <input type="checkbox" id="cfgEnabled" checked style="accent-color:var(--accent);width:18px;height:18px">
+        <label for="cfgEnabled" style="font-size:0.85rem;font-weight:500">Rapoarte automate activate (luni 09:00)</label>
+      </div>
+      <div id="reportConfigStatus" style="padding:10px 14px;border-radius:8px;font-size:0.82rem;text-align:center;min-height:16px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('reportConfigModal')">Anulează</button>
+      <button class="btn btn-primary" onclick="saveReportConfig()" id="saveConfigBtn">💾 Salvează</button>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 AgentulMeu.online · Made in România 🇷🇴</footer>
+
+<script>
+// ═══ AUTH & INIT ═══
+const token = localStorage.getItem('agentulmeu_token');
+if (!token) window.location.href = '/login?redirect=/dashboard';
+
+let userData = null;
+try {
+  const parts = token.split('.');
+  const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/') + '=='));
+  userData = payload;
+} catch(e) {}
+
+function logout() {
+  localStorage.removeItem('agentulmeu_token');
+  window.location.href = '/login';
+}
+
+// Update user info
+const userName = document.getElementById('userName');
+const navAvatar = document.getElementById('navAvatar');
+if (userData) {
+  const name = userData.name || userData.username || 'Utilizator';
+  userName.textContent = name;
+  navAvatar.textContent = name.charAt(0).toUpperCase();
+}
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ═══ FILE TYPES ═══
+const FILE_TYPES = [
+  { key: 'SOUL', icon: '🎯', name: 'Personalitate & Reguli', desc: 'Misiune, valori, reguli absolute, autonomie', color: 'orange' },
+  { key: 'IDENTITY', icon: '🪪', name: 'Cartea de Identitate', desc: 'Profil agent, ton, limbă, program de lucru', color: 'blue' },
+  { key: 'USER', icon: '👤', name: 'Profilul Tău', desc: 'Preferințe, priorități 90 zile, stil comunicare', color: 'purple' },
+  { key: 'MEMORY', icon: '🧠', name: 'Cunoștințe Business', desc: 'Produse, prețuri, USP, contexte importante', color: 'orange' },
+  { key: 'TOOLS', icon: '🛠️', name: 'Canale & Integrări', desc: 'Telegram, WhatsApp, CRM, API-uri, buget', color: 'blue' },
+  { key: 'AGENTS', icon: '🤖', name: 'Echipa de Sub-Agenți', desc: 'Workflow-uri, pipeline, delegare task-uri', color: 'purple' },
+  { key: 'HEARTBEAT', icon: '💓', name: 'Task-uri Automate', desc: 'Rutine, trigger-e, alerte, follow-up', color: 'orange' },
+  { key: 'BOOTSTRAP', icon: '🚀', name: 'Checklist Lansare', desc: 'Pași critici, fallback plan, verificări', color: 'green' },
+  { key: 'AGENT_RD', icon: '🔬', name: 'Research & Idei', desc: 'Framework validare, surse, testare idei', color: 'blue' }
+];
+
+const fileStates = {};
+const fileContents = {};
+
+function renderFiles() {
+  const grid = document.getElementById('filesGrid');
+  grid.innerHTML = FILE_TYPES.map(ft => {
+    const state = fileStates[ft.key] || 'pending';
+    const statusClass = state === 'done' ? 'done' : state === 'generating' ? 'generating' : 'pending';
+    const statusText = state === 'done' ? '✓ Generat' : state === 'generating' ? '<span class="dot"></span> Se generează...' : 'Negenerat';
+    const iconClass = state === 'done' ? 'green' : ft.color;
+    
+    return `
+      <div class="file-card ${statusClass}" id="card-${ft.key}">
+        <div class="file-icon ${iconClass}">${ft.icon}</div>
+        <div class="file-name">${ft.name}</div>
+        <div class="file-desc">${ft.desc}</div>
+        <div class="file-status ${statusClass}">${statusText}</div>
+        <div class="file-actions">
+          ${state === 'done' ? `
+            <button class="btn btn-ghost btn-sm" onclick="previewFile('${ft.key}')">👁 Preview</button>
+            <button class="btn btn-green btn-sm" onclick="downloadSingle('${ft.key}')">📥 Descarcă</button>
+          ` : state === 'generating' ? `
+            <button class="btn btn-ghost btn-sm" disabled>⏳ Se generează...</button>
+          ` : `
+            <button class="btn btn-primary btn-sm" onclick="generateSingle('${ft.key}')">⚡ Generează</button>
+          `}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+renderFiles();
+
+// ═══ GENERATE SINGLE ═══
+async function generateSingle(key) {
+  fileStates[key] = 'generating';
+  renderFiles();
+  updateProgress();
+  
+  try {
+    const r = await fetch('/api/generate-file', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ file_type: key, intake_data: {} })
+    });
+    const d = await r.json();
+    if (d.content) {
+      fileStates[key] = 'done';
+      fileContents[key] = d.content;
+    } else {
+      fileStates[key] = 'pending';
+    }
+  } catch(e) {
+    fileStates[key] = 'pending';
+  }
+  renderFiles();
+  updateProgress();
+}
+
+// ═══ GENERATE ALL ═══
+async function generateAll() {
+  const btn = document.getElementById('generateAllBtn');
+  btn.disabled = true;
+  
+  try {
+    const r = await fetch('/api/generate-zip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ intake_data: {} })
+    });
+    const d = await r.json();
+    
+    if (d.job_id) {
+      document.getElementById('progressSection').style.display = 'flex';
+      await pollJob(d.job_id);
+    }
+  } catch(e) {
+    console.error('Generate all error:', e);
+  }
+  btn.disabled = false;
+}
+
+async function pollJob(jobId) {
+  const maxAttempts = 120;
+  for (let i = 0; i < maxAttempts; i++) {
     try {
-      const res = await fetch('/api/auth/me', {
+      const r = await fetch(`/api/job/${jobId}/result`, {
         headers: { 'Authorization': 'Bearer ' + token }
       });
-      if (!res.ok) { localStorage.removeItem('agentulmeu_token'); window.location.href = '/login'; return; }
-      const data = await res.json();
-      const user = data.user || data;
-    // PAYWALL GUARD v2: fallback dacă plan nu vine din API
-    const userPlan = user?.plan || 'free'; // fallback la 'free'
-    if (userPlan === 'free' && !window.location.href.includes('checkout')) {
-      const modal = document.createElement('div');
-      modal.id = 'paywall-modal';
-      modal.style.cssText = 'position:fixed;inset:0;background:rgba(5,12,24,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;padding:2rem';
-      modal.innerHTML = '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:2.5rem;max-width:520px;text-align:center"><div style="font-size:0.875rem;color:#f59e0b;font-weight:700;margin-bottom:0.5rem">PLAN GRATUIT</div><h2 style="font-family:\'DM Serif Display\',serif;font-size:1.75rem;margin:0.5rem 0">Upgrade pentru acces complet</h2><p style="color:#8b9ab5;margin:1rem 0 1.5rem">Ai generat fișierele de configurare. Pentru a activa agenții și a conecta canalele, alege un plan:</p><div style="display:grid;gap:0.75rem;margin-bottom:1.5rem"><a href="/checkout?plan=professional" class="btn" style="background:linear-gradient(135deg,#0d9488,#14b8a6);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Professional $99/lună ↗</a><a href="/checkout?plan=done-for-you" class="btn" style="background:linear-gradient(135deg,#d97706,#f59e0b);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Done-For-You $299 one-time ↗</a></div><button onclick="document.getElementById(\'paywall-modal\').remove()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:#8b9ab5;padding:0.5rem 1rem;border-radius:10px;cursor:pointer">Continuă cu plan gratuit</button></div>';
-      document.body.appendChild(modal);
-    }
-
-    // PAYWALL GUARD: dacă plan === 'free', afișăm modal upgrade
-    if (user && user.plan === 'free' && !window.location.href.includes('checkout')) {
-      const modal = document.createElement('div');
-      modal.id = 'paywall-modal';
-      modal.style.cssText = 'position:fixed;inset:0;background:rgba(5,12,24,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;padding:2rem';
-      modal.innerHTML = '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:2.5rem;max-width:520px;text-align:center"><div style="font-size:0.875rem;color:#f59e0b;font-weight:700;margin-bottom:0.5rem">PLAN GRATUIT</div><h2 style="font-family:\'DM Serif Display\',serif;font-size:1.75rem;margin:0.5rem 0">Upgrade pentru acces complet</h2><p style="color:#8b9ab5;margin:1rem 0 1.5rem">Ai generat fișierele de configurare. Pentru a activa agenții și a conecta canalele, alege un plan:</p><div style="display:grid;gap:0.75rem;margin-bottom:1.5rem"><a href="/checkout?plan=professional" class="btn" style="background:linear-gradient(135deg,#0d9488,#14b8a6);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Professional $99/lună ↗</a><a href="/checkout?plan=done-for-you" class="btn" style="background:linear-gradient(135deg,#d97706,#f59e0b);color:#050c18;font-weight:700;padding:0.875rem;border-radius:14px;text-decoration:none;display:block">Done-For-You $299 one-time ↗</a></div><button onclick="document.getElementById(\'paywall-modal\').remove()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:#8b9ab5;padding:0.5rem 1rem;border-radius:10px;cursor:pointer">Continuă cu plan gratuit</button></div>';
-      document.body.appendChild(modal);
-    }
-
-      const name = user.username || user.name || user.email || 'Utilizator';
-      const email = user.email || '';
-      const initial = name[0].toUpperCase();
-
-      document.getElementById('navAvatar').textContent = initial;
-      document.getElementById('navUsername').textContent = name;
-      document.getElementById('greetName').textContent = name;
-      document.getElementById('profileAvatar').textContent = initial;
-      document.getElementById('profileName').textContent = name;
-      document.getElementById('profileEmail').textContent = email || '—';
-      document.getElementById('profileRole').textContent = user.role || 'Utilizator';
-    } catch(e) {
-      window.location.href = '/login';
-    } finally {
-      document.getElementById('loader').style.display = 'none';
-    }
+      const d = await r.json();
+      
+      const done = d.done || 0;
+      const total = d.total || 9;
+      const pct = Math.round((done / total) * 100);
+      
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressCount').textContent = done + '/' + total;
+      document.getElementById('progressStatus').textContent = d.status === 'done' ? 'Complet!' : `Se generează... ${done}/${total}`;
+      
+      if (d.status === 'done') {
+        document.getElementById('progressBar').classList.remove('generating');
+        document.getElementById('progressLabel').textContent = '✓ Generare completă!';
+        
+        if (d.files) {
+          Object.keys(d.files).forEach(key => {
+            if (d.files[key].ok) {
+              fileStates[key] = 'done';
+              fileContents[key] = d.files[key].content || '';
+            }
+          });
+        }
+        
+        if (d.zip_b64) {
+          const zipBtn = document.getElementById('downloadZipBtn');
+          zipBtn.disabled = false;
+          zipBtn.textContent = `📦 Descarcă ZIP (${total}/9)`;
+          zipBtn.onclick = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/zip;base64,' + d.zip_b64;
+            link.download = 'agentulmeu-config.zip';
+            link.click();
+          };
+        }
+        
+        renderFiles();
+        setTimeout(() => {
+          document.getElementById('progressSection').style.display = 'none';
+        }, 3000);
+        break;
+      }
+      
+      document.getElementById('progressBar').classList.add('generating');
+      
+    } catch(e) {}
+    await new Promise(r => setTimeout(r, 3000));
   }
+}
 
-  function logout() {
-    localStorage.removeItem('agentulmeu_token');
-    localStorage.removeItem('agentulmeu_user');
-    window.location.href = '/login';
+function updateProgress() {
+  const done = Object.values(fileStates).filter(s => s === 'done').length;
+  const zipBtn = document.getElementById('downloadZipBtn');
+  zipBtn.textContent = `📦 Descarcă ZIP (${done}/9)`;
+  zipBtn.disabled = done === 0;
+  
+  const genBtn = document.getElementById('generateAllBtn');
+  const remaining = 9 - done;
+  genBtn.textContent = `🔄 Generează Toate (${remaining} rămase)`;
+}
+
+// ═══ PREVIEW & DOWNLOAD ═══
+function previewFile(key) {
+  const ft = FILE_TYPES.find(f => f.key === key);
+  document.getElementById('previewTitle').textContent = ft.icon + ' ' + ft.name;
+  document.getElementById('previewContent').textContent = fileContents[key] || 'Conținut indisponibil.';
+  document.getElementById('previewDownloadBtn').onclick = () => downloadSingle(key);
+  document.getElementById('previewModal').classList.add('active');
+}
+
+function downloadSingle(key) {
+  const content = fileContents[key] || '';
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = key + '.md';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadFile() {
+  // Handled by individual buttons
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+});
+
+// ═══ REPORTS ═══
+const INTENT_LABELS = {
+  'rezervare': '📅 Rezervări', 'pret': '💰 Prețuri', 'suport': '🛠️ Suport',
+  'vanzare': '🛒 Vânzări', 'meniu': '🍽️ Meniu', 'program': '🕐 Program',
+  'contact': '📍 Contact', 'general': '💬 General'
+};
+const INTENT_COLORS = {
+  'rezervare': '#f97316', 'pret': '#16a34a', 'suport': '#2563eb',
+  'vanzare': '#7c3aed', 'meniu': '#ec4899', 'program': '#14b8a6',
+  'contact': '#eab308', 'general': '#6b7280'
+};
+
+async function loadReportsData() {
+  try {
+    const r = await fetch('/api/reports/weekly', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await r.json();
+    if (data.success) {
+      renderReportStats(data);
+      renderIntentsChart(data);
+      renderChannelsChart(data);
+      renderDailyChart(data);
+      renderTopQuestions(data);
+    }
+  } catch(e) { console.error('Reports load error:', e); }
+}
+
+function renderReportStats(data) {
+  const roi = data.roi || {};
+  document.getElementById('rptTotalConv').textContent = data.total_conversations || 0;
+  document.getElementById('rptHoursSaved').textContent = (roi.hours_saved || 0) + 'h';
+  document.getElementById('rptAppointments').textContent = roi.appointments || 0;
+  document.getElementById('rptValueLei').textContent = Math.round(roi.estimated_value_lei || 0) + ' lei';
+}
+
+function renderIntentsChart(data) {
+  const container = document.getElementById('intentsChart');
+  if (!data.intents || data.intents.length === 0) return;
+  const maxCount = Math.max(...data.intents.map(i => i.count));
+  container.innerHTML = data.intents.map(item => {
+    const label = INTENT_LABELS[item.intent] || item.intent;
+    const color = INTENT_COLORS[item.intent] || '#6b7280';
+    const pct = data.total_conversations > 0 ? Math.round((item.count / data.total_conversations) * 100) : 0;
+    const barWidth = maxCount > 0 ? Math.round((item.count / maxCount) * 100) : 0;
+    return `<div class="chart-bar"><div class="chart-bar-header"><span class="chart-bar-label">${label}</span><span class="chart-bar-value">${item.count} (${pct}%)</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${barWidth}%;background:${color}"></div></div></div>`;
+  }).join('');
+}
+
+function renderChannelsChart(data) {
+  const container = document.getElementById('channelsChart');
+  if (!data.channels || data.channels.length === 0) return;
+  const maxCount = Math.max(...data.channels.map(c => c.count));
+  const channelColors = { 'telegram': '#2563eb', 'whatsapp': '#16a34a', 'web': '#f97316', 'discord': '#7c3aed', 'unknown': '#6b7280' };
+  container.innerHTML = data.channels.map(ch => {
+    const color = channelColors[ch.channel] || '#6b7280';
+    const pct = data.total_conversations > 0 ? Math.round((ch.count / data.total_conversations) * 100) : 0;
+    const barWidth = maxCount > 0 ? Math.round((ch.count / maxCount) * 100) : 0;
+    return `<div class="chart-bar"><div class="chart-bar-header"><span class="chart-bar-label">${ch.channel.charAt(0).toUpperCase() + ch.channel.slice(1)}</span><span class="chart-bar-value">${ch.count} (${pct}%)</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${barWidth}%;background:${color}"></div></div></div>`;
+  }).join('');
+}
+
+function renderDailyChart(data) {
+  const container = document.getElementById('dailyChart');
+  if (!data.daily || data.daily.length === 0) return;
+  const maxCount = Math.max(...data.daily.map(d => d.count));
+  const dayNames = ['Dum', 'Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm'];
+  const sorted = [...data.daily].sort((a, b) => new Date(a.day) - new Date(b.day));
+  container.innerHTML = '<div class="daily-chart">' + sorted.map(d => {
+    const date = new Date(d.day);
+    const dayName = dayNames[date.getDay()];
+    const barHeight = maxCount > 0 ? Math.round((d.count / maxCount) * 100) : 4;
+    return `<div class="daily-bar"><span class="daily-bar-value">${d.count}</span><div class="daily-bar-track" style="height:${Math.max(barHeight, 4)}%;background:var(--accent)"></div><span class="daily-bar-label">${dayName}</span></div>`;
+  }).join('') + '</div>';
+}
+
+function renderTopQuestions(data) {
+  const container = document.getElementById('topQuestions');
+  if (!data.top_questions || data.top_questions.length === 0) return;
+  container.innerHTML = '<div class="top-questions">' + data.top_questions.map((q, i) => {
+    return `<div class="top-question"><div class="rank">${i + 1}</div><div class="text">${q.message}</div><div class="count">${q.count}x</div></div>`;
+  }).join('') + '</div>';
+}
+
+// ═══ REPORT CONFIG ═══
+function openReportConfig() {
+  document.getElementById('reportConfigModal').classList.add('active');
+  loadReportConfig();
+}
+
+async function loadReportConfig() {
+  try {
+    const r = await fetch('/api/reports/config', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await r.json();
+    if (data.success && data.config) {
+      document.getElementById('cfgBusinessName').value = data.config.business_name || '';
+      document.getElementById('cfgEmail').value = data.config.email || '';
+      document.getElementById('cfgTelegramToken').value = data.config.telegram_token || '';
+      document.getElementById('cfgTelegramChatId').value = data.config.telegram_chat_id || '';
+      document.getElementById('cfgEnabled').checked = data.config.enabled !== false;
+    }
+  } catch(e) {}
+}
+
+async function saveReportConfig() {
+  const btn = document.getElementById('saveConfigBtn');
+  const status = document.getElementById('reportConfigStatus');
+  btn.disabled = true; btn.textContent = '⏳ Se salvează...'; status.textContent = '';
+  
+  try {
+    const r = await fetch('/api/reports/configure', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({
+        business_name: document.getElementById('cfgBusinessName').value,
+        email: document.getElementById('cfgEmail').value,
+        telegram_token: document.getElementById('cfgTelegramToken').value,
+        telegram_chat_id: document.getElementById('cfgTelegramChatId').value,
+        enabled: document.getElementById('cfgEnabled').checked
+      })
+    });
+    const data = await r.json();
+    if (data.success) {
+      status.textContent = '✓ Configurație salvată!';
+      status.style.background = 'rgba(22,163,74,0.06)';
+      status.style.border = '1px solid rgba(22,163,74,0.15)';
+      status.style.color = '#16a34a';
+      setTimeout(() => closeModal('reportConfigModal'), 1500);
+    } else {
+      status.textContent = '✕ ' + (data.error || 'Eroare');
+      status.style.background = 'rgba(220,38,38,0.06)';
+      status.style.border = '1px solid rgba(220,38,38,0.15)';
+      status.style.color = '#dc2626';
+    }
+  } catch(e) {
+    status.textContent = '✕ Eroare de conexiune';
+    status.style.background = 'rgba(220,38,38,0.06)';
+    status.style.color = '#dc2626';
   }
+  btn.disabled = false; btn.textContent = '💾 Salvează';
+}
 
-  loadUser();
+async function sendTestReport() {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = '⏳ Se trimite...';
+  try {
+    const cfgR = await fetch('/api/reports/config', { headers: { 'Authorization': 'Bearer ' + token } });
+    const cfgData = await cfgR.json();
+    if (!cfgData.success || !cfgData.config) { alert('Configurează mai întâi rapoartele.'); btn.disabled = false; btn.textContent = '📤 Trimite Test'; return; }
+    const cfg = cfgData.config;
+    let sent = false;
+    if (cfg.telegram_token && cfg.telegram_chat_id) {
+      const r = await fetch('/api/reports/send-telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ telegram_token: cfg.telegram_token, chat_id: cfg.telegram_chat_id, business_name: cfg.business_name })
+      });
+      const data = await r.json();
+      if (data.success) { alert('✓ Raport trimis pe Telegram!'); sent = true; }
+      else alert('✕ Telegram: ' + (data.error || 'Eroare'));
+    }
+    if (cfg.email && !sent) {
+      const r = await fetch('/api/reports/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ email: cfg.email, business_name: cfg.business_name })
+      });
+      const data = await r.json();
+      if (data.success) { alert('✓ Raport trimis pe email!'); sent = true; }
+      else alert('✕ Email: ' + (data.error || 'Eroare'));
+    }
+    if (!sent) alert('Niciun canal configurat.');
+  } catch(e) { alert('Eroare: ' + e.message); }
+  btn.disabled = false; btn.textContent = '📤 Trimite Test';
+}
+
+function exportPDF() {
+  const printContent = document.getElementById('reportsSection');
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`<!DOCTYPE html><html><head><title>Raport AgentulMeu — ${new Date().toLocaleDateString('ro-RO')}</title><style>body{font-family:Arial,sans-serif;background:#fff;color:#111;padding:32px;max-width:800px;margin:0 auto}h2{color:#f97316;font-size:20px;margin-bottom:8px}h3{font-size:14px;margin:16px 0 8px}p{color:#666;font-size:13px}.stat{display:inline-block;margin-right:24px;margin-bottom:16px}.stat-val{font-size:24px;font-weight:800;color:#f97316}.stat-label{font-size:11px;color:#888}.bar-container{margin-bottom:10px}.bar-label{font-size:12px;font-weight:600}.bar-value{font-size:11px;color:#888}.bar-bg{height:6px;background:#eee;border-radius:3px;margin-top:2px}.bar-fill{height:100%;border-radius:3px}.question{padding:6px 0;border-bottom:1px solid #eee;font-size:12px}.footer{margin-top:32px;text-align:center;color:#aaa;font-size:10px}
+:root{
+  --bg:#ffffff;--bg-2:#fafafa;--bg-3:#f5f5f5;
+  --text:#0a0a0a;--text-2:#444444;--text-3:#777777;
+  --gold:#C9A227;--gold-light:#E8C547;--gold-dark:#A68521;
+  --gold-glow:rgba(201,162,39,0.12);
+  --gold-gradient:linear-gradient(135deg,#C9A227,#E8C547,#C9A227);
+  --gold-shadow:0 8px 32px rgba(201,162,39,0.25);
+  --gold-shadow-lg:0 16px 48px rgba(201,162,39,0.3);
+  --green:#16a34a;--blue:#2563eb;--purple:#7c3aed;--red:#dc2626;
+  --border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md:0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg:0 16px 48px rgba(0,0,0,0.08);
+  --shadow-xl:0 24px 64px rgba(0,0,0,0.10);
+  --radius:16px;--radius-lg:20px;--radius-xl:28px;
+}
+
+/* ═══ PREMIUM GOLD BUTTONS ═══ */
+.btn-primary{
+  background:var(--gold-gradient)!important;color:#0a0a0a!important;
+  box-shadow:var(--gold-shadow)!important;border:none!important;
+  position:relative;overflow:hidden;font-weight:700!important;
+}
+.btn-primary::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+  transition:left .6s ease;
+}
+.btn-primary:hover::before{left:100%}
+.btn-primary:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:var(--gold-shadow-lg)!important;
+}
+
+.btn-secondary,.btn-ghost{
+  background:var(--bg)!important;color:var(--text)!important;
+  border:1.5px solid var(--border-2)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+.btn-secondary:hover,.btn-ghost:hover{
+  border-color:var(--gold)!important;
+  box-shadow:0 4px 16px rgba(201,162,39,0.15)!important;
+  transform:translateY(-2px)!important;
+}
+
+.btn-green{
+  background:linear-gradient(135deg,#16a34a,#22c55e)!important;
+  color:#fff!important;box-shadow:0 8px 24px rgba(22,163,74,0.25)!important;
+}
+.btn-green:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 12px 36px rgba(22,163,74,0.35)!important;
+}
+
+.btn-blue{
+  background:linear-gradient(135deg,#2563eb,#3b82f6)!important;
+  color:#fff!important;box-shadow:0 8px 24px rgba(37,99,235,0.25)!important;
+}
+.btn-blue:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 12px 36px rgba(37,99,235,0.35)!important;
+}
+
+/* ═══ PREMIUM CARDS ═══ */
+.file-card,.stat-card,.chart-card,.reports-section,.how-section,.framework-card{
+  background:var(--bg)!important;
+  border:1.5px solid var(--border)!important;
+  transition:all .4s cubic-bezier(0.25,0.46,0.45,0.94)!important;
+  position:relative;overflow:hidden;
+}
+.file-card::after,.stat-card::after,.chart-card::after,.framework-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold-gradient);opacity:0;transition:opacity .3s ease;
+}
+.file-card:hover,.stat-card:hover,.chart-card:hover{
+  transform:translateY(-8px)!important;
+  box-shadow:var(--shadow-xl)!important;
+  border-color:rgba(201,162,39,0.2)!important;
+}
+.file-card:hover::after,.stat-card:hover::after,.chart-card:hover::after{
+  opacity:1;
+}
+
+.file-card.done{border-color:rgba(22,163,74,0.25)!important}
+.file-card.done::after{background:linear-gradient(90deg,#16a34a,#22c55e)!important}
+
+/* ═══ GOLD ACCENTS ═══ */
+.nav-logo-icon{background:var(--gold-gradient)!important;box-shadow:0 4px 14px rgba(201,162,39,0.3)!important}
+.nav-logo-text span{color:var(--gold)!important}
+.stat-value.orange{color:var(--gold)!important}
+.progress-bar-inner{background:var(--gold-gradient)!important}
+.file-status.generating{background:var(--gold-glow)!important;color:var(--gold-dark)!important}
+.file-status.generating .dot{background:var(--gold)!important}
+.file-icon.orange{background:var(--gold-glow)!important}
+.framework-badge{background:var(--gold-gradient)!important;color:#0a0a0a!important}
+.framework-card.recommended{border-color:var(--gold)!important;box-shadow:var(--gold-shadow)!important}
+.framework-card.orange::before{background:var(--gold-gradient)!important}
+.sidebar-logo-icon{background:var(--gold-gradient)!important}
+
+</style></head><body>${printContent.innerHTML}<div class="footer">AgentulMeu.online — Raport generat pe ${new Date().toLocaleString('ro-RO')}</div></body></html>`);
+  printWindow.document.close();
+  setTimeout(() => printWindow.print(), 500);
+}
+
+// ═══ INIT ═══
+setTimeout(loadReportsData, 1000);
 </script>
 </body>
 </html>

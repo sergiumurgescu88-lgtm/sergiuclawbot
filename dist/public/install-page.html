@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instalare Hermes — AgentulMeu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--bg-2:#f8f9fa;--text:#111;--text-2:#555;--text-3:#888;--accent:#C9A227;--accent-2:#E8C547;--green:#16a34a;--border:rgba(0,0,0,0.06);--border-2:rgba(0,0,0,0.10);--shadow-sm:0 1px 3px rgba(0,0,0,0.04);--shadow-lg:0 12px 40px rgba(0,0,0,0.08);--shadow-float:0 24px 80px rgba(201,162,39,0.15),0 8px 24px rgba(0,0,0,0.06);--radius:16px;--radius-lg:20px;--radius-xl:28px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;line-height:1.6}
+.float{animation:float 6s ease-in-out infinite}
+.fade-in{animation:fadeInUp .5s ease-out both}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;box-shadow:0 4px 12px rgba(249,115,22,0.3)}
+.nav-logo-text{font-size:1.05rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-nav-ghost{color:var(--text);border:1px solid var(--border-2);background:transparent}
+.btn-nav-ghost:hover{border-color:var(--text)}
+
+main{flex:1;padding:88px 24px 60px;max-width:900px;margin:0 auto;width:100%}
+
+.hero{text-align:center;margin-bottom:48px;animation:fadeInUp .5s ease-out both}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.15);border-radius:999px;padding:6px 16px 6px 10px;font-size:0.8rem;font-weight:600;color:var(--accent);margin-bottom:20px}
+.hero .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+.hero h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:12px}
+.hero h1 .accent{color:var(--accent)}
+.hero p{color:var(--text-2);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7}
+
+.steps-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+.step-mini{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center;transition:all .4s ease}
+.step-mini:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.step-mini-num{font-size:0.7rem;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:0.05em}
+.step-mini-icon{font-size:1.5rem;margin-bottom:8px}
+.step-mini h3{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+.step-mini p{font-size:0.78rem;color:var(--text-3);line-height:1.5}
+
+.req-box{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px}
+.req-box h3{font-size:0.85rem;font-weight:700;margin-bottom:12px;color:var(--text-2)}
+.req-item{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:0.85rem;color:var(--text-2)}
+.req-item .check{color:var(--green);font-weight:700}
+
+.form-section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:40px;margin-bottom:32px;transition:all .4s ease}
+.form-section:hover{box-shadow:var(--shadow-lg)}
+.form-section h2{font-size:1.2rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em}
+.form-section .subtitle{color:var(--text-2);font-size:0.88rem;margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group label{display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.form-group label .opt{color:var(--text-3);font-weight:400;font-size:0.78rem}
+.form-input{width:100%;padding:12px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-2);color:var(--text);font-size:0.92rem;font-family:Inter,sans-serif;transition:all .2s}
+.form-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,0.1);background:var(--bg)}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+select.form-input option{background:var(--bg);color:var(--text)}
+
+.info-box{background:rgba(249,115,22,0.04);border:1px solid rgba(201,162,39,0.15);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;font-size:0.85rem;color:var(--text-2);line-height:1.6}
+.info-box.green{background:rgba(22,163,74,0.04);border-color:rgba(22,163,74,0.12)}
+.info-box strong{color:var(--text)}
+
+.command-section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;margin-bottom:32px}
+.command-section h2{font-size:1.1rem;font-weight:700;margin-bottom:16px}
+.code-block{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;position:relative;overflow-x:auto;margin-bottom:16px}
+.code-block code{font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--green);line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.code-block .copy-btn{position:absolute;top:12px;right:12px;background:var(--bg);border:1px solid var(--border-2);color:var(--text-2);padding:6px 14px;border-radius:8px;font-size:0.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.code-block .copy-btn:hover{background:var(--text);color:var(--bg)}
+.code-block .copy-btn.copied{background:var(--green);color:#fff;border-color:var(--green)}
+
+.btn-generate{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--accent);color:#fff;padding:16px;border-radius:var(--radius);border:none;cursor:pointer;font-size:1rem;font-weight:700;font-family:Inter,sans-serif;transition:all .3s ease;box-shadow:0 4px 12px rgba(201,162,39,0.25)}
+.btn-generate:hover{background:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,162,39,0.35)}
+.btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-generate .spinner{width:18px;height:18px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.instructions{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;margin-bottom:32px}
+.instructions h2{font-size:1.1rem;font-weight:700;margin-bottom:20px}
+.instr-step{display:flex;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.instr-step:last-child{margin-bottom:0;padding-bottom:0;border:none}
+.instr-num{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#fff;flex-shrink:0}
+.instr-step h3{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+.instr-step p{font-size:0.82rem;color:var(--text-2);line-height:1.5}
+
+footer{text-align:center;padding:24px;color:var(--text-3);font-size:0.75rem;border-top:1px solid var(--border)}
+
+@media(max-width:768px){
+  .form-grid,.steps-overview{grid-template-columns:1fr}
+  .form-section,.command-section,.instructions{padding:24px 20px}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/wizard">Wizard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/login" class="btn-nav btn-nav-ghost">Autentificare</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <div class="badge"><span class="dot"></span> Hermes v0.13 · Ubuntu 22.04/24.04</div>
+    <h1>Instalează <span class="accent">Hermes Agent</span></h1>
+    <p>Completează formularul de mai jos și primești o comandă personalizată. Un singur copy-paste pe VPS-ul tău și agentul e live.</p>
+  </div>
+
+  <div class="steps-overview">
+    <div class="step-mini float">
+      <div class="step-mini-num">01</div>
+      <div class="step-mini-icon">📝</div>
+      <h3>Completează formularul</h3>
+      <p>Nume business, domeniu, canale de comunicare.</p>
+    </div>
+    <div class="step-mini float-delay">
+      <div class="step-mini-num">02</div>
+      <div class="step-mini-icon">⚡</div>
+      <h3>Copiază comanda</h3>
+      <p>Comandă one-liner generată automat cu parametrii tăi.</p>
+    </div>
+    <div class="step-mini float-slow">
+      <div class="step-mini-num">03</div>
+      <div class="step-mini-icon">🚀</div>
+      <h3>Agentul e live</h3>
+      <p>Rulează pe VPS. Hermes + Ollama + Telegram în ~10 minute.</p>
+    </div>
+  </div>
+
+  <div class="req-box">
+    <h3>📋 Cerințe minime VPS</h3>
+    <div class="req-item"><span class="check">✓</span> Ubuntu 22.04 sau 24.04 LTS</div>
+    <div class="req-item"><span class="check">✓</span> Minim 4GB RAM (8GB recomandat)</div>
+    <div class="req-item"><span class="check">✓</span> Minim 10GB spațiu disk</div>
+    <div class="req-item"><span class="check">✓</span> Acces root sau sudo</div>
+    <div class="req-item"><span class="check">✓</span> Conexiune la internet</div>
+  </div>
+
+  <div class="form-section">
+    <h2>⚙️ Configurare Agent</h2>
+    <p class="subtitle">Completează câmpurile de mai jos pentru a genera comanda de instalare personalizată.</p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="agentName">Numele Agentului</label>
+        <input type="text" id="agentName" class="form-input" placeholder="ex: HermesRO" value="AgentulMeu">
+      </div>
+      <div class="form-group">
+        <label for="businessName">Numele Business-ului *</label>
+        <input type="text" id="businessName" class="form-input" placeholder="ex: Restaurant La Crama" required>
+      </div>
+      <div class="form-group">
+        <label for="domain">Domeniu HTTPS <span class="opt">(opțional)</span></label>
+        <input type="text" id="domain" class="form-input" placeholder="ex: agent.domeniu.ro">
+      </div>
+      <div class="form-group">
+        <label for="ollamaModel">Model Ollama</label>
+        <select id="ollamaModel" class="form-input">
+          <option value="llama3.2:1b" selected>llama3.2:1b (rapid, 1.2GB)</option>
+          <option value="llama3.2:3b">llama3.2:3b (echilibrat, 2GB)</option>
+          <option value="llama3.1:8b">llama3.1:8b (puternic, 4.7GB)</option>
+          <option value="hermes3:latest">hermes3:latest (specializat)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="telegramToken">Telegram Bot Token <span class="opt">(opțional)</span></label>
+        <input type="text" id="telegramToken" class="form-input" placeholder="ex: 123456:ABC-DEF...">
+      </div>
+      <div class="form-group">
+        <label for="telegramChatId">Telegram Chat ID <span class="opt">(opțional)</span></label>
+        <input type="text" id="telegramChatId" class="form-input" placeholder="ex: 987654321">
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:24px">
+      <strong>💡 Cum obții Telegram Bot Token:</strong> Deschide Telegram → caută <strong>@BotFather</strong> → trimite <strong>/newbot</strong> → urmează instrucțiunile → copiază token-ul.
+    </div>
+    <button class="btn-generate" id="generateBtn" onclick="generateCommand()">⚡ Generează Comanda de Instalare</button>
+  </div>
+
+  <div class="command-section" id="commandSection" style="display:none">
+    <h2>📋 Comanda ta personalizată</h2>
+    <div class="info-box green">
+      <strong>✓ Comandă generată!</strong> Copiază și rulează pe VPS-ul tău Ubuntu ca root sau cu sudo.
+    </div>
+    <div class="code-block">
+      <code id="commandOutput">Se generează...</code>
+      <button class="copy-btn" id="copyBtn" onclick="copyCommand()">Copiază</button>
+    </div>
+    <p style="font-size:0.8rem;color:var(--text-3);margin-top:8px">⏱ Timp estimat: ~10 minute · Se instalează: Hermes + Ollama + Nginx + SSL</p>
+  </div>
+
+  <div class="instructions">
+    <h2>📖 Instrucțiuni de utilizare</h2>
+    <div class="instr-step">
+      <div class="instr-num">1</div>
+      <div><h3>Conectează-te la VPS</h3><p>Deschide terminalul și conectează-te: <code style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.8rem">ssh root@ip-ul-tau</code></p></div>
+    </div>
+    <div class="instr-step">
+      <div class="instr-num">2</div>
+      <div><h3>Lipește comanda</h3><p>Copiază comanda generată mai sus și lipește-o în terminal. Apasă Enter.</p></div>
+    </div>
+    <div class="instr-step">
+      <div class="instr-num">3</div>
+      <div><h3>Așteaptă instalarea</h3><p>Scriptul va instala automat: Node.js, Python, Ollama, Hermes Agent, Nginx și certificatul SSL. Durează ~10 minute.</p></div>
+    </div>
+    <div class="instr-step">
+      <div class="instr-num">4</div>
+      <div><h3>Verifică statusul</h3><p>După instalare, rulează: <code style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.8rem">systemctl status hermes-agent</code></p></div>
+    </div>
+    <div class="instr-step">
+      <div class="instr-num">5</div>
+      <div><h3>Testează agentul</h3><p>Deschide Telegram și trimite un mesaj bot-ului tău sau accesează <code style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.8rem">https://domeniul-tau.ro</code></p></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px">
+    <p style="color:var(--text-2);font-size:0.88rem;margin-bottom:12px">Preferi să descarci scriptul direct?</p>
+    <a href="/install" class="btn-nav btn-nav-ghost" style="display:inline-block;padding:12px 28px">📥 Descarcă hermes-install.sh</a>
+  </div>
+</main>
+
+<footer>© 2026 AgentulMeu.online · Made in România 🇷🇴</footer>
+
+<script>
+function generateCommand() {
+  const btn = document.getElementById('generateBtn');
+  const businessName = document.getElementById('businessName').value.trim();
+  if (!businessName) { alert('Te rugăm să completezi numele business-ului.'); document.getElementById('businessName').focus(); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Se generează...';
+  const params = new URLSearchParams();
+  params.set('business_name', businessName);
+  const agentName = document.getElementById('agentName').value.trim();
+  if (agentName) params.set('agent_name', agentName);
+  const domain = document.getElementById('domain').value.trim();
+  if (domain) params.set('domain', domain);
+  const telegramToken = document.getElementById('telegramToken').value.trim();
+  if (telegramToken) params.set('telegram_token', telegramToken);
+  const telegramChatId = document.getElementById('telegramChatId').value.trim();
+  if (telegramChatId) params.set('telegram_chat_id', telegramChatId);
+  const ollamaModel = document.getElementById('ollamaModel').value;
+  if (ollamaModel) params.set('ollama_model', ollamaModel);
+  fetch('/install/command?' + params.toString()).then(r => r.json()).then(data => {
+    document.getElementById('commandOutput').textContent = data.command;
+    document.getElementById('commandSection').style.display = 'block';
+    document.getElementById('commandSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    btn.disabled = false; btn.innerHTML = '⚡ Generează Comanda de Instalare';
+  }).catch(() => {
+    let envVars = `AGENT_NAME='${agentName || 'AgentulMeu'}' BUSINESS_NAME='${businessName}'`;
+    if (domain) envVars += ` DOMAIN='${domain}'`;
+    if (telegramToken) envVars += ` TELEGRAM_TOKEN='${telegramToken}'`;
+    if (telegramChatId) envVars += ` TELEGRAM_CHAT_ID='${telegramChatId}'`;
+    const cmd = `${envVars} curl -fsSL https://agentulmeu.online/install | sudo bash`;
+    document.getElementById('commandOutput').textContent = cmd;
+    document.getElementById('commandSection').style.display = 'block';
+    document.getElementById('commandSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    btn.disabled = false; btn.innerHTML = '⚡ Generează Comanda de Instalare';
+  });
+}
+function copyCommand() {
+  const cmd = document.getElementById('commandOutput').textContent;
+  const btn = document.getElementById('copyBtn');
+  navigator.clipboard.writeText(cmd).then(() => {
+    btn.textContent = '✓ Copiat!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiază'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.querySelectorAll('.form-input').forEach(input => {
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') generateCommand(); });
+});
+</script>
+</body>
+</html>
