@@ -1,36 +1,13 @@
-# Environment & Secrets
 .env*
 *.env
-*.env.*
 *.bak
-*.bak.*
-config/*.db
-config/*.json
-*.key
-*.pem
-*.secret
-
-# Python & Node
-venv/
-__pycache__/
-*.pyc
-*.pyo
-node_modules/
-.pm2/
-ecosystem.config.js
-
-# Logs & Cache & Output
 *.log
 *.jsonl
 .cache/
 output/logs/
-output/**/*.zip
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Large assets (keep only optimized web versions)
+venv/
+__pycache__/
+node_modules/
 dist/public/assets/uploads/logoagentulmeu/logo*.jpg
 dist/public/assets/uploads/logoagentulmeu/logo*.png
 dist/public/assets/uploads/logoagentulmeu/favivon2*

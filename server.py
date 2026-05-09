@@ -1344,47 +1344,6 @@ def api_reports_get_config():
 
 
 
-@app.route('/api/wizard/ask-ai', methods=['POST'])
-@require_auth
-def wizard_ask_ai():
-    """Generează răspuns automat pentru o întrebare din wizard"""
-    data = request.get_json()
-    if not data or 'question' not in data: 
-        return jsonify({'error': 'question required'}), 400
-    
-    question = data['question']
-    business_context = data.get('business_context', {})
-    
-    try:
-        from openai import OpenAI
-        kimi = OpenAI(
-            base_url='https://api.moonshot.ai/v1',
-            api_key=os.getenv('KIMI_API_KEY')
-        )
-        
-        prompt = f"""Ești un consultant expert pentru antreprenori români. Răspunde scurt și practic la întrebarea de mai jos.
-
-Context business: {json.dumps(business_context, ensure_ascii=False)[:500]}
-
-Întrebare: {question}
-
-Răspunde în maxim 3 propoziții, în română, cu sfaturi acționabile. Fără introduceri, fără concluzii."""
-
-        res = kimi.chat.completions.create(
-            model='kimi-k2.6',
-            messages=[{'role': 'user', 'content': prompt}],
-            max_tokens=200,
-            temperature=1
-        )
-        
-        answer = res.choices[0].message.content.strip()
-        return jsonify({'success': True, 'answer': answer})
-        
-    except Exception as e:
-        app.logger.error(f"Ask AI error: {e}")
-        return jsonify({'error': 'Eroare la generarea răspunsului'}), 500
-
-
 @app.route('/api/wizard/businesses', methods=['GET'])
 @require_auth
 def wizard_get_businesses():
@@ -1466,6 +1425,51 @@ def wizard_create_business():
         app.logger.error(f"Create business error: {e}")
         return jsonify({'error': str(e)}), 500
 
+
+
+
+@app.route('/api/wizard/ask-ai', methods=['POST', 'OPTIONS'])
+def wizard_ask_ai_public():
+    if request.method == 'OPTIONS':
+        return '', 204
+    try:
+        import requests
+        data = request.json or {}
+        question = data.get('question', '')
+        context = data.get('business_context', {})
+        if not question:
+            return jsonify({"success": False, "error": "Intrebarea este goala"}), 400
+
+        context_str = "\n".join([f"{k}: {v}" for k, v in context.items() if v])
+        prompt = f"""Esti un asistent AI specializat in configurarea de agenti AI pentru business-uri.
+Utilizatorul completeaza un wizard si are nevoie de o sugestie profesionala, concisa si practica.
+Intrebare: {question}
+Context business (daca exista):
+{context_str if context_str else "Niciun context furnizat inca."}
+
+Raspunde direct, in limba romana, in maxim 3-4 propozitii. Fara introduceri lungi. Fii practic si orientat spre actiune."""
+
+        # Folosim cheia Gemini furnizată
+        gemini_key = "AIzaSyCNopscab1X285WZD53KSsha00bcBV8Ess"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
+        
+        payload = {
+            "contents": [
+                {
+                    "parts": [{"text": prompt}]
+                }
+            ]
+        }
+
+        resp = requests.post(url, json=payload, timeout=15)
+        resp.raise_for_status()
+        result = resp.json()
+        
+        # Parsare răspuns Gemini
+        answer = result['candidates'][0]['content']['parts'][0]['text'].strip()
+        return jsonify({"success": True, "answer": answer})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == '__main__':
     host = os.getenv("FLASK_HOST", "0.0.0.0")
