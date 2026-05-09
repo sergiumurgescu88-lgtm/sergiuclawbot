@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentație — AgentulMeu.online</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff;--bg-2:#f8f9fa;--bg-3:#f1f3f5;
+  --text:#111;--text-2:#555;--text-3:#888;
+  --accent:#C9A227;--accent-light:rgba(201,162,39,0.1);
+  --green:#16a34a;--green-bg:rgba(22,163,74,0.08);
+  --border:rgba(0,0,0,0.07);--border-2:rgba(0,0,0,0.12);
+  --shadow-sm:0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.08);
+  --radius:14px;--radius-lg:20px
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:34px;height:34px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.95rem;color:#fff}
+.nav-logo-text{font-size:1rem;font-weight:700;color:var(--text)}
+.nav-logo-text span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:20px}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.btn-nav{padding:7px 16px;border-radius:9px;font-size:0.82rem;font-weight:600;text-decoration:none;background:#111;color:#fff;transition:opacity .2s}
+.btn-nav:hover{opacity:.85}
+
+/* LAYOUT */
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:80px 24px 60px;gap:40px}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:80px;height:fit-content}
+.sidebar-section{margin-bottom:28px}
+.sidebar-title{font-size:0.7rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px}
+.sidebar a{display:block;font-size:0.82rem;color:var(--text-2);text-decoration:none;padding:5px 10px;border-radius:7px;margin-bottom:2px;transition:all .15s}
+.sidebar a:hover{color:var(--text);background:var(--bg-2)}
+.sidebar a.active{color:var(--accent);background:var(--accent-light);font-weight:600}
+
+/* CONTENT */
+.content{flex:1;min-width:0}
+
+.doc-hero{margin-bottom:48px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);border:1px solid rgba(201,162,39,0.2);border-radius:999px;padding:5px 14px;font-size:0.75rem;font-weight:600;color:var(--accent);margin-bottom:16px}
+.doc-hero h1{font-size:2rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:10px}
+.doc-hero p{color:var(--text-2);font-size:0.95rem;max-width:600px;line-height:1.7}
+
+/* SECTIONS */
+.doc-section{margin-bottom:56px;scroll-margin-top:90px}
+.doc-section h2{font-size:1.25rem;font-weight:700;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.doc-section h2 .icon{font-size:1.1rem}
+.doc-section h3{font-size:0.95rem;font-weight:700;margin:24px 0 10px;color:var(--text)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:16px}
+.step{display:flex;gap:16px;padding:20px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);transition:box-shadow .2s}
+.step:hover{box-shadow:var(--shadow-lg)}
+.step-num{width:36px;height:36px;border-radius:10px;background:var(--accent-light);border:1.5px solid rgba(201,162,39,0.25);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:var(--accent);flex-shrink:0}
+.step-body h3{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+.step-body p{font-size:0.82rem;color:var(--text-2);line-height:1.6}
+.step-body .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:0.7rem;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--bg-2);color:var(--text-3);border:1px solid var(--border)}
+.tag.green{background:var(--green-bg);color:var(--green);border-color:rgba(22,163,74,0.2)}
+.tag.gold{background:var(--accent-light);color:var(--accent);border-color:rgba(201,162,39,0.25)}
+
+/* CODE */
+.code-block{background:#111;color:#e5e7eb;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:20px 24px;border-radius:var(--radius);margin:12px 0;overflow-x:auto;line-height:1.7;position:relative}
+.code-block .comment{color:#6b7280}
+.code-block .cmd{color:#34d399}
+.code-block .val{color:#fbbf24}
+.copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#9ca3af;font-size:0.7rem;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.copy-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+/* INFO BOXES */
+.info-box{padding:16px 20px;border-radius:var(--radius);margin:16px 0;font-size:0.83rem;line-height:1.6}
+.info-box.tip{background:rgba(22,163,74,0.07);border-left:3px solid var(--green);color:#166534}
+.info-box.warn{background:rgba(217,119,6,0.07);border-left:3px solid #d97706;color:#92400e}
+.info-box.info{background:var(--accent-light);border-left:3px solid var(--accent);color:#78560a}
+.info-box strong{font-weight:700}
+
+/* FILES GRID */
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.file-card{padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);transition:all .2s}
+.file-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.file-card .file-name{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;color:var(--accent);margin-bottom:4px}
+.file-card p{font-size:0.75rem;color:var(--text-2)}
+
+/* REQUIREMENTS */
+.req-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.req-list li{display:flex;align-items:flex-start;gap:10px;font-size:0.83rem;color:var(--text-2)}
+.req-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* FAQ */
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.faq-q{padding:14px 18px;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--bg)}
+.faq-q:hover{background:var(--bg-2)}
+.faq-a{padding:0 18px 14px;font-size:0.82rem;color:var(--text-2);line-height:1.7;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-arrow{transition:transform .2s;color:var(--text-3)}
+
+@media(max-width:768px){
+  .layout{flex-direction:column;padding-top:72px}
+  .sidebar{width:100%;position:static}
+  .files-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Agentul<span>Meu</span>.online</div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Acasă</a>
+      <a href="/install-page">Instalare</a>
+      <a href="/docs" class="active">Docs</a>
+      <a href="/wizard-form" class="btn-nav">Creează Agent →</a>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Început rapid</div>
+      <a href="#introducere" class="active">Introducere</a>
+      <a href="#cerinte">Cerințe</a>
+      <a href="#instalare">Instalare</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Wizard</div>
+      <a href="#pasii-wizard">Cei 9 pași</a>
+      <a href="#fisierele-generate">Fișierele generate</a>
+      <a href="#export">Export & Download</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Utilizare</div>
+      <a href="#claude">Cum folosești în Claude</a>
+      <a href="#chatgpt">Cum folosești în ChatGPT</a>
+      <a href="#faq">Întrebări frecvente</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <div class="doc-hero">
+      <div class="badge">📚 Documentație</div>
+      <h1>Ghid complet AgentulMeu</h1>
+      <p>Tot ce trebuie să știi pentru a-ți configura, genera și instala agentul AI personalizat — de la zero la producție în sub 10 minute.</p>
+    </div>
+
+    <!-- INTRODUCERE -->
+    <div class="doc-section" id="introducere">
+      <h2><span class="icon">👋</span> Ce este AgentulMeu.online?</h2>
+      <p style="color:var(--text-2);font-size:0.88rem;line-height:1.8;margin-bottom:16px">AgentulMeu.online este un generator de identitate AI pentru business. Completezi un wizard cu 9 pași despre afacerea ta, iar platforma generează automat 9 fișiere Markdown specializate care definesc comportamentul, personalitatea și capabilitățile unui agent AI configurat exact pentru nevoile tale.</p>
+      <div class="info-box info">
+        <strong>Cum funcționează:</strong> Wizard → 9 fișiere MD generate de AI → Copiezi în Claude Projects sau ChatGPT Custom Instructions → Agentul tău este gata.
+      </div>
+    </div>
+
+    <!-- CERINTE -->
+    <div class="doc-section" id="cerinte">
+      <h2><span class="icon">✅</span> Ce îți trebuie</h2>
+      <ul class="req-list">
+        <li>Un browser modern (Chrome, Firefox, Safari, Edge)</li>
+        <li>Un cont pe AgentulMeu.online (gratuit)</li>
+        <li>Informații despre afacerea ta (nume, industrie, obiective)</li>
+        <li>Un cont Claude Pro / ChatGPT Plus pentru a folosi agentul generat</li>
+        <li>Opțional: acces SSH la un VPS Linux pentru instalare self-hosted</li>
+      </ul>
+    </div>
+
+    <!-- INSTALARE -->
+    <div class="doc-section" id="instalare">
+      <h2><span class="icon">⚡</span> Instalare rapidă (VPS)</h2>
+      <p style="color:var(--text-2);font-size:0.85rem;margin-bottom:16px">Dacă vrei să rulezi platforma pe propriul server Ubuntu 24.04:</p>
+
+      <h3>1. Clonează și configurează</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copiază</button>
+<span class="comment"># Conectare SSH</span>
+<span class="cmd">ssh</span> root@<span class="val">IP_SERVER_TAU</span>
+
+<span class="comment"># Clonare repository</span>
+<span class="cmd">git clone</span> https://github.com/USER/agentulmeu.git /var/www/agentulmeu.online
+<span class="cmd">cd</span> /var/www/agentulmeu.online
+
+<span class="comment"># Environment variables</span>
+<span class="cmd">cp</span> .env.example .env
+<span class="cmd">nano</span> .env
+      </div>
+
+      <h3>2. Configurare .env</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copiază</button>
+OPENROUTER_API_KEY=<span class="val">sk-or-...</span>
+FLASK_SECRET_KEY=<span class="val">cheie-secreta-random</span>
+STRIPE_SECRET_KEY=<span class="val">sk_live_...</span>     <span class="comment"># opțional</span>
+      </div>
+
+      <h3>3. Instalare dependențe și start</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copiază</button>
+<span class="comment"># Creare virtualenv</span>
+<span class="cmd">python3 -m venv</span> venv
+<span class="cmd">source</span> venv/bin/activate
+<span class="cmd">pip install</span> -r requirements.txt
+
+<span class="comment"># Start server (producție)</span>
+<span class="cmd">nohup</span> venv/bin/gunicorn -w 2 -b 0.0.0.0:8080 --timeout 120 server:app \
+  > /var/log/agentulmeu-backend.log 2>&amp;1 &amp;
+
+<span class="comment"># Verificare</span>
+<span class="cmd">curl</span> http://127.0.0.1:8080/api/health
+      </div>
+
+      <div class="info-box tip">
+        <strong>Tip:</strong> Nginx este configurat ca reverse proxy. Rulează <code style="font-family:'JetBrains Mono',monospace">nginx -t &amp;&amp; systemctl reload nginx</code> după orice modificare la configurația Nginx.
+      </div>
+
+      <div class="info-box warn">
+        <strong>Important:</strong> Nu comite niciodată fișierele <code style="font-family:'JetBrains Mono',monospace">*.bak.*</code> în git — pot conține API keys. Adaugă <code style="font-family:'JetBrains Mono',monospace">*.bak.*</code> în <code style="font-family:'JetBrains Mono',monospace">.gitignore</code>.
+      </div>
+    </div>
+
+    <!-- PASII WIZARD -->
+    <div class="doc-section" id="pasii-wizard">
+      <h2><span class="icon">🧙</span> Cei 9 pași ai Wizard-ului</h2>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Profilul business</h3>
+            <p>Selectează industria din 24 de categorii disponibile și dimensiunea echipei tale. Aceste date fundamentează tot restul configurației.</p>
+            <div class="tags"><span class="tag">24 categorii</span><span class="tag">Dimensiune echipă</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Identitate & Context</h3>
+            <p>Completezi 7 câmpuri despre identitatea afacerii tale: nume, misiune, valori, ton comunicare. Poți folosi butonul <strong>✨ AI Assist</strong> pentru sugestii automate.</p>
+            <div class="tags"><span class="tag">7 câmpuri</span><span class="tag gold">✨ AI Assist</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Obiective & Probleme</h3>
+            <p>Selectezi din 10 obiective de business care se potrivesc situației tale actuale. Agentul va fi optimizat să te ajute cu acestea prioritar.</p>
+            <div class="tags"><span class="tag">Multi-select</span><span class="tag">10 obiective</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Echipa de agenți</h3>
+            <p>Alegi din 12 agenți specializați: 6 de execuție (vânzări, suport, marketing etc.) și 6 specializați (legal, financiar, HR etc.).</p>
+            <div class="tags"><span class="tag">6 execuție</span><span class="tag">6 specializați</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3>Canale & Infrastructură</h3>
+            <p>Specifici canalele de comunicare folosite (email, WhatsApp, Telegram, Slack etc.) și infrastructura tehnică existentă.</p>
+            <div class="tags"><span class="tag">Canale comunicare</span><span class="tag">Stack tehnic</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h3>Personalitate & Reguli</h3>
+            <p>Definești tonul agentului, limitele absolute și nivelul de autonomie dorit: asistat, semi-autonom sau complet autonom.</p>
+            <div class="tags"><span class="tag">3 niveluri autonomie</span><span class="tag">Hard limits</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h3>Context tehnic</h3>
+            <p>Selectezi profilul tehnic al echipei tale și modul de implicare preferat al agentului: executant, consultant sau partener strategic.</p>
+            <div class="tags"><span class="tag">3 profile tehnice</span><span class="tag">3 moduri implicare</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">8</div>
+          <div class="step-body">
+            <h3>Generare fișiere</h3>
+            <p>Generezi individual fiecare din cele 9 fișiere. Fiecare are propriul card cu buton de generare, preview și editare inline. Procesul durează 30-80 secunde per fișier.</p>
+            <div class="tags"><span class="tag gold">9 fișiere MD</span><span class="tag green">Editare inline</span><span class="tag">30-80s/fișier</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">9</div>
+          <div class="step-body">
+            <h3>Export & Download</h3>
+            <p>Descarci toate fișierele generate și le copiezi în Claude Projects sau ChatGPT. Agentul tău este gata de utilizare.</p>
+            <div class="tags"><span class="tag green">Download all</span><span class="tag">Claude Projects</span><span class="tag">ChatGPT</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FISIERELE GENERATE -->
+    <div class="doc-section" id="fisierele-generate">
+      <h2><span class="icon">📁</span> Fișierele generate</h2>
+      <p style="color:var(--text-2);font-size:0.85rem;margin-bottom:16px">Wizard-ul generează 9 fișiere Markdown specializate care formează identitatea completă a agentului tău AI:</p>
+      <div class="files-grid">
+        <div class="file-card">
+          <div class="file-name">SOUL.md</div>
+          <p>Personalitate, valori core și hard limits absolute</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">IDENTITY.md</div>
+          <p>Identitate completă + sub-agenți și roluri</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">USER.md</div>
+          <p>Profilul proprietarului și preferințe de lucru</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">MEMORY.md</div>
+          <p>Memorie inițială pe termen lung + context</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">TOOLS.md</div>
+          <p>Capabilități tehnice, API-uri și integrări</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">AGENTS.md</div>
+          <p>Workflows, proceduri și pipeline-uri operative</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">HEARTBEAT.md</div>
+          <p>Task-uri proactive zilnic/săptămânal/lunar</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">BOOTSTRAP.md</div>
+          <p>Checklist de inițializare și pași de setup</p>
+        </div>
+        <div class="file-card">
+          <div class="file-name">AGENT_RD.md</div>
+          <p>Framework Research & Development continuu</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="doc-section" id="export">
+      <h2><span class="icon">💾</span> Export & Download</h2>
+      <p style="color:var(--text-2);font-size:0.85rem;margin-bottom:16px">După generare, poți descărca fișierele individual sau pe toate odată folosind butonul <strong>Descarcă toate</strong> din Pasul 9.</p>
+      <div class="info-box tip">
+        <strong>Sfat:</strong> Editează fișierele inline direct în wizard înainte de descărcare — click pe orice card generat pentru a modifica conținutul.
+      </div>
+    </div>
+
+    <!-- CLAUDE -->
+    <div class="doc-section" id="claude">
+      <h2><span class="icon">🤖</span> Cum folosești în Claude Projects</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body"><h3>Creează un Project nou în Claude</h3><p>Mergi la claude.ai → Projects → New Project. Dă-i un nume (ex: "Agentul meu business").</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><h3>Upload fișierele generate</h3><p>În secțiunea "Project Knowledge", încarcă toate cele 9 fișiere .md descărcate. Claude le va citi automat la fiecare conversație.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body"><h3>Setează instrucțiunile de sistem</h3><p>Copiază conținutul din SOUL.md în câmpul "Custom Instructions" al proiectului pentru a defini personalitatea de bază.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body"><h3>Începe să lucrezi</h3><p>Agentul tău este activ. Orice conversație nouă în acest Project va folosi automat configurația ta.</p><div class="tags"><span class="tag green">✓ Gata</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHATGPT -->
+    <div class="doc-section" id="chatgpt">
+      <h2><span class="icon">💬</span> Cum folosești în ChatGPT</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body"><h3>Creează un GPT personalizat</h3><p>Mergi la chatgpt.com → Explore GPTs → Create. Sau folosește Settings → Custom Instructions pentru configurare rapidă.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><h3>Copiază conținutul SOUL.md + IDENTITY.md</h3><p>Lipește conținutul concatenat în câmpul "Instructions" al GPT-ului tău. Limitele sunt ~8000 caractere pentru Custom Instructions.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body"><h3>Upload fișierele ca Knowledge</h3><p>În secțiunea "Knowledge" a GPT Builder, încarcă restul fișierelor .md pentru context extins.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="doc-section" id="faq">
+      <h2><span class="icon">❓</span> Întrebări frecvente</h2>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Cât durează generarea unui fișier? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Fiecare fișier durează între 30 și 80 de secunde, în funcție de complexitatea businessului tău și de încărcarea serverelor AI. Generarea se face individual per fișier — poți genera doar cele de care ai nevoie.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Pot edita fișierele după generare? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Da. Fiecare card generat are un buton de editare inline. Modificările sunt vizibile imediat și se reflectă în descărcare. Nu se suprascrie nimic automat.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Ce se întâmplă dacă închid browser-ul? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Datele introduse în wizard nu sunt salvate automat în această versiune. Recomandăm să completezi toți pașii și să descarci fișierele într-o singură sesiune.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Cât costă? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Planul gratuit include 1 generare completă pe lună (toate cele 9 fișiere). Planul Pro oferă generări nelimitate, export ZIP și fișierul bonus SKILLS.md. Detalii pe pagina de prețuri.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Datele mele sunt în siguranță? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Informațiile din wizard sunt trimise la AI pentru generare și nu sunt stocate permanent pe serverele noastre (în planul gratuit). Fișierele generate rămân exclusiv la tine după descărcare.</div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+function toggleFaq(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+function copyCode(btn) {
+  const block = btn.parentElement;
+  const text = block.innerText.replace('Copiază','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiat';
+    setTimeout(() => btn.textContent = 'Copiază', 2000);
+  });
+}
+
+// Sidebar active link on scroll
+const sections = document.querySelectorAll('.doc-section');
+const links = document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  links.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
