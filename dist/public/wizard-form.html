@@ -130,14 +130,14 @@ textarea.wz-field{min-height:48px;resize:vertical}
 /* ═══ NAV ═══ */
 .wz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border)}
 .wz-btn{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;border:none;border-radius:var(--radius-sm);padding:10px 20px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
-.wz-btn-back{background:var(--bg3);color:var(--text2);border:1.5px solid var(--border)}
-.wz-btn-back:hover{border-color:var(--border2);color:var(--text)}
-.wz-btn-next{background:var(--gold-gradient);color:#0a0a0a;padding:11px 24px;font-weight:700;box-shadow:var(--gold-shadow);position:relative;overflow:hidden}
+.wz-btn-back{background:linear-gradient(135deg,#F5D050 0%,#C9A227 50%,#9A7610 100%);color:#111111;border:none;}
+.wz-btn-back:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(201,162,39,0.8);}
+.wz-btn-next{background:linear-gradient(135deg,#F5D050 0%,#C9A227 50%,#9A7610 100%);color:#111111;padding:11px 24px;font-weight:700;box-shadow:var(--gold-shadow);position:relative;overflow:hidden}
 .wz-btn-next::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .6s ease}
 .wz-btn-next:hover::before{left:100%}
 .wz-btn-next:hover{transform:translateY(-2px);box-shadow:var(--gold-shadow-lg)}
 .wz-btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
-.wz-btn-action{width:100%;background:var(--gold-gradient);color:#0a0a0a;padding:14px 24px;font-size:0.92rem;font-weight:700;border-radius:var(--radius);box-shadow:var(--gold-shadow);position:relative;overflow:hidden}
+.wz-btn-action{width:100%;background:linear-gradient(135deg,#F5D050 0%,#C9A227 50%,#9A7610 100%);color:#111111;padding:14px 24px;font-size:0.92rem;font-weight:700;border-radius:var(--radius);box-shadow:var(--gold-shadow);position:relative;overflow:hidden}
 .wz-btn-action::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .6s ease}
 .wz-btn-action:hover::before{left:100%}
 .wz-btn-action:hover{transform:translateY(-2px);box-shadow:var(--gold-shadow-lg)}
@@ -180,13 +180,12 @@ textarea.wz-field{min-height:48px;resize:vertical}
 .wz-bcard, .wz-acard {
   background: #fff !important;
   border: 1.5px solid rgba(201,162,39,0.25) !important;
-  box-shadow: 0 0 0px rgba(201,162,39,0) !important;
   transition: all .25s ease !important;
 }
 .wz-bcard:hover, .wz-acard:hover {
   border-color: var(--gold) !important;
   box-shadow: 0 0 12px rgba(201,162,39,0.5), 0 0 28px rgba(201,162,39,0.2) !important;
-  transform: translateY(-2px) !important;
+  transform: translateY(-4px) scale(1.02) !important;
 }
 .wz-bcard.sel, .wz-acard.sel {
   background: #fff !important;
@@ -203,6 +202,80 @@ textarea.wz-field{min-height:48px;resize:vertical}
   color: var(--gold-dark) !important;
   box-shadow: 0 0 10px rgba(201,162,39,0.5) !important;
 }
+/* ═══ BUTOANE GOLD PREMIUM ═══ */
+.wz-btn-next, .wz-btn-back, .wz-btn-action {
+  background: linear-gradient(135deg, #F5D050 0%, #C9A227 50%, #9A7610 100%) !important;
+  color: #111111 !important;
+  font-weight: 700 !important;
+  border: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 0 14px rgba(201,162,39,0.7), 0 0 32px rgba(201,162,39,0.35), 0 4px 16px rgba(120,90,5,0.45) !important;
+  animation: gold-breathe 2.8s ease-in-out infinite !important;
+}
+.wz-btn-next::before, .wz-btn-back::before, .wz-btn-action::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important; left: -80% !important;
+  width: 55% !important; height: 100% !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent) !important;
+  animation: gold-shimmer 2.6s ease-in-out infinite !important;
+  pointer-events: none !important;
+}
+.wz-btn-next:hover, .wz-btn-back:hover, .wz-btn-action:hover {
+  transform: translateY(-5px) scale(1.04) !important;
+  box-shadow: 0 0 24px rgba(201,162,39,1), 0 0 50px rgba(201,162,39,0.6), 0 12px 32px rgba(120,90,5,0.55) !important;
+  animation: none !important;
+}
+.wz-btn-next:disabled { opacity: 0.4 !important; animation: none !important; transform: none !important; }
+@keyframes gold-breathe {
+  0%, 100% { box-shadow: 0 0 14px rgba(201,162,39,0.7), 0 0 32px rgba(201,162,39,0.35), 0 4px 16px rgba(120,90,5,0.45); }
+  50% { box-shadow: 0 0 22px rgba(201,162,39,1), 0 0 50px rgba(201,162,39,0.55), 0 4px 20px rgba(120,90,5,0.55); }
+}
+@keyframes gold-shimmer {
+  0% { left: -80%; }
+  65%, 100% { left: 130%; }
+}
+
+/* ═══ TOATE BUTOANELE — GOLD PREMIUM FINAL ═══ */
+button,
+.wz-btn,
+.wz-btn-next,
+.wz-btn-back,
+.wz-btn-action,
+.wz-btn-ask,
+.wz-chat-toggle,
+.wz-chat-input button,
+input[type=submit],
+input[type=button] {
+  background: linear-gradient(135deg, #F5D050 0%, #C9A227 50%, #9A7610 100%) !important;
+  color: #111111 !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 0 14px rgba(201,162,39,0.7), 0 0 30px rgba(201,162,39,0.3) !important;
+  animation: gold-breathe 2.8s ease-in-out infinite !important;
+}
+button:hover,
+.wz-btn:hover,
+.wz-btn-next:hover,
+.wz-btn-back:hover,
+.wz-btn-action:hover,
+.wz-btn-ask:hover,
+.wz-chat-toggle:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+  box-shadow: 0 0 24px rgba(201,162,39,1), 0 0 50px rgba(201,162,39,0.5), 0 8px 24px rgba(120,90,5,0.4) !important;
+  animation: none !important;
+}
+button:disabled {
+  opacity: 0.4 !important;
+  animation: none !important;
+  transform: none !important;
+}
+@keyframes gold-breathe {
+  0%, 100% { box-shadow: 0 0 14px rgba(201,162,39,0.7), 0 0 30px rgba(201,162,39,0.3); }
+  50%       { box-shadow: 0 0 22px rgba(201,162,39,1),   0 0 50px rgba(201,162,39,0.5); }
+}
+
 </style>
   
   <link rel="icon" type="image/png" href="/assets/uploads/logoagentulmeu/favicon.png">
@@ -497,7 +570,39 @@ textarea.wz-field{min-height:48px;resize:vertical}
 
 
 
-<script src="/assets/js/global-nav.js" defer></script>
+<script src="/assets/js/global-nav.js" defer>
+function downloadAll() {
+  if (Object.keys(generatedFiles).length === 0) {
+    alert('Generează mai întâi fișierele!');
+    return;
+  }
+  Object.entries(generatedFiles).forEach(([fileId, content]) => {
+    const file = DATA.files.find(f => f.id === fileId);
+    const fname = file ? file.label : fileId + '.md';
+    const blob = new Blob([content], {type: 'text/markdown'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fname;
+    a.click();
+  });
+}
+
+function saveEdit() {
+  const content = document.getElementById('editContent').value;
+  const label = document.getElementById('editLabel').textContent.replace('Editare — ', '');
+  const fileId = Object.keys(generatedFiles).find(k => {
+    const f = DATA.files.find(x => x.label === label);
+    return f && f.id === k;
+  });
+  if (fileId) generatedFiles[fileId] = content;
+  closeEdit();
+}
+
+function closeEdit() {
+  document.getElementById('editArea').style.display = 'none';
+}
+
+</script>
 
 <script>
 // 🔘 Handler butoane "✨ Sugerează"
@@ -709,14 +814,36 @@ function pill(text, group, single) {
 function fileCard(item) {
   const d = document.createElement('div');
   d.className = 'wz-bcard'; d.dataset.file = item.id;
-  d.style.cssText = 'text-align:left;cursor:default;padding:16px';
-  d.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
-    '<span style="font-size:1.3rem">' + item.icon + '</span>' +
-    '<span class="wz-blabel" style="font-size:0.85rem">' + item.label + '</span>' +
-    '<span class="file-status" style="margin-left:auto;font-size:0.7rem;color:var(--text3);white-space:nowrap">Negenerat</span></div>' +
-    '<div class="wz-bsub" style="text-align:left;margin-bottom:10px">' + item.desc + '</div>' +
-    '<button class="wz-btn-ask" onclick="generateFile(\'' + item.id + '\',this)" style="width:100%;font-size:0.75rem">⚡ Generează</button>' +
-    '<div class="file-preview" style="display:none;margin-top:10px;font-size:0.75rem;color:var(--text2);max-height:120px;overflow-y:auto;white-space:pre-wrap;background:var(--bg3);padding:8px;border-radius:8px"></div>';
+  d.style.cssText = 'text-align:left;cursor:default;padding:16px;background:#fff;border:1.5px solid rgba(201,162,39,0.3);border-radius:12px;margin-bottom:10px';
+  
+  const header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px';
+  header.innerHTML = '<span style="font-size:1.3rem">' + item.icon + '</span>' +
+    '<span style="font-size:0.85rem;font-weight:600;color:#111">' + item.label + '</span>';
+  
+  const status = document.createElement('span');
+  status.className = 'file-status';
+  status.style.cssText = 'margin-left:auto;font-size:0.7rem;color:#999;white-space:nowrap';
+  status.textContent = 'Negenerat';
+  header.appendChild(status);
+  
+  const desc = document.createElement('div');
+  desc.style.cssText = 'font-size:0.78rem;color:#666;margin-bottom:12px';
+  desc.textContent = item.desc;
+  
+  const btn = document.createElement('button');
+  btn.style.cssText = 'width:100%;padding:10px;background:linear-gradient(135deg,#F5D050 0%,#C9A227 50%,#9A7610 100%);color:#111;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;box-shadow:0 0 10px rgba(201,162,39,0.4)';
+  btn.textContent = '⚡ Generează';
+  btn.onclick = function() { generateFile(item.id, this); };
+  
+  const preview = document.createElement('div');
+  preview.className = 'file-preview';
+  preview.style.cssText = 'display:none;margin-top:10px;font-size:0.75rem;color:#444;max-height:120px;overflow-y:auto;white-space:pre-wrap;background:#f5f5f5;padding:8px;border-radius:8px';
+  
+  d.appendChild(header);
+  d.appendChild(desc);
+  d.appendChild(btn);
+  d.appendChild(preview);
   return d;
 }
 

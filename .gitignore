@@ -16,3 +16,5 @@ dist/public/assets/uploads/logoagentulmeu/banner*
 dist/public/assets/uploads/logoagentulmeu/desktop*
 dist/public/assets/uploads/logoagentulmeu/hermes*
 dist/public/assets/uploads/logoagentulmeu/avatar*
+*.bak.*
+*.bak

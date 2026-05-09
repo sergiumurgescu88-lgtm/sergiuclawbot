@@ -1468,39 +1468,57 @@ Raspunde direct, in limba romana, in maxim 3-4 propozitii. Fara introduceri lung
 def wizard_generate_files():
     if request.method == 'OPTIONS': return '', 204
     try:
-        import re, requests, json
+        import requests as req_lib
         data = request.json or {}
         ctx = data.get('context', {})
+        file_id = data.get('file', None)
         if not ctx:
-            return jsonify({"success": False, "error": "Context gol"}), 400
-
-        ctx_str = "\n".join([f"{k}: {v}" for k, v in ctx.items() if v])
-        
+            ctx = {"business": "Business general"}
+        ctx_str = ", ".join([str(k)+": "+str(v) for k, v in ctx.items() if v])
         file_prompts = {
-            "SOUL.md": f"Creează fișierul SOUL.md pentru un agent AI. Context business:\n{ctx_str}\nInclude: misiune, valori, reguli de aur, autonomie, ton de comunicare. Format markdown.",
-            "IDENTITY.md": f"Creează IDENTITY.md. Context:\n{ctx_str}\nInclude: nume agent, rol, personalitate, limite, stil de răspuns. Format markdown.",
-            "RULES.md": f"Creează RULES.md. Context:\n{ctx_str}\nInclude: reguli stricte, ce NU are voie să facă, escaladare la uman, politici de prețuri/rezervări. Format markdown.",
-            "KNOWLEDGE.md": f"Creează KNOWLEDGE.md. Context:\n{ctx_str}\nInclude: produse/servicii, prețuri, program, locație, FAQ, detalii tehnice. Format markdown.",
-            "TOOLS.md": f"Creează TOOLS.md. Context:\n{ctx_str}\nInclude: canale active (Telegram, WhatsApp, Web), integrări, API-uri, tool-uri disponibile. Format markdown.",
-            "WORKFLOWS.md": f"Creează WORKFLOWS.md. Context:\n{ctx_str}\nInclude: fluxuri automate (rezervări, suport, vânzări), pași de urmat, trigger-e. Format markdown.",
-            "MEMORY.md": f"Creează MEMORY.md. Context:\n{ctx_str}\nInclude: ce trebuie să rețină între sesiuni, preferințe clienți, istoric relevant. Format markdown.",
-            "VOICE.md": f"Creează VOICE.md. Context:\n{ctx_str}\nInclude: ton, vocabular, emoji-uri permise, lungime răspuns, stil conversațional. Format markdown.",
-            "INTEGRATION.md": f"Creează INTEGRATION.md. Context:\n{ctx_str}\nInclude: pași de instalare, variabile de mediu, comenzi de start, mentenanță. Format markdown."
+            "soul":      ("SOUL.md",      "Creaza SOUL.md pentru agent AI. Context: "+ctx_str+". Include: misiune, valori, reguli absolute, ton, ce NU face niciodata. Format markdown."),
+            "identity":  ("IDENTITY.md",  "Creaza IDENTITY.md. Context: "+ctx_str+". Include: nume agent, rol, personalitate, limite, stil raspuns. Format markdown."),
+            "user":      ("USER.md",      "Creaza USER.md profil proprietar. Context: "+ctx_str+". Include: obiective, preferinte, prioritati, restrictii. Format markdown."),
+            "memory":    ("MEMORY.md",    "Creaza MEMORY.md memoria initiala. Context: "+ctx_str+". Include: decizii cheie, contexte, pattern-uri relevante. Format markdown."),
+            "tools":     ("TOOLS.md",     "Creaza TOOLS.md. Context: "+ctx_str+". Include: capabilitati tehnice, API-uri, integari, tool-uri disponibile. Format markdown."),
+            "agents":    ("AGENTS.md",    "Creaza AGENTS.md. Context: "+ctx_str+". Include: subagenti, roluri, workflows, pipeline-uri de lucru. Format markdown."),
+            "heartbeat": ("HEARTBEAT.md", "Creaza HEARTBEAT.md. Context: "+ctx_str+". Include: taskuri proactive zilnice, saptamanale, lunare. Format markdown."),
+            "bootstrap": ("BOOTSTRAP.md", "Creaza BOOTSTRAP.md. Context: "+ctx_str+". Include: checklist initializare, pasi setup in ordine, fallback-uri. Format markdown."),
+            "agent_rd":  ("AGENT_RD.md",  "Creaza AGENT_RD.md agent R&D. Context: "+ctx_str+". Include: domenii monitorizate, validare idei, surse, raportare. Format markdown."),
         }
-
-        gemini_key = "AIzaSyCyR_6s8QPP2Xm8VDyzL3b37RagWxcgpW4"
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}"
-        
-        generated_files = {}
-        for fname, prompt in file_prompts.items():
-            resp = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=20)
-            resp.raise_for_status()
-            answer = resp.json()['candidates'][0]['content']['parts'][0]['text'].strip()
-            # Curățăm blocurile markdown dacă există
-            answer = re.sub(r'^```markdown\n|\n```$', '', answer, flags=re.MULTILINE)
-            generated_files[fname] = answer
-
-        return jsonify({"success": True, "files": generated_files})
+        openrouter_key = os.getenv("OPENROUTER_API_KEY", "")
+        if not openrouter_key:
+            return jsonify({"success": False, "error": "OPENROUTER_API_KEY lipsa"}), 500
+        headers = {
+            "Authorization": "Bearer " + openrouter_key,
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://agentulmeu.online",
+            "X-Title": "AgentulMeu Wizard"
+        }
+        def gen_one(prompt):
+            r = req_lib.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json={"model": "google/gemini-2.0-flash-001", "messages": [{"role": "user", "content": prompt}]},
+                timeout=100
+            )
+            r.raise_for_status()
+            text = r.json()["choices"][0]["message"]["content"].strip()
+            lines = text.split(chr(10))
+            if lines and lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            return chr(10).join(lines).strip()
+        if file_id and file_id in file_prompts:
+            fname, prompt = file_prompts[file_id]
+            content = gen_one(prompt)
+            return jsonify({"success": True, "content": content, "filename": fname})
+        else:
+            generated = {}
+            for fid, (fname, prompt) in file_prompts.items():
+                generated[fid] = gen_one(prompt)
+            return jsonify({"success": True, "files": generated})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
