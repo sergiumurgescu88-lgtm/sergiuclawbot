@@ -1772,5 +1772,21 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
+
+<script>
+document.addEventListener('click', e => {
+  if (e.target.textContent.includes('Generează Toate')) {
+    const check = setInterval(() => {
+      if (localStorage.getItem('wizardGeneratedFiles')) {
+        clearInterval(check);
+        if (!window.__wizardRedirectScheduled) {
+          window.__wizardRedirectScheduled = true;
+          setTimeout(() => window.location.href = '/dashboard', 1500);
+        }
+      }
+    }, 500);
+  }
+});
+</script>
 </body>
 </html>

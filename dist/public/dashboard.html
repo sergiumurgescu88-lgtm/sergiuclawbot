@@ -1328,6 +1328,62 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+
+<script>
+// 📁 Dashboard: Afișare fișiere generate din Wizard
+function renderWizardFiles() {
+  const stored = localStorage.getItem('wizardGeneratedFiles');
+  if (!stored) return;
+  const files = JSON.parse(stored);
+  const count = Object.keys(files).length;
+  if (count === 0) return;
+
+  // Update progres
+  const progEl = document.querySelector('.progress-text, .wz-progress-meta span, [class*="progress"] span, .stat-card:nth-child(1) .stat-value');
+  if (progEl) progEl.textContent = `${count}/9`;
+
+  // Găsește sau creează container
+  let container = document.querySelector('#generated-files-section');
+  if (!container) {
+    container = document.createElement('section');
+    container.id = 'generated-files-section';
+    container.style.cssText = 'padding:24px 16px;max-width:1100px;margin:0 auto;';
+    container.innerHTML = `<h2 style="font-size:1.4rem;font-weight:800;margin-bottom:16px;color:#0a0a0a">📁 Fișierele Tale Generate (${count}/9)</h2><div id="files-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>`;
+    const main = document.querySelector('main, .app, .wz-shell, .dashboard-content, body');
+    if (main) main.appendChild(container);
+  }
+
+  const grid = document.querySelector('#files-grid');
+  grid.innerHTML = '';
+  Object.entries(files).forEach(([name, content]) => {
+    const card = document.createElement('div');
+    card.className = 'stat-card card';
+    card.style.cssText = 'padding:16px;border-radius:14px;background:#fff;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all .25s ease;';
+    card.innerHTML = `
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#0a0a0a">${name}</h3>
+      <pre style="font-size:0.78rem;color:#555;background:#f9fafb;padding:10px;border-radius:8px;max-height:100px;overflow:auto;white-space:pre-wrap;margin-bottom:10px;line-height:1.4">${content.substring(0, 280)}...</pre>
+      <button onclick="downloadMD('${name}')" style="width:100%;padding:8px;background:linear-gradient(90deg,#C9A227,#E8C547);border:none;border-radius:8px;font-weight:600;cursor:pointer;color:#0a0a0a;transition:transform .2s">⬇ Descarcă ${name}</button>
+    `;
+    card.onmouseenter = () => card.style.transform = 'translateY(-3px)';
+    card.onmouseleave = () => card.style.transform = 'translateY(0)';
+    grid.appendChild(card);
+  });
+}
+
+window.downloadMD = function(name) {
+  const files = JSON.parse(localStorage.getItem('wizardGeneratedFiles') || '{}');
+  const content = files[name] || '';
+  const blob = new Blob([content], {type: 'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = name; a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderWizardFiles();
+});
+</script>
+
 </body></html>`);
   printWindow.document.close();
   setTimeout(() => printWindow.print(), 500);
@@ -1523,6 +1579,62 @@ async function bindDashboardUI() {
 document.addEventListener('DOMContentLoaded', () => {
   bindDashboardUI();
   setInterval(bindDashboardUI, 30000);
+});
+</script>
+
+
+<script>
+// 📁 Dashboard: Afișare fișiere generate din Wizard
+function renderWizardFiles() {
+  const stored = localStorage.getItem('wizardGeneratedFiles');
+  if (!stored) return;
+  const files = JSON.parse(stored);
+  const count = Object.keys(files).length;
+  if (count === 0) return;
+
+  // Update progres
+  const progEl = document.querySelector('.progress-text, .wz-progress-meta span, [class*="progress"] span, .stat-card:nth-child(1) .stat-value');
+  if (progEl) progEl.textContent = `${count}/9`;
+
+  // Găsește sau creează container
+  let container = document.querySelector('#generated-files-section');
+  if (!container) {
+    container = document.createElement('section');
+    container.id = 'generated-files-section';
+    container.style.cssText = 'padding:24px 16px;max-width:1100px;margin:0 auto;';
+    container.innerHTML = `<h2 style="font-size:1.4rem;font-weight:800;margin-bottom:16px;color:#0a0a0a">📁 Fișierele Tale Generate (${count}/9)</h2><div id="files-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>`;
+    const main = document.querySelector('main, .app, .wz-shell, .dashboard-content, body');
+    if (main) main.appendChild(container);
+  }
+
+  const grid = document.querySelector('#files-grid');
+  grid.innerHTML = '';
+  Object.entries(files).forEach(([name, content]) => {
+    const card = document.createElement('div');
+    card.className = 'stat-card card';
+    card.style.cssText = 'padding:16px;border-radius:14px;background:#fff;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all .25s ease;';
+    card.innerHTML = `
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px;color:#0a0a0a">${name}</h3>
+      <pre style="font-size:0.78rem;color:#555;background:#f9fafb;padding:10px;border-radius:8px;max-height:100px;overflow:auto;white-space:pre-wrap;margin-bottom:10px;line-height:1.4">${content.substring(0, 280)}...</pre>
+      <button onclick="downloadMD('${name}')" style="width:100%;padding:8px;background:linear-gradient(90deg,#C9A227,#E8C547);border:none;border-radius:8px;font-weight:600;cursor:pointer;color:#0a0a0a;transition:transform .2s">⬇ Descarcă ${name}</button>
+    `;
+    card.onmouseenter = () => card.style.transform = 'translateY(-3px)';
+    card.onmouseleave = () => card.style.transform = 'translateY(0)';
+    grid.appendChild(card);
+  });
+}
+
+window.downloadMD = function(name) {
+  const files = JSON.parse(localStorage.getItem('wizardGeneratedFiles') || '{}');
+  const content = files[name] || '';
+  const blob = new Blob([content], {type: 'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = name; a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderWizardFiles();
 });
 </script>
 
