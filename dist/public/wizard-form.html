@@ -1712,5 +1712,65 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="/wizard-session.js"></script>
+
+<!-- STRIPE PAYMENT GATE -->
+<script>
+(function(){
+  const sessId = localStorage.getItem('agentulmeu_session_id');
+  if(!sessId) return;
+
+  // Handle return from Stripe success
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('payment')==='success'){
+    let att=0;
+    const poll=setInterval(async()=>{
+      att++;
+      try{
+        const r=await fetch('/api/stripe/check-status/'+sessId);
+        const d=await r.json();
+        if(d.payment_status==='paid'){
+          clearInterval(poll);
+          window.history.replaceState({},'',window.location.pathname+'?session='+sessId);
+          if(typeof goToStep==='function') goToStep(8);
+          else location.reload();
+        }
+      }catch(e){}
+      if(att>15) clearInterval(poll);
+    },2000);
+  }
+
+  // Intercept Step 7 -> 8
+  document.addEventListener('click', async function(e){
+    const btn = e.target.closest('.wz-next-btn, .next-btn, [data-action="next"]');
+    if(!btn) return;
+    const active = document.querySelector('.wz-step.active, .step.active, [data-step].active');
+    const step = active ? (active.dataset.step || active.getAttribute('data-step')) : null;
+    if(step !== '7' && step !== 7) return;
+
+    e.preventDefault(); e.stopPropagation();
+    const origText = btn.textContent;
+    btn.disabled = true; btn.textContent = '🔒 Se inițiază plata...';
+
+    try{
+      const st = await fetch('/api/stripe/check-status/'+sessId).then(r=>r.json());
+      if(st.payment_status==='paid'){
+        if(typeof goToStep==='function') goToStep(8);
+        else { btn.disabled=false; btn.textContent=origText; }
+        return;
+      }
+      const co = await fetch('/api/stripe/create-checkout',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({sessionId:sessId})
+      }).then(r=>r.json());
+      if(co.url) window.location.href = co.url;
+      else { alert('Eroare la initierea platii.'); btn.disabled=false; btn.textContent=origText; }
+    }catch(err){
+      console.error('[Stripe Flow]',err);
+      btn.disabled=false; btn.textContent=origText;
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

@@ -150,6 +150,16 @@ app.post('/api/wizard/ask-ai', async (req, res) => {
 });
 
 app.post('/api/wizard/generate', async (req, res) => {
+  // 🔒 Stripe gate: blochează generarea dacă nu e plătit
+  const _payDb = require('better-sqlite3')('/var/www/agentulmeu.online/data/agentulmeu.db');
+  const _sid = req.body.sessionId || req.params.sessionId || req.query.sessionId;
+  const _pay = _sid ? _payDb.prepare('SELECT payment_status FROM sessions WHERE id = ?').get(_sid) : null;
+  if (_pay && _pay.payment_status !== 'paid') {
+    return res.status(402).json({ error: 'Plată necesară înainte de generare.' });
+  }
+
+  
+
   const { file, context } = req.body;
   if (!file || !context) return res.status(400).json({ error: 'Missing file or context' });
   const PROMPTS = {
@@ -172,6 +182,8 @@ app.post('/api/wizard/generate', async (req, res) => {
 });
 // ═══ END WIZARD ROUTES ═══════════════════════════════════════
 
+const stripeRoutes = require("./stripe-routes");
+app.use("/api/stripe", stripeRoutes);
 app.listen(PORT, '127.0.0.1', () => console.log(`API running on :${PORT}`));
 
 function flattenObject(obj, prefix = '') {

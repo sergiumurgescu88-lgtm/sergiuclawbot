@@ -271,3 +271,18 @@ module.exports = {
   getReportConfig,
   getDashboardData,
 };
+
+// Migrare sigură: adaugă coloanele de plată dacă nu există
+function migratePaymentColumns() {
+  const cols = db.pragma("table_info('sessions')", { simple: false }).map(c => c.name);
+  if (!cols.includes('payment_status')) {
+    db.exec("ALTER TABLE sessions ADD COLUMN payment_status TEXT DEFAULT 'pending'");
+  }
+  if (!cols.includes('stripe_checkout_id')) {
+    db.exec("ALTER TABLE sessions ADD COLUMN stripe_checkout_id TEXT");
+  }
+  if (!cols.includes('stripe_payment_intent')) {
+    db.exec("ALTER TABLE sessions ADD COLUMN stripe_payment_intent TEXT");
+  }
+}
+migratePaymentColumns();
