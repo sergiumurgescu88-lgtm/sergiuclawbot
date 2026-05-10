@@ -280,3 +280,103 @@ button:hover, a.btn:hover, .btn:hover {
       0 0 28px rgba(212, 175, 55, 0.25) !important;
   }
 }
+
+/* 🎨 FINE UI REFINEMENTS: Spacing, Colors, Animations */
+:root {
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --shadow-soft: 0 4px 20px rgba(0,0,0,0.05);
+  --shadow-hover: 0 8px 30px rgba(0,0,0,0.08);
+  --transition-smooth: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 📦 Cards & Sections: Consistent Spacing & Polish */
+.stat-card, .chart-card, .wz-card, .wz-bcard, .wz-acard, .card, .section, .faq-box, .price-display {
+  padding: var(--space-lg) !important;
+  gap: var(--space-md) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-soft) !important;
+  transition: var(--transition-smooth) !important;
+}
+
+/* 📊 Stat Values & Labels: Better Typography Hierarchy */
+.stat-value, .wz-stat-value, .file-status {
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.1 !important;
+  color: #0A0A0A !important;
+}
+.stat-label, .wz-stat-label, .progress-text {
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  color: #6B7280 !important;
+  margin-top: 2px !important;
+}
+
+/* 🔄 Progress Bar: Smooth & Premium */
+.wz-progress-bar, .progress-bar, [role="progressbar"] {
+  height: 8px !important;
+  border-radius: 99px !important;
+  background: #E5E7EB !important;
+  overflow: hidden !important;
+}
+.wz-progress-bar > div, .progress-bar > div, [role="progressbar"] > div {
+  height: 100% !important;
+  background: linear-gradient(90deg, #C9A227, #E8C547) !important;
+  border-radius: 99px !important;
+  transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* 🪄 Wizard Steps & Fields: Cleaner Indicators & Focus */
+.wz-step, .step-card {
+  padding: var(--space-md) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: var(--transition-smooth) !important;
+}
+.wz-step.active, .step-card.active {
+  border-color: rgba(201, 162, 39, 0.4) !important;
+  background: rgba(201, 162, 39, 0.04) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1) !important;
+}
+input, textarea, select, .wz-field-wrap input, .wz-field-wrap textarea {
+  padding: 10px 14px !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1.5px solid #E5E7EB !important;
+  transition: var(--transition-smooth) !important;
+  font-size: 0.95rem !important;
+  background: #FAFAFA !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #C9A227 !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+  outline: none !important;
+  background: #FFFFFF !important;
+}
+
+/* ✨ Micro-Animations: Entrance & Hover */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.stat-card, .chart-card, .wz-card, .card {
+  animation: fadeSlideUp 0.4s ease-out both;
+}
+.stat-card:nth-child(2), .chart-card:nth-child(2) { animation-delay: 0.05s; }
+.stat-card:nth-child(3), .chart-card:nth-child(3) { animation-delay: 0.1s; }
+.stat-card:nth-child(4), .chart-card:nth-child(4) { animation-delay: 0.15s; }
+
+/* 📱 Mobile Touch Feedback & Spacing */
+@media (max-width: 768px) {
+  .stat-card, .chart-card, .wz-card, .card {
+    padding: var(--space-md) !important;
+    margin-bottom: var(--space-sm) !important;
+  }
+  .stat-value { font-size: 1.5rem !important; }
+  input, textarea, select { padding: 12px 14px !important; font-size: 16px !important; }
+  .wz-step, .step-card { padding: 12px !important; }
+}
