@@ -1139,6 +1139,127 @@ function exportPDF() {
 <link rel="stylesheet" href="/assets/css/premium-design.css">
 <link rel="stylesheet" href="/assets/css/global-nav.css">
 </head><body>${printContent.innerHTML}<div class="footer">AgentulMeu.online — Raport generat pe ${new Date().toLocaleString('ro-RO')}</div><script src="/assets/js/global-nav.js" defer></script>
+
+<script>
+// 🔗 Legare Dashboard de Date Reale Hermes
+async function loadHermesStatus() {
+  try {
+    const res = await fetch('/api/dashboard/hermes-status');
+    const data = await res.json();
+    if (!data.success || !data.hermes) return;
+
+    const h = data.hermes;
+    // 1. Status Agent (Online/Offline)
+    const statusEl = document.querySelector('.status-badge, #agent-status, [class*="status"]');
+    if (statusEl) {
+      const isRunning = h.running === true || h.running === 'true';
+      statusEl.innerHTML = isRunning 
+        ? '<span class="dot" style="background:#16a34a"></span> Online · Hermes' 
+        : '<span class="dot" style="background:#ef4444"></span> Offline · Hermes';
+    }
+
+    // 2. Sesiuni Active
+    const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
+    if (sessionsEl && h.sessions !== undefined) sessionsEl.textContent = h.sessions;
+
+    // 3. Uptime
+    const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
+    if (uptimeEl && h.uptime_seconds !== undefined) {
+      const hrs = Math.floor(h.uptime_seconds / 3600);
+      const mins = Math.floor((h.uptime_seconds % 3600) / 60);
+      uptimeEl.textContent = `${hrs}h ${mins}m`;
+    }
+
+    // 4. Requests / Tokeni
+    const reqEl = document.querySelector('#stat-tokens, .stat-card:nth-child(3) .stat-value');
+    if (reqEl && h.accept_loop?.requests_total !== undefined) reqEl.textContent = h.accept_loop.requests_total;
+
+  } catch (e) {
+    console.warn('Hermes status fetch failed:', e);
+  }
+}
+
+// Rulează la încărcare + auto-refresh la 30s
+document.addEventListener('DOMContentLoaded', () => {
+  loadHermesStatus();
+  setInterval(loadHermesStatus, 30000);
+});
+</script>
+
+
+<script>
+// 📊 Dashboard Analytics & MD Progress Renderer
+function renderBarChart(container, data, color) {
+  if (!container) return;
+  const max = Math.max(...Object.values(data), 1);
+  container.innerHTML = Object.entries(data).map(([k, v]) => `
+    <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
+      <span style="width:90px;font-size:0.82rem;color:#444;text-align:right">${k}</span>
+      <div style="flex:1;background:#f3f4f6;border-radius:6px;height:22px;overflow:hidden">
+        <div style="width:${(v/max)*100}%;height:100%;background:${color};border-radius:6px;transition:width 0.6s ease"></div>
+      </div>
+      <span style="width:36px;font-size:0.82rem;color:#666;font-weight:600">${v}%</span>
+    </div>
+  `).join('');
+}
+
+function renderLineChart(container, values, color) {
+  if (!container || !values.length) return;
+  const max = Math.max(...values, 1);
+  const points = values.map((v, i) => `${(i/(values.length-1))*100},${100-((v/max)*100)}`).join(' ');
+  container.innerHTML = `
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:80px;display:block">
+      <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      ${values.map((v,i) => `<circle cx="${(i/(values.length-1))*100}" cy="${100-((v/max)*100)}" r="2" fill="${color}"/>`).join('')}
+    </svg>
+    <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#888;margin-top:4px">
+      <span>Acum 7 zile</span><span>Azi</span>
+    </div>
+  `;
+}
+
+async function loadAnalytics() {
+  try {
+    const res = await fetch('/api/dashboard/analytics');
+    const data = await res.json();
+    if (!data.success || !data.analytics) return;
+    const a = data.analytics;
+
+    // 1. Progres Fișiere MD (citește din localStorage dacă există, altfel fallback)
+    const stored = localStorage.getItem('wizardGeneratedFiles');
+    const generatedCount = stored ? Object.keys(JSON.parse(stored)).length : 0;
+    const mdCountEl = document.querySelector('.stat-card:nth-child(1) .stat-value, [class*="progress"] span, .wz-progress-meta span');
+    const mdTextEl = document.querySelector('.stat-card:nth-child(1) .stat-label, [class*="progress"] p');
+    if (mdCountEl) mdCountEl.textContent = `${generatedCount}/9`;
+    if (mdTextEl) mdTextEl.textContent = generatedCount === 9 ? '✅ Toate generate' : '⏳ În așteptare...';
+
+    // 2. Grafice
+    renderBarChart(document.querySelector('#chart-intents, .chart-card:nth-child(1) .chart-body'), a.intents, '#D4AF37');
+    renderBarChart(document.querySelector('#chart-channels, .chart-card:nth-child(2) .chart-body'), a.channels, '#2563EB');
+    renderLineChart(document.querySelector('#chart-conversations, .chart-card:nth-child(3) .chart-body'), a.conversations_7d, '#16a34a');
+
+    // 3. Top Întrebări
+    const qContainer = document.querySelector('#top-questions, .chart-card:nth-child(4) .chart-body');
+    if (qContainer && a.top_questions) {
+      qContainer.innerHTML = a.top_questions.map((q, i) => `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:0.88rem">
+          <span style="color:#333">${i+1}. ${q.q}</span>
+          <span style="color:#D4AF37;font-weight:700">${q.count}</span>
+        </div>
+      `).join('');
+    }
+  } catch (e) {
+    console.warn('Analytics fetch failed:', e);
+  }
+}
+
+// Sync cu auto-refresh-ul existent
+document.addEventListener('DOMContentLoaded', () => {
+  loadAnalytics();
+  setInterval(loadAnalytics, 30000);
+});
+</script>
+
 </body></html>`);
   printWindow.document.close();
   setTimeout(() => printWindow.print(), 500);
@@ -1148,5 +1269,126 @@ function exportPDF() {
 setTimeout(loadReportsData, 1000);
 </script>
 <script src="/assets/js/global-nav.js" defer></script>
+
+<script>
+// 🔗 Legare Dashboard de Date Reale Hermes
+async function loadHermesStatus() {
+  try {
+    const res = await fetch('/api/dashboard/hermes-status');
+    const data = await res.json();
+    if (!data.success || !data.hermes) return;
+
+    const h = data.hermes;
+    // 1. Status Agent (Online/Offline)
+    const statusEl = document.querySelector('.status-badge, #agent-status, [class*="status"]');
+    if (statusEl) {
+      const isRunning = h.running === true || h.running === 'true';
+      statusEl.innerHTML = isRunning 
+        ? '<span class="dot" style="background:#16a34a"></span> Online · Hermes' 
+        : '<span class="dot" style="background:#ef4444"></span> Offline · Hermes';
+    }
+
+    // 2. Sesiuni Active
+    const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
+    if (sessionsEl && h.sessions !== undefined) sessionsEl.textContent = h.sessions;
+
+    // 3. Uptime
+    const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
+    if (uptimeEl && h.uptime_seconds !== undefined) {
+      const hrs = Math.floor(h.uptime_seconds / 3600);
+      const mins = Math.floor((h.uptime_seconds % 3600) / 60);
+      uptimeEl.textContent = `${hrs}h ${mins}m`;
+    }
+
+    // 4. Requests / Tokeni
+    const reqEl = document.querySelector('#stat-tokens, .stat-card:nth-child(3) .stat-value');
+    if (reqEl && h.accept_loop?.requests_total !== undefined) reqEl.textContent = h.accept_loop.requests_total;
+
+  } catch (e) {
+    console.warn('Hermes status fetch failed:', e);
+  }
+}
+
+// Rulează la încărcare + auto-refresh la 30s
+document.addEventListener('DOMContentLoaded', () => {
+  loadHermesStatus();
+  setInterval(loadHermesStatus, 30000);
+});
+</script>
+
+
+<script>
+// 📊 Dashboard Analytics & MD Progress Renderer
+function renderBarChart(container, data, color) {
+  if (!container) return;
+  const max = Math.max(...Object.values(data), 1);
+  container.innerHTML = Object.entries(data).map(([k, v]) => `
+    <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
+      <span style="width:90px;font-size:0.82rem;color:#444;text-align:right">${k}</span>
+      <div style="flex:1;background:#f3f4f6;border-radius:6px;height:22px;overflow:hidden">
+        <div style="width:${(v/max)*100}%;height:100%;background:${color};border-radius:6px;transition:width 0.6s ease"></div>
+      </div>
+      <span style="width:36px;font-size:0.82rem;color:#666;font-weight:600">${v}%</span>
+    </div>
+  `).join('');
+}
+
+function renderLineChart(container, values, color) {
+  if (!container || !values.length) return;
+  const max = Math.max(...values, 1);
+  const points = values.map((v, i) => `${(i/(values.length-1))*100},${100-((v/max)*100)}`).join(' ');
+  container.innerHTML = `
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:80px;display:block">
+      <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      ${values.map((v,i) => `<circle cx="${(i/(values.length-1))*100}" cy="${100-((v/max)*100)}" r="2" fill="${color}"/>`).join('')}
+    </svg>
+    <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#888;margin-top:4px">
+      <span>Acum 7 zile</span><span>Azi</span>
+    </div>
+  `;
+}
+
+async function loadAnalytics() {
+  try {
+    const res = await fetch('/api/dashboard/analytics');
+    const data = await res.json();
+    if (!data.success || !data.analytics) return;
+    const a = data.analytics;
+
+    // 1. Progres Fișiere MD (citește din localStorage dacă există, altfel fallback)
+    const stored = localStorage.getItem('wizardGeneratedFiles');
+    const generatedCount = stored ? Object.keys(JSON.parse(stored)).length : 0;
+    const mdCountEl = document.querySelector('.stat-card:nth-child(1) .stat-value, [class*="progress"] span, .wz-progress-meta span');
+    const mdTextEl = document.querySelector('.stat-card:nth-child(1) .stat-label, [class*="progress"] p');
+    if (mdCountEl) mdCountEl.textContent = `${generatedCount}/9`;
+    if (mdTextEl) mdTextEl.textContent = generatedCount === 9 ? '✅ Toate generate' : '⏳ În așteptare...';
+
+    // 2. Grafice
+    renderBarChart(document.querySelector('#chart-intents, .chart-card:nth-child(1) .chart-body'), a.intents, '#D4AF37');
+    renderBarChart(document.querySelector('#chart-channels, .chart-card:nth-child(2) .chart-body'), a.channels, '#2563EB');
+    renderLineChart(document.querySelector('#chart-conversations, .chart-card:nth-child(3) .chart-body'), a.conversations_7d, '#16a34a');
+
+    // 3. Top Întrebări
+    const qContainer = document.querySelector('#top-questions, .chart-card:nth-child(4) .chart-body');
+    if (qContainer && a.top_questions) {
+      qContainer.innerHTML = a.top_questions.map((q, i) => `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:0.88rem">
+          <span style="color:#333">${i+1}. ${q.q}</span>
+          <span style="color:#D4AF37;font-weight:700">${q.count}</span>
+        </div>
+      `).join('');
+    }
+  } catch (e) {
+    console.warn('Analytics fetch failed:', e);
+  }
+}
+
+// Sync cu auto-refresh-ul existent
+document.addEventListener('DOMContentLoaded', () => {
+  loadAnalytics();
+  setInterval(loadAnalytics, 30000);
+});
+</script>
+
 </body>
 </html>

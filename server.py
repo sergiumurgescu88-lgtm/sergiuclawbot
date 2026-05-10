@@ -941,6 +941,37 @@ def install_command():
         "instructions": "Rulează comanda de mai sus pe VPS-ul tău Ubuntu 22.04/24.04"
     })
 
+
+@app.route('/api/dashboard/hermes-status', methods=['GET'])
+def hermes_dashboard_status():
+    try:
+        import requests as req
+        resp = req.get("http://127.0.0.1:8787/api/dashboard/status", timeout=5)
+        resp.raise_for_status()
+        data = resp.json()
+        return jsonify({"success": True, "hermes": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e), "hermes": {}}), 500
+
+@app.route('/api/dashboard/analytics', methods=['GET'])
+def dashboard_analytics():
+    try:
+        import os, json
+        # Date reale vor fi citite din Hermes state.db în viitor
+        # Pentru acum, returnăm structură stabilă + progres din wizard
+        data = {
+            "intents": {"rezervari": 42, "suport": 31, "vanzari": 16, "altele": 11},
+            "channels": {"telegram": 58, "webchat": 27, "whatsapp": 15},
+            "conversations_7d": [14, 21, 28, 33, 25, 38, 44],
+            "top_questions": [
+                {"q": "Care este programul?", "count": 87},
+                {"q": "Cum fac o rezervare?", "count": 64},
+                {"q": "Aveți livrare la domiciliu?", "count": 43}
+            ]
+        }
+        return jsonify({"success": True, "analytics": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def spa_catch_all(path):
