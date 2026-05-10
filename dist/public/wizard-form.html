@@ -282,6 +282,7 @@ button:disabled {
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 <link rel="stylesheet" href="/assets/css/premium-design.css">
 <link rel="stylesheet" href="/assets/css/global-nav.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
 <nav class="global-nav" id="globalNav">
@@ -540,6 +541,7 @@ button:disabled {
     
     <div style="margin-top:40px;text-align:center">
       <button class="wz-btn-action" onclick="downloadAll()">📦 Descarcă toate fișierele</button>
+      <button class="wz-btn-action" onclick="downloadAllZip()" style="margin-top:8px;background:#fff;color:#111;border:1.5px solid #d1d5db">🗜️ Descarcă ZIP (un singur fișier)</button>
       <p style="font-size:0.75rem;color:var(--text3);margin-top:12px">Configurație completă gata pentru deployment.</p>
     </div>
   </div>
@@ -586,6 +588,19 @@ function downloadAll() {
     a.click();
   });
 }
+async function downloadAllZip() {
+  const FNAMES = {soul:'SOUL.md',identity:'IDENTITY.md',user:'USER.md',memory:'MEMORY.md',tools:'TOOLS.md',agents:'AGENTS.md',heartbeat:'HEARTBEAT.md',bootstrap:'BOOTSTRAP.md',agent_rd:'AGENT_RD.md'};
+  const keys = Object.keys(FNAMES).filter(k => generatedFiles[k]);
+  if (keys.length === 0) { alert('Genereaza mai intai fisierele!'); return; }
+  const zip = new JSZip();
+  keys.forEach(k => zip.file(FNAMES[k], generatedFiles[k]));
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'AgentulMeu-' + Date.now() + '.zip';
+  a.click();
+}
+
 
 function saveEdit() {
   const content = document.getElementById('editContent').value;
