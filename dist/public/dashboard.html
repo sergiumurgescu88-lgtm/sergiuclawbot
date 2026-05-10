@@ -1260,6 +1260,74 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+
+<script>
+// 🔗 UI Binder: Leagă dashboard-ul de live_metrics & analytics reale
+async function bindDashboardUI() {
+  try {
+    const res = await fetch('/api/dashboard/analytics');
+    const data = await res.json();
+    if (!data.success || !data.analytics) return;
+
+    const a = data.analytics;
+    const m = a.live_metrics || {};
+
+    // 1. Status Agent
+    const statusEl = document.querySelector('#agent-status, .status-badge, [class*="status"]');
+    if (statusEl) {
+      statusEl.innerHTML = m.agent_running
+        ? '<span class="dot" style="background:#16a34a"></span> Online · Hermes'
+        : '<span class="dot" style="background:#ef4444"></span> Offline · Hermes';
+    }
+
+    // 2. Carduri Metrici Live
+    const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
+    if (sessionsEl) sessionsEl.textContent = m.sessions || 0;
+
+    const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
+    if (uptimeEl) {
+      const sec = m.uptime_seconds || 0;
+      const h = Math.floor(sec / 3600);
+      const min = Math.floor((sec % 3600) / 60);
+      uptimeEl.textContent = `${h}h ${min}m`;
+    }
+
+    const reqEl = document.querySelector('#stat-requests, .stat-card:nth-child(3) .stat-value');
+    if (reqEl) reqEl.textContent = m.requests_total || 0;
+
+    // 3. Placeholder-uri inteligente pentru grafice (când datele sunt 0)
+    const renderOrPlaceholder = (container, hasData, placeholder) => {
+      if (!container) return;
+      if (!hasData) {
+        container.innerHTML = `<p style="color:#888;font-size:0.85rem;text-align:center;padding:20px 0">${placeholder}</p>`;
+      }
+    };
+
+    const intentsC = document.querySelector('#chart-intents, .chart-card:nth-child(1) .chart-body');
+    renderOrPlaceholder(intentsC, Object.values(a.intents||{}).some(v=>v>0), '🟡 Așteaptă primele conversații pentru a detecta intenții...');
+
+    const channelsC = document.querySelector('#chart-channels, .chart-card:nth-child(2) .chart-body');
+    renderOrPlaceholder(channelsC, Object.values(a.channels||{}).some(v=>v>0), '🟡 Niciun canal activ încă. Conectează Telegram/WhatsApp...');
+
+    const convC = document.querySelector('#chart-conversations, .chart-card:nth-child(3) .chart-body');
+    renderOrPlaceholder(convC, (a.conversations_7d||[]).some(v=>v>0), '🟡 Graficul va apărea automat după primele interacțiuni...');
+
+    const qC = document.querySelector('#top-questions, .chart-card:nth-child(4) .chart-body');
+    if (qC && (!a.top_questions || a.top_questions.length === 0)) {
+      qC.innerHTML = '<p style="color:#888;font-size:0.85rem;text-align:center;padding:20px 0">🟡 Întrebările frecvente vor fi colectate automat...</p>';
+    }
+
+  } catch (e) {
+    console.warn('Dashboard UI bind failed:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  bindDashboardUI();
+  setInterval(bindDashboardUI, 30000);
+});
+</script>
+
 </body></html>`);
   printWindow.document.close();
   setTimeout(() => printWindow.print(), 500);
@@ -1387,6 +1455,74 @@ async function loadAnalytics() {
 document.addEventListener('DOMContentLoaded', () => {
   loadAnalytics();
   setInterval(loadAnalytics, 30000);
+});
+</script>
+
+
+<script>
+// 🔗 UI Binder: Leagă dashboard-ul de live_metrics & analytics reale
+async function bindDashboardUI() {
+  try {
+    const res = await fetch('/api/dashboard/analytics');
+    const data = await res.json();
+    if (!data.success || !data.analytics) return;
+
+    const a = data.analytics;
+    const m = a.live_metrics || {};
+
+    // 1. Status Agent
+    const statusEl = document.querySelector('#agent-status, .status-badge, [class*="status"]');
+    if (statusEl) {
+      statusEl.innerHTML = m.agent_running
+        ? '<span class="dot" style="background:#16a34a"></span> Online · Hermes'
+        : '<span class="dot" style="background:#ef4444"></span> Offline · Hermes';
+    }
+
+    // 2. Carduri Metrici Live
+    const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
+    if (sessionsEl) sessionsEl.textContent = m.sessions || 0;
+
+    const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
+    if (uptimeEl) {
+      const sec = m.uptime_seconds || 0;
+      const h = Math.floor(sec / 3600);
+      const min = Math.floor((sec % 3600) / 60);
+      uptimeEl.textContent = `${h}h ${min}m`;
+    }
+
+    const reqEl = document.querySelector('#stat-requests, .stat-card:nth-child(3) .stat-value');
+    if (reqEl) reqEl.textContent = m.requests_total || 0;
+
+    // 3. Placeholder-uri inteligente pentru grafice (când datele sunt 0)
+    const renderOrPlaceholder = (container, hasData, placeholder) => {
+      if (!container) return;
+      if (!hasData) {
+        container.innerHTML = `<p style="color:#888;font-size:0.85rem;text-align:center;padding:20px 0">${placeholder}</p>`;
+      }
+    };
+
+    const intentsC = document.querySelector('#chart-intents, .chart-card:nth-child(1) .chart-body');
+    renderOrPlaceholder(intentsC, Object.values(a.intents||{}).some(v=>v>0), '🟡 Așteaptă primele conversații pentru a detecta intenții...');
+
+    const channelsC = document.querySelector('#chart-channels, .chart-card:nth-child(2) .chart-body');
+    renderOrPlaceholder(channelsC, Object.values(a.channels||{}).some(v=>v>0), '🟡 Niciun canal activ încă. Conectează Telegram/WhatsApp...');
+
+    const convC = document.querySelector('#chart-conversations, .chart-card:nth-child(3) .chart-body');
+    renderOrPlaceholder(convC, (a.conversations_7d||[]).some(v=>v>0), '🟡 Graficul va apărea automat după primele interacțiuni...');
+
+    const qC = document.querySelector('#top-questions, .chart-card:nth-child(4) .chart-body');
+    if (qC && (!a.top_questions || a.top_questions.length === 0)) {
+      qC.innerHTML = '<p style="color:#888;font-size:0.85rem;text-align:center;padding:20px 0">🟡 Întrebările frecvente vor fi colectate automat...</p>';
+    }
+
+  } catch (e) {
+    console.warn('Dashboard UI bind failed:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  bindDashboardUI();
+  setInterval(bindDashboardUI, 30000);
 });
 </script>
 
