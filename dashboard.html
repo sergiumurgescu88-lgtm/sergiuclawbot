@@ -1346,76 +1346,49 @@
           <label>Fișiere de generat</label>
           <div class="file-grid" id="fileList">
             <div class="file-card" data-file="SOUL.md">
-              <div class="file-info">
-                <div class="file-icon">🧬</div>
-                <span class="file-name">SOUL.md</span>
-              </div>
+              <div class="file-info"><div class="file-icon">🧬</div><span class="file-name">SOUL.md</span></div>
               <span class="file-status pending">Negenerat</span>
               <button class="btn-generate" onclick="generateFile('SOUL.md')">⚡ Generează</button>
             </div>
             <div class="file-card" data-file="IDENTITY.md">
-              <div class="file-info">
-                <div class="file-icon">🪪</div>
-                <span class="file-name">IDENTITY.md</span>
-              </div>
+              <div class="file-info"><div class="file-icon">🪪</div><span class="file-name">IDENTITY.md</span></div>
               <span class="file-status pending">Negenerat</span>
               <button class="btn-generate" onclick="generateFile('IDENTITY.md')">⚡ Generează</button>
             </div>
-            <div class="file-card" data-file="RULES.md">
-              <div class="file-info">
-                <div class="file-icon">⚖️</div>
-                <span class="file-name">RULES.md</span>
-              </div>
+            <div class="file-card" data-file="USER.md">
+              <div class="file-info"><div class="file-icon">👤</div><span class="file-name">USER.md</span></div>
               <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('RULES.md')">⚡ Generează</button>
-            </div>
-            <div class="file-card" data-file="KNOWLEDGE.md">
-              <div class="file-info">
-                <div class="file-icon">📚</div>
-                <span class="file-name">KNOWLEDGE.md</span>
-              </div>
-              <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('KNOWLEDGE.md')">⚡ Generează</button>
-            </div>
-            <div class="file-card" data-file="TOOLS.md">
-              <div class="file-info">
-                <div class="file-icon">🔧</div>
-                <span class="file-name">TOOLS.md</span>
-              </div>
-              <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('TOOLS.md')">⚡ Generează</button>
-            </div>
-            <div class="file-card" data-file="WORKFLOWS.md">
-              <div class="file-info">
-                <div class="file-icon">📈</div>
-                <span class="file-name">WORKFLOWS.md</span>
-              </div>
-              <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('WORKFLOWS.md')">⚡ Generează</button>
+              <button class="btn-generate" onclick="generateFile('USER.md')">⚡ Generează</button>
             </div>
             <div class="file-card" data-file="MEMORY.md">
-              <div class="file-info">
-                <div class="file-icon">🧠</div>
-                <span class="file-name">MEMORY.md</span>
-              </div>
+              <div class="file-info"><div class="file-icon">🧠</div><span class="file-name">MEMORY.md</span></div>
               <span class="file-status pending">Negenerat</span>
               <button class="btn-generate" onclick="generateFile('MEMORY.md')">⚡ Generează</button>
             </div>
-            <div class="file-card" data-file="VOICE.md">
-              <div class="file-info">
-                <div class="file-icon">🎤</div>
-                <span class="file-name">VOICE.md</span>
-              </div>
+            <div class="file-card" data-file="TOOLS.md">
+              <div class="file-info"><div class="file-icon">🔧</div><span class="file-name">TOOLS.md</span></div>
               <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('VOICE.md')">⚡ Generează</button>
+              <button class="btn-generate" onclick="generateFile('TOOLS.md')">⚡ Generează</button>
             </div>
-            <div class="file-card" data-file="INTEGRATION.md">
-              <div class="file-info">
-                <div class="file-icon">🔗</div>
-                <span class="file-name">INTEGRATION.md</span>
-              </div>
+            <div class="file-card" data-file="AGENTS.md">
+              <div class="file-info"><div class="file-icon">🤖</div><span class="file-name">AGENTS.md</span></div>
               <span class="file-status pending">Negenerat</span>
-              <button class="btn-generate" onclick="generateFile('INTEGRATION.md')">⚡ Generează</button>
+              <button class="btn-generate" onclick="generateFile('AGENTS.md')">⚡ Generează</button>
+            </div>
+            <div class="file-card" data-file="HEARTBEAT.md">
+              <div class="file-info"><div class="file-icon">⏰</div><span class="file-name">HEARTBEAT.md</span></div>
+              <span class="file-status pending">Negenerat</span>
+              <button class="btn-generate" onclick="generateFile('HEARTBEAT.md')">⚡ Generează</button>
+            </div>
+            <div class="file-card" data-file="BOOTSTRAP.md">
+              <div class="file-info"><div class="file-icon">🚀</div><span class="file-name">BOOTSTRAP.md</span></div>
+              <span class="file-status pending">Negenerat</span>
+              <button class="btn-generate" onclick="generateFile('BOOTSTRAP.md')">⚡ Generează</button>
+            </div>
+            <div class="file-card" data-file="AGENT_RD.md">
+              <div class="file-info"><div class="file-icon">🔬</div><span class="file-name">AGENT_RD.md</span></div>
+              <span class="file-status pending">Negenerat</span>
+              <button class="btn-generate" onclick="generateFile('AGENT_RD.md')">⚡ Generează</button>
             </div>
           </div>
         </div>
@@ -2085,17 +2058,104 @@ hermes run skill=build_business_agents --arg profile_path="~/.hermes/profiles/ne
     }
 
     // ===== LOCAL STORAGE =====
-    function loadSavedProgress() {
-      const saved = localStorage.getItem('agentulmeu_profile');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          // Could pre-fill form fields here if needed
-          console.log('📦 Profil încărcat din localStorage', data);
-        } catch (e) {
-          console.warn('⚠️ Nu s-a putut încărca profilul salvat', e);
+    async function loadSavedProgress() {
+      // ── Citește din DB via session ID ──────────────────
+      const urlParams = new URLSearchParams(window.location.search);
+      const sid = urlParams.get('session') || localStorage.getItem('agentulmeu_session_id');
+      if (!sid) return;
+
+      localStorage.setItem('agentulmeu_session_id', sid);
+
+      try {
+        const resp = await fetch('/api/dashboard/' + sid);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!data.success) return;
+
+        console.log('[DASHBOARD] Date din DB:', data);
+
+        // ── Actualizează cardurile fișierelor ────────────
+        const filesGenerated = data.filesGenerated || [];
+        const filesContent = data.files || {};
+
+        filesGenerated.forEach(function(fileName) {
+          const card = document.querySelector('.file-card[data-file="' + fileName + '"]');
+          if (!card) return;
+          const status = card.querySelector('.file-status');
+          const btn = card.querySelector('.btn-generate');
+          if (status) { status.textContent = '✅ Generat'; status.className = 'file-status generated'; }
+          if (btn) { btn.innerHTML = '✓ Regenerează'; btn.style.background = 'rgba(34,197,94,0.15)'; btn.style.color = '#22c55e'; btn.style.border = '1px solid rgba(34,197,94,0.3)'; }
+          card.classList.add('done');
+          if (!state.generatedFiles.includes(fileName)) state.generatedFiles.push(fileName);
+        });
+
+        // ── Actualizează counter ─────────────────────────
+        updateGeneratedCount();
+
+        // ── Salut personalizat ───────────────────────────
+        if (data.session && data.session.business_name) {
+          const h1s = document.querySelectorAll('h1, .welcome-title');
+          h1s.forEach(function(el) {
+            if (el.textContent.includes('Bună') || el.textContent.includes('—')) {
+              el.innerHTML = el.innerHTML.replace(/—\s*👋|Bună ziua,.*?👋/, 'Bună ziua, <strong style="color:#6366f1">' + data.session.business_name + '</strong> 👋');
+            }
+          });
+        }
+
+        // ── Adaugă buton Preview/Download pentru fișiere generate ──
+        Object.keys(filesContent).forEach(function(fileName) {
+          const content = filesContent[fileName];
+          const card = document.querySelector('.file-card[data-file="' + fileName + '"]');
+          if (!card || !content) return;
+          if (card.querySelector('.btn-preview-db')) return;
+          const previewBtn = document.createElement('button');
+          previewBtn.className = 'btn-generate btn-preview-db';
+          previewBtn.style.cssText = 'background:rgba(99,102,241,0.15);color:#6366f1;border:1px solid rgba(99,102,241,0.3);margin-left:4px';
+          previewBtn.textContent = '👁 Preview';
+          previewBtn.onclick = function() { showFilePreviewDB(fileName, content); };
+          card.appendChild(previewBtn);
+        });
+
+        // ── Link wizard cu session ───────────────────────
+        document.querySelectorAll('a[href*="wizard"]').forEach(function(a) {
+          if (!a.href.includes('session=')) a.href = '/wizard-form?session=' + sid;
+        });
+
+        // ── Badge sesiune ────────────────────────────────
+        showSessionBadgeDB(sid, data.progress);
+
+      } catch(err) {
+        console.warn('[DASHBOARD] Eroare load din DB:', err);
+        // Fallback localStorage
+        const saved = localStorage.getItem('agentulmeu_profile');
+        if (saved) {
+          try { const data = JSON.parse(saved); console.log('📦 Fallback localStorage', data); } catch(e) {}
         }
       }
+    }
+
+    function showFilePreviewDB(fileName, content) {
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:10000;backdrop-filter:blur(10px)';
+      modal.innerHTML = '<div style="background:#1e293b;border:1px solid #6366f1;border-radius:16px;width:min(800px,90vw);max-height:80vh;display:flex;flex-direction:column;overflow:hidden"><div style="padding:16px 20px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center"><span style="color:#6366f1;font-weight:700;font-family:monospace">' + fileName + '</span><div style="display:flex;gap:8px"><button onclick="(function(){var b=new Blob([\`' + content.replace(/`/g,'\`') + '\`],{type:'text/markdown'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='' + fileName + '';a.click()})()" style="padding:6px 14px;background:#6366f1;border:none;color:#fff;border-radius:6px;cursor:pointer;font-size:12px">⬇ Download</button><button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="padding:6px 10px;background:#334155;border:none;color:#fff;border-radius:6px;cursor:pointer">✕</button></div></div><textarea style="flex:1;padding:20px;background:transparent;border:none;outline:none;color:#e2e8f0;font-family:monospace;font-size:13px;line-height:1.6;resize:none;overflow-y:auto" readonly>' + content.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</textarea></div>';
+      modal.onclick = function(e) { if(e.target===modal) modal.remove(); };
+      document.body.appendChild(modal);
+    }
+
+    function showSessionBadgeDB(sid, progress) {
+      if (document.getElementById('db-session-badge')) return;
+      const pct = progress ? progress.percentComplete : 0;
+      const badge = document.createElement('div');
+      badge.id = 'db-session-badge';
+      badge.style.cssText = 'position:fixed;bottom:20px;right:20px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);color:#6366f1;padding:10px 16px;border-radius:10px;font-size:12px;font-family:monospace;cursor:pointer;z-index:999;backdrop-filter:blur(10px)';
+      badge.innerHTML = '📊 ' + pct + '% complet · <span style="color:#22c55e">' + (progress ? progress.filesGenerated : 0) + '/9 fișiere</span>';
+      badge.title = 'Click pentru link sesiune';
+      badge.onclick = function() {
+        navigator.clipboard.writeText(window.location.origin + '/dashboard?session=' + sid);
+        badge.innerHTML = '✓ Link copiat!';
+        setTimeout(function() { badge.innerHTML = '📊 ' + pct + '% complet · <span style="color:#22c55e">' + (progress ? progress.filesGenerated : 0) + '/9 fișiere</span>'; }, 2000);
+      };
+      document.body.appendChild(badge);
     }
 
     // ===== UTILITY: Expose functions globally for inline handlers =====
@@ -2105,5 +2165,6 @@ hermes run skill=build_business_agents --arg profile_path="~/.hermes/profiles/ne
     window.copyHermesCommand = copyHermesCommand;
     window.openTelegramSetup = openTelegramSetup;
   </script>
+<script src="/dashboard-session.js"></script>
 </body>
 </html>

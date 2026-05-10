@@ -661,7 +661,6 @@ body::before{
 </head>
 <body>
 
-<div style="padding:12px 20px 0;max-width:760px;margin:0 auto;position:relative;z-index:1"><a href="https://agentulmeu.online" style="display:inline-flex;align-items:center;gap:7px;font-family:Orbitron,monospace;font-size:0.72rem;font-weight:700;color:#00f5ff;text-decoration:none;background:rgba(0,245,255,0.08);border:1px solid rgba(0,245,255,0.25);padding:7px 14px;border-radius:999px;letter-spacing:.08em;transition:all .2s" onmouseover="this.style.background='rgba(0,245,255,0.18)';this.style.boxShadow='0 0 14px rgba(0,245,255,0.35)'" onmouseout="this.style.background='rgba(0,245,255,0.08)';this.style.boxShadow='none'">← AGENTULMEU.ONLINE</a></div>
 <div class="wz-wrap">
   <!-- HEADER -->
   <div class="wz-top">
@@ -1240,21 +1239,6 @@ async function generateFile(fileId, genBtn) {
     var data = await res.json();
 
     if (data.success && data.content) {
-      // ── AUTO-SAVE în DB ─────────────────────────────────
-      (function(fid, content) {
-        var sid = localStorage.getItem("agentulmeu_session_id");
-        if (!sid) return;
-        var fnMap = {soul:"SOUL.md",identity:"IDENTITY.md",user:"USER.md",memory:"MEMORY.md",tools:"TOOLS.md",agents:"AGENTS.md",heartbeat:"HEARTBEAT.md",bootstrap:"BOOTSTRAP.md",agent_rd:"AGENT_RD.md"};
-        var fileName = fnMap[fid] || (fid.toUpperCase() + ".md");
-        fetch("/api/session/" + sid + "/file", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({fileName: fileName, content: content})
-        }).then(function(r){ return r.json(); }).then(function(d){
-          console.log("[WIZARD] Salvat in DB:", fileName, d.filesCount + "/9");
-        }).catch(function(e){ console.warn("[WIZARD] Eroare save:", e); });
-      })(fileId, data.content);
-      // ── END AUTO-SAVE ────────────────────────────────────
       generatedFiles[fileId] = data.content;
 
       // Update status & card style
@@ -1549,6 +1533,5 @@ document.addEventListener('DOMContentLoaded', function() {
   showStep(1);
 });
 </script>
-<script src="/wizard-session.js"></script>
 </body>
 </html>

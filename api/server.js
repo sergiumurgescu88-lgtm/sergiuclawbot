@@ -8,10 +8,15 @@ const path = require('path');
 const JSZip = require('jszip');
 
 const app = express();
+
+// ── Session System ──────────────────────────────────────
+const registerSessionRoutes = require('./session-routes');
+
 const PORT = 3002;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
+registerSessionRoutes(app);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -132,6 +137,40 @@ app.get("/api/kb/pricing", (req, res) => {
     setup_plan: { name: "Done-For-You", short_desc: "Instalam totul pe VPS-ul tau", price_one_time_usd: 299, features: ["Setup complet VPS","Hermes instalat+configurat","Toate canalele conectate","Training 1-on-1 2h","30 zile support prioritar"] }
   });
 });
+
+
+// ═══ WIZARD ROUTES ═══════════════════════════════════════════
+app.post('/api/wizard/ask-ai', async (req, res) => {
+  const { prompt } = req.body;
+  if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
+  try {
+    const result = await generateWithFallback(prompt, { maxTokens: 300, temperature: 0.3 });
+    res.json({ answer: result.text, provider: result.provider });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/wizard/generate', async (req, res) => {
+  const { file, context } = req.body;
+  if (!file || !context) return res.status(400).json({ error: 'Missing file or context' });
+  const PROMPTS = {
+    soul:      'Genereaza SOUL.md — personalitatea, tonul si hard limits absolute ale agentului AI.',
+    identity:  'Genereaza IDENTITY.md — identitatea completa: nume, rol, personalitate, subagenti.',
+    user:      'Genereaza USER.md — profilul proprietarului: preferinte, obiective, context, restrictii.',
+    memory:    'Genereaza MEMORY.md — memoria initiala pe termen lung: decizii, contexte, patternuri.',
+    tools:     'Genereaza TOOLS.md — capabilitatile tehnice, API-uri recomandate si integrarile agentului.',
+    agents:    'Genereaza AGENTS.md — workflows, proceduri, subagenti si rolurile lor, pipeline-uri.',
+    heartbeat: 'Genereaza HEARTBEAT.md — task-urile proactive fara prompt: zilnic, saptamanal, lunar.',
+    bootstrap: 'Genereaza BOOTSTRAP.md — checklist initializare sistem, pasi setup si fallback-uri.',
+    agent_rd:  'Genereaza AGENT_RD.md — agentul R&D: domenii, framework validare idei, cercetare.'
+  };
+  const base = PROMPTS[file] || `Genereaza fisierul ${file}.md pentru agentul AI.`;
+  const prompt = base + `\n\nContextul business-ului:\n${JSON.stringify(context, null, 2)}\n\nInstructiuni:\n- Scrie in romana, professional\n- Format Markdown complet cu headere si sectiuni\n- Foloseste datele din context peste tot\n- Minim 400 cuvinte, detaliat si actionabil\n- Incepe direct cu continutul, fara explicatii extra`;
+  try {
+    const result = await generateWithFallback(prompt, { maxTokens: 4096, temperature: 0.25 });
+    res.json({ success: true, content: result.text, provider: result.provider });
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
+});
+// ═══ END WIZARD ROUTES ═══════════════════════════════════════
 
 app.listen(PORT, '127.0.0.1', () => console.log(`API running on :${PORT}`));
 
