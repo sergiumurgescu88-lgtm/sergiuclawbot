@@ -1282,18 +1282,18 @@ async function bindDashboardUI() {
 
     // 2. Carduri Metrici Live
     const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
-    if (sessionsEl) sessionsEl.textContent = m.sessions || 0;
+    if (sessionsEl) sessionsEl.textContent = a.sessions || m.sessions || 0;
 
     const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
     if (uptimeEl) {
-      const sec = m.uptime_seconds || 0;
+      const sec = a.uptime_seconds || m.uptime_seconds || 0;
       const h = Math.floor(sec / 3600);
       const min = Math.floor((sec % 3600) / 60);
       uptimeEl.textContent = `${h}h ${min}m`;
     }
 
     const reqEl = document.querySelector('#stat-requests, .stat-card:nth-child(3) .stat-value');
-    if (reqEl) reqEl.textContent = m.requests_total || 0;
+    if (reqEl) reqEl.textContent = a.requests_total || m.requests_total || 0;
 
     // 3. Placeholder-uri inteligente pentru grafice (când datele sunt 0)
     const renderOrPlaceholder = (container, hasData, placeholder) => {
@@ -1480,18 +1480,18 @@ async function bindDashboardUI() {
 
     // 2. Carduri Metrici Live
     const sessionsEl = document.querySelector('#stat-sessions, .stat-card:nth-child(1) .stat-value');
-    if (sessionsEl) sessionsEl.textContent = m.sessions || 0;
+    if (sessionsEl) sessionsEl.textContent = a.sessions || m.sessions || 0;
 
     const uptimeEl = document.querySelector('#stat-uptime, .stat-card:nth-child(2) .stat-value');
     if (uptimeEl) {
-      const sec = m.uptime_seconds || 0;
+      const sec = a.uptime_seconds || m.uptime_seconds || 0;
       const h = Math.floor(sec / 3600);
       const min = Math.floor((sec % 3600) / 60);
       uptimeEl.textContent = `${h}h ${min}m`;
     }
 
     const reqEl = document.querySelector('#stat-requests, .stat-card:nth-child(3) .stat-value');
-    if (reqEl) reqEl.textContent = m.requests_total || 0;
+    if (reqEl) reqEl.textContent = a.requests_total || m.requests_total || 0;
 
     // 3. Placeholder-uri inteligente pentru grafice (când datele sunt 0)
     const renderOrPlaceholder = (container, hasData, placeholder) => {

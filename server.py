@@ -727,7 +727,7 @@ def backup_status():
 
 # ===== GENERATE FILE (Dashboard.jsx) =====
 
-import requests as _req
+import requests, glob as _req
 import zipfile, io as _io, base64 as _b64
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
@@ -953,10 +953,17 @@ def hermes_dashboard_status():
     except Exception as e:
         return jsonify({"success": False, "error": str(e), "hermes": {}}), 500
 
+
 @app.route('/api/dashboard/analytics', methods=['GET'])
 def dashboard_analytics():
     try:
         import requests as req
+        # Prioritate 1: Citire directă din state.db
+        db_data = _read_hermes_metrics()
+        if db_data:
+            return jsonify({"success": True, "analytics": db_data, "source": "state.db"})
+
+        # Prioritate 2: Fallback la Hermes WebUI API
         hermes_data = {}
         try:
             resp = req.get("http://127.0.0.1:8787/api/dashboard/status", timeout=3)
@@ -968,7 +975,7 @@ def dashboard_analytics():
         sessions = hermes_data.get("sessions", 0)
         uptime = hermes_data.get("uptime_seconds", 0)
         req_total = hermes_data.get("accept_loop", {}).get("requests_total", 0)
-        
+
         data = {
             "intents": {"rezervari": 0, "suport": 0, "vanzari": 0, "altele": 0},
             "channels": {"telegram": 0, "webchat": 0, "whatsapp": 0},
@@ -981,7 +988,7 @@ def dashboard_analytics():
                 "agent_running": hermes_data.get("running", False)
             }
         }
-        return jsonify({"success": True, "analytics": data})
+        return jsonify({"success": True, "analytics": data, "source": "webui_fallback"})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
@@ -1566,6 +1573,71 @@ def wizard_generate_files():
             return jsonify({"success": True, "files": generated})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+def _get_hermes_db():
+    candidates = [
+        os.path.expanduser('~/.hermes/state.db'),
+        '/root/.hermes/state.db',
+        '/opt/hermes-webui/state.db',
+        '/var/www/agentulmeu.online/data/agentulmeu.db'
+    ]
+    for p in candidates:
+        if os.path.exists(p): return p
+    for pattern in ['~/.hermes/*.db', '/opt/hermes-webui/*.db']:
+        matches = glob.glob(os.path.expanduser(pattern))
+        if matches: return matches[0]
+    return None
+
+def _read_hermes_metrics():
+    db = _get_hermes_db()
+    if not db: return None
+    try:
+        conn = sqlite3.connect(f'file:{db}?mode=ro', uri=True)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [r[0] for r in cur.fetchall()]
+        
+        metrics = {
+            "sessions": 0,
+            "channels": {"telegram": 0, "webchat": 0, "whatsapp": 0},
+            "intents": {"rezervari": 0, "suport": 0, "vanzari": 0, "altele": 0},
+            "top_questions": [],
+            "conversations_7d": [0,0,0,0,0,0,0]
+        }
+
+        if 'sessions' in tables:
+            cur.execute("SELECT COUNT(*) as c FROM sessions")
+            metrics["sessions"] = cur.fetchone()["c"]
+        elif 'messages' in tables:
+            cur.execute("SELECT COUNT(DISTINCT session_id) as c FROM messages")
+            metrics["sessions"] = cur.fetchone()["c"]
+
+        if 'messages' in tables:
+            cur.execute("PRAGMA table_info(messages)")
+            cols = [r[1] for r in cur.fetchall()]
+            ch_col = next((c for c in cols if 'channel' in c.lower() or 'source' in c.lower()), None)
+            if ch_col:
+                cur.execute(f"SELECT {ch_col}, COUNT(*) as c FROM messages GROUP BY {ch_col}")
+                for r in cur.fetchall():
+                    ch = str(r[0]).lower()
+                    cnt = r[1]
+                    if 'telegram' in ch: metrics["channels"]["telegram"] += cnt
+                    elif 'whatsapp' in ch: metrics["channels"]["whatsapp"] += cnt
+                    elif 'web' in ch or 'chat' in ch: metrics["channels"]["webchat"] += cnt
+
+            role_col = next((c for c in cols if 'role' in c.lower()), None)
+            text_col = next((c for c in cols if 'text' in c.lower() or 'content' in c.lower()), None)
+            if role_col and text_col:
+                cur.execute(f"SELECT {text_col}, COUNT(*) as c FROM messages WHERE {role_col} IN ('user','human') GROUP BY {text_col} ORDER BY c DESC LIMIT 5")
+                metrics["top_questions"] = [{"q": str(r[0])[:120], "count": r[1]} for r in cur.fetchall()]
+
+        conn.close()
+        return metrics
+    except Exception as e:
+        print(f"[HermesDB] Warn: {e}")
+        return None
 
 if __name__ == '__main__':
     host = os.getenv("FLASK_HOST", "0.0.0.0")
