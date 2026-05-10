@@ -12,30 +12,33 @@
 
 /* ─── TOKENS ─────────────────────────────────────────────── */
 :root{
-  --cyan:#00f5ff;
-  --cyan-dim:rgba(0,245,255,0.12);
-  --cyan-mid:rgba(0,245,255,0.30);
-  --cyan-glow:0 0 20px rgba(0,245,255,0.4), 0 0 40px rgba(0,245,255,0.15);
-  --cyan-glow-sm:0 0 10px rgba(0,245,255,0.3);
+  --cyan:#ffffff;
+  --cyan-dim:rgba(255,255,255,0.06);
+  --cyan-mid:rgba(255,255,255,0.15);
+  --cyan-glow:0 0 20px rgba(255,255,255,0.15), 0 0 40px rgba(255,255,255,0.05);
+  --cyan-glow-sm:0 0 10px rgba(255,255,255,0.2);
   --gold:#f5c542;
   --gold-dim:rgba(245,197,66,0.12);
   --gold-glow:0 0 18px rgba(245,197,66,0.4);
-  --violet:#a855f7;
-  --violet-dim:rgba(168,85,247,0.12);
-  --green:#00e676;
-  --green-dim:rgba(0,230,118,0.12);
-  --green-glow:0 0 14px rgba(0,230,118,0.4);
+  --violet:#ffffff;
+  --violet-dim:rgba(255,255,255,0.06);
+  --green:#ffffff;
+  --green-dim:rgba(255,255,255,0.06);
+  --green-glow:0 0 14px rgba(255,255,255,0.2);
+  --gold:#c9a84c;
+  --gold2:#f0d080;
+  --gold3:#a07830;
   --red:#ff4d6d;
-  --bg:#050810;
-  --bg2:#0a0f1e;
-  --bg3:#0f1629;
+  --bg:#0a0a0a;
+  --bg2:#111111;
+  --bg3:#1a1a1a;
   --surface:#111828;
   --surface2:#182035;
-  --border:rgba(0,245,255,0.12);
-  --border2:rgba(0,245,255,0.22);
-  --text:#e8f4ff;
-  --text2:#8db4cf;
-  --text3:#4a6980;
+  --border:rgba(255,255,255,0.10);
+  --border2:rgba(255,255,255,0.20);
+  --text:#ffffff;
+  --text2:#aaaaaa;
+  --text3:#666666;
   --radius:14px;--radius-sm:10px;--radius-pill:999px;
   --font-display:'Orbitron',monospace;
   --font-body:'Space Grotesk',sans-serif;
@@ -657,6 +660,165 @@ body::before{
   .wz-chat-panel{width:calc(100% - 40px);right:20px;left:20px}
   .wz-export-acts{flex-direction:column}
 }
+
+  /* ═══ GOLD BORDER ANIMATION ════════════════════════════ */
+  @keyframes goldSpin {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes goldRing {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .wz-bcard, .wz-acard, .wz-file-card {
+    position: relative;
+    background: #111 !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 14px;
+    overflow: hidden;
+    color: #fff !important;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    z-index: 0;
+  }
+
+  /* Inelul gold rotativ — pseudo-element pe spatele cardului */
+  .wz-bcard::before, .wz-acard::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      transparent 0deg,
+      transparent 60deg,
+      #c9a84c 90deg,
+      #f0d080 120deg,
+      #fff8e0 150deg,
+      #f0d080 180deg,
+      #c9a84c 210deg,
+      transparent 240deg,
+      transparent 360deg
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: goldRing 3s linear infinite paused;
+  }
+
+  .wz-bcard:hover::before, .wz-acard:hover::before,
+  .wz-bcard.sel::before, .wz-acard.sel::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  /* Background negru interior să acopere inelul */
+  .wz-bcard::after, .wz-acard::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 13px;
+    background: #111;
+    z-index: -1;
+  }
+
+  /* Selected state */
+  .wz-bcard.sel, .wz-acard.sel {
+    box-shadow: 0 0 20px rgba(201,168,76,0.25), 0 0 40px rgba(201,168,76,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Hover */
+  .wz-bcard:hover, .wz-acard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(201,168,76,0.15);
+  }
+
+  /* Suport @property pentru animatia unghiului — browsers moderni */
+  @supports (animation-timeline: scroll()) {
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    .wz-bcard::before, .wz-acard::before {
+      animation: goldAngle 3s linear infinite paused;
+    }
+    .wz-bcard:hover::before, .wz-acard:hover::before,
+    .wz-bcard.sel::before, .wz-acard.sel::before {
+      animation-play-state: running;
+    }
+    @keyframes goldAngle {
+      to { --angle: 360deg; }
+    }
+  }
+
+  /* File cards din step 8 */
+  .wz-file-card {
+    border: 1px solid rgba(255,255,255,0.08) !important;
+  }
+  .wz-file-card:hover::before, .wz-file-card.done::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  /* Inputs & textareas — alb/negru */
+  .wz-input, .wz-textarea, .wz-select {
+    background: #1a1a1a !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: #ffffff !important;
+  }
+  .wz-input:focus, .wz-textarea:focus, .wz-select:focus {
+    border-color: rgba(201,168,76,0.5) !important;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1) !important;
+  }
+
+  /* Progress bar — gold */
+  .wz-bar-fill {
+    background: linear-gradient(90deg, #a07830, #c9a84c, #f0d080, #c9a84c) !important;
+    background-size: 200% 100% !important;
+    animation: goldSpin 3s ease infinite !important;
+  }
+
+  /* Butoane principale — gold outline */
+  .wz-btn-next {
+    background: linear-gradient(135deg, #c9a84c, #f0d080) !important;
+    color: #000 !important;
+    border: none !important;
+    font-weight: 700 !important;
+  }
+  .wz-btn-next:hover:not(:disabled) {
+    box-shadow: 0 0 25px rgba(201,168,76,0.4) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  /* Counter step */
+  .wz-counter {
+    background: rgba(201,168,76,0.1) !important;
+    border-color: rgba(201,168,76,0.3) !important;
+    color: #c9a84c !important;
+  }
+
+  /* Step tag */
+  .wz-step-tag {
+    color: #c9a84c !important;
+  }
+  .wz-step-tag::before {
+    background: #c9a84c !important;
+    box-shadow: 0 0 8px rgba(201,168,76,0.5) !important;
+  }
+
+  /* Ask AI button */
+  .wz-btn-ask {
+    color: #c9a84c !important;
+    border-color: rgba(201,168,76,0.3) !important;
+  }
+  .wz-btn-ask:hover:not(:disabled) {
+    background: rgba(201,168,76,0.1) !important;
+    border-color: rgba(201,168,76,0.5) !important;
+  }
+  /* ════════════════════════════════════════════════════════ */
 </style>
 </head>
 <body>
