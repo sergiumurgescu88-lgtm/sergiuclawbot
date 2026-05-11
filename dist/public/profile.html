@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentulMeu</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--card:#111;--border:#222;--gold:#c9a84c;--text:#fff;--muted:#aaa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+a{text-decoration:none;color:inherit}
+header{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 0}
+.hdr{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-family:'Orbitron',sans-serif;font-size:20px;color:var(--gold);font-weight:700}
+.nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav a,.nav button{color:var(--muted);font-size:14px;font-weight:500;transition:.2s;background:none;border:none;cursor:pointer}
+.nav a:hover,.nav button:hover{color:var(--gold)}
+.btn-gold{background:var(--gold);color:#000;padding:8px 16px;border-radius:6px;font-weight:600}
+.btn-gold:hover{background:#d4b35a;color:#000}
+main{padding-top:80px;max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px}
+</style>
+<link rel="stylesheet" href="/assets/global.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/global.js"></script>
+</head>
+<body>
+<header><div class="hdr">
+  <a href="/" class="logo">AgentulMeu</a>
+  <div class="nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/wizard">Wizard</a>
+    <a href="/profile">Contul Meu</a>
+    <a href="/docs">Docs</a>
+    <a href="/login" id="authBtn" class="btn-gold">Login</a>
+  </div>
+</div></header>
+<main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const sb = window.supabase.createClient('https://jwyxywlseonoazarhlzv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eXh5d2xzZW9ub2F6YXJobHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg1NTMsImV4cCI6MjA5NDAwNDU1M30.L-yq0ibWJ3IbPazd09D1t1Qae1GgwCVh3bM8QzRWquI');
+  const btn = document.getElementById('authBtn');
+  sb.auth.getSession().then(({  { session } }) => {
+    if(session){
+      btn.textContent = 'Logout';
+      btn.href = '#';
+      btn.onclick = (e) => { e.preventDefault(); sb.auth.signOut().then(() => location.href = '/login'); };
+    }
+  });
+})();
+</script>
+
+<header><div class="hdr">
+  <a href="/" class="logo">AgentulMeu</a>
+  <div class="nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/wizard">Wizard</a>
+    <a href="/profile">Contul Meu</a>
+    <a href="/docs">Docs</a>
+    <a href="/login" id="authBtn" class="btn-gold">Login</a>
+  </div>
+</div></header>
+<main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const sb = window.supabase.createClient('https://jwyxywlseonoazarhlzv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eXh5d2xzZW9ub2F6YXJobHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg1NTMsImV4cCI6MjA5NDAwNDU1M30.L-yq0ibWJ3IbPazd09D1t1Qae1GgwCVh3bM8QzRWquI');
+  const btn = document.getElementById('authBtn');
+  sb.auth.getSession().then(({  { session } }) => {
+    if(session){
+      btn.textContent = 'Logout';
+      btn.href = '#';
+      btn.onclick = (e) => { e.preventDefault(); sb.auth.signOut().then(() => location.href = '/login'); };
+    }
+  });
+})();
+</script>
+
+  <div class="container">
+    <h1>Contul Meu</h1>
+    <div id="loading" class="loading">Se încarcă datele...</div>
+    <div id="content" style="display:none;">
+      <div class="profile-card">
+        <img id="avatar" class="avatar" src="" alt="Avatar">
+        <div class="info">
+          <h2 id="name">-</h2>
+          <p id="email">-</p>
+          <p id="uid" style="font-size:12px;color:#666;">ID: -</p>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="/wizard" class="btn">+ Business Nou</a>
+          <button id="logoutBtn" class="btn btn-outline">Ieși din cont</button>
+        </div>
+      </div>
+      <div class="sessions">
+        <h3>Business-urile mele</h3>
+        <div id="sessionsList"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function(){
+      const SUPABASE_URL = 'https://jwyxywlseonoazarhlzv.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eXh5d2xzZW9ub2F6YXJobHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg1NTMsImV4cCI6MjA5NDAwNDU1M30.L-yq0ibWJ3IbPazd09D1t1Qae1GgwCVh3bM8QzRWquI';
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('content');
+      const nameEl = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+      const uidEl = document.getElementById('uid');
+      const avatarEl = document.getElementById('avatar');
+      const sessionsList = document.getElementById('sessionsList');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      async function init(){
+        const { data: { session } } = await sb.auth.getSession();
+        if(!session){ window.location.href = '/login'; return; }
+        const u = session.user;
+        nameEl.textContent = u.user_metadata?.full_name || u.email;
+        emailEl.textContent = u.email;
+        uidEl.textContent = 'ID: ' + u.id;
+        avatarEl.src = u.user_metadata?.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(u.email) + '&background=c9a84c&color=000';
+        loading.style.display = 'none';
+        content.style.display = 'block';
+
+        try{
+          const res = await fetch('/api/auth/my-sessions', {
+            headers: { Authorization: 'Bearer ' + session.access_token }
+          });
+          const data = await res.json();
+          if(data.success && data.sessions.length > 0){
+            sessionsList.innerHTML = data.sessions.map(s => `
+              <div class="session-item">
+                <div>
+                  <h4>${s.business_name || 'Business nou'}</h4>
+                  <p>Pas: ${s.current_step || 0}/8 • ${s.completed ? '✅ Finalizat' : '⏳ În progres'}</p>
+                </div>
+                <span class="badge">${s.payment_status === 'paid' ? '💳 Plătit' : '🔒 Neplătit'}</span>
+              </div>
+            `).join('');
+          } else {
+            sessionsList.innerHTML = '<div class="empty">Nu ai niciun business creat încă. <a href="/wizard" style="color:#c9a84c">Creează primul →</a></div>';
+          }
+        } catch(e){
+          sessionsList.innerHTML = '<div class="empty">Nu s-au putut încărca sesiunile.</div>';
+        }
+      }
+
+      if(logoutBtn) logoutBtn.onclick = () => sb.auth.signOut().then(() => window.location.href = '/login');
+      init();
+    })();
+  </script>
+</main><footer><div class="container">© 2026 AgentulMeu.online — Rulează 100% pe infrastructura ta.</div></footer>
+<script src="/auth-menu.js"></script>
+</body>
+</html>

@@ -9,6 +9,21 @@ const JSZip = require('jszip');
 
 const app = express();
 
+// ── Rate Limiting ──────────────────────────────────────
+const rateLimit = require('express-rate-limit');
+
+const generalLimiter = rateLimit({ windowMs: 15*60*1000, max: 100, message: { error: 'Prea multe cereri. Încearcă după 15 minute.' }, standardHeaders: true, legacyHeaders: false });
+
+const aiLimiter = rateLimit({ windowMs: 60*60*1000, max: 20, message: { error: 'Limită generare AI atinsă. Încearcă după o oră.' }, standardHeaders: true, legacyHeaders: false });
+
+const stripeLimiter = rateLimit({ windowMs: 15*60*1000, max: 20, message: { error: 'Prea multe cereri Stripe.' }, standardHeaders: true, legacyHeaders: false });
+
+app.use('/api/', generalLimiter);
+app.use('/api/generate-file', aiLimiter);
+app.use('/api/generate-zip', aiLimiter);
+app.use('/api/ask-ai', aiLimiter);
+app.use('/api/stripe', stripeLimiter);
+
 // ── Session System ──────────────────────────────────────
 const registerSessionRoutes = require('./session-routes');
 
