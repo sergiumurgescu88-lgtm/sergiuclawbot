@@ -146,6 +146,31 @@ body > *:not(canvas){position:relative;z-index:1}
 }
 
 </style>
+
+<style>
+/* SPACER-FIX-V2 */
+@media (max-width: 768px) {
+  nav, .nav-inner { padding: 0 16px !important; height: 56px !important; }
+  .nav-links { display: none !important; }
+  .layout { flex-direction: column !important; padding: 70px 0 30px !important; gap: 0 !important; max-width: 100% !important; }
+  .sidebar { width: 100% !important; position: static !important; max-height: 160px !important; overflow-y: auto !important; padding: 12px 16px !important; border-bottom: 1px solid var(--border) !important; }
+  .sidebar-section { margin-bottom: 12px !important; }
+  .sidebar a { padding: 3px 8px !important; font-size: 0.8rem !important; }
+  .content { width: 100% !important; max-width: 100% !important; padding: 20px 16px !important; }
+  .doc-hero { margin-bottom: 24px !important; }
+  .doc-hero h1 { font-size: 1.5rem !important; margin-bottom: 8px !important; }
+  .doc-section { margin-bottom: 32px !important; scroll-margin-top: 60px !important; }
+  .doc-section h2 { font-size: 1.1rem !important; margin-bottom: 14px !important; padding-bottom: 8px !important; }
+  .doc-section h3 { margin: 16px 0 8px !important; }
+  .step { padding: 14px !important; gap: 10px !important; }
+  .step-num { min-width: 28px !important; height: 28px !important; font-size: 0.8rem !important; }
+  .files-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .file-card { padding: 12px !important; }
+  .code-block { padding: 14px 12px !important; font-size: 0.72rem !important; }
+  .copy-btn { top: 8px !important; right: 8px !important; font-size: 0.65rem !important; padding: 3px 7px !important; }
+  .info-box { padding: 12px 14px !important; font-size: 0.82rem !important; }
+}
+</style>
 </head>
 <body>
 

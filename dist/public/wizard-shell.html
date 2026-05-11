@@ -203,6 +203,29 @@ body > *:not(canvas){position:relative;z-index:1}
 }
 
 </style>
+
+<style>
+/* SPACER-FIX-V2 */
+@media (max-width: 768px) {
+  .hero { padding: 72px 16px 32px !important; }
+  .hero h1 { font-size: clamp(1.5rem,5.5vw,2rem) !important; margin-bottom: 10px !important; }
+  .hero p { font-size: 0.9rem !important; margin: 0 auto 20px !important; }
+  .hero-badge { padding: 5px 12px !important; font-size: 0.75rem !important; margin-bottom: 14px !important; }
+  .hero-actions { flex-direction: column !important; align-items: center !important; gap: 10px !important; margin-top: 0 !important; }
+  .hero-actions a, .hero-actions .btn { padding: 12px 20px !important; width: 100% !important; max-width: 320px !important; font-size: 0.9rem !important; }
+  .stats-row, .hero-stats { gap: 10px !important; flex-wrap: wrap !important; justify-content: center !important; margin-top: 20px !important; }
+  .files-section { padding: 0 16px 40px !important; }
+  .files-section .subtitle { margin-bottom: 20px !important; font-size: 0.85rem !important; }
+  .files-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .file-card { padding: 16px 14px !important; }
+  .file-icon { font-size: 1.4rem !important; margin-bottom: 8px !important; }
+  .faq-section { padding: 0 16px 40px !important; }
+  .faq-section h2 { margin-bottom: 18px !important; }
+  .faq-item { padding: 14px 0 !important; }
+  .nav-inner { padding: 0 16px !important; height: 56px !important; }
+  .nav-links { display: none !important; }
+}
+</style>
 </head>
 <body>
 <nav class="global-nav" id="globalNav">
