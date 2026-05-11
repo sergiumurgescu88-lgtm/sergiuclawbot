@@ -34,6 +34,34 @@ body > *:not(canvas){position:relative;z-index:1}
   <link rel="shortcut icon" type="image/x-icon" href="/assets/uploads/logoagentulmeu/favicon.ico">
 <link rel="stylesheet" href="/assets/css/premium-design.css">
 <link rel="stylesheet" href="/assets/css/global-nav.css">
+<style>
+/* MOBILE-INJECT-AGENTULMEU */
+
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden !important; width: 100% !important; }
+  * { box-sizing: border-box; }
+  nav .nav-links, .nav-menu { display: none !important; }
+  .hamburger, .menu-toggle { display: flex !important; }
+  .mobile-menu.open, .nav-links.open { display: flex !important; flex-direction: column !important; position: fixed !important; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background: rgba(0,0,0,0.97); justify-content: center; align-items: center; }
+  h1 { font-size: clamp(1.5rem, 5vw, 2.2rem) !important; }
+  h2 { font-size: clamp(1.2rem, 4vw, 1.6rem) !important; }
+  input, textarea, select { font-size: 16px !important; width: 100% !important; }
+  .btn, a.btn { width: 100% !important; max-width: 380px !important; display: block !important; margin: 6px auto !important; text-align: center !important; padding: 12px 20px !important; }
+  .grid, .features-grid, .plans-grid, .cards-grid { grid-template-columns: 1fr !important; }
+  section, .container { padding-left: 16px !important; padding-right: 16px !important; }
+  pre, code { font-size: 0.75rem !important; overflow-x: auto !important; white-space: pre-wrap !important; word-break: break-all !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  footer { padding: 20px 16px !important; text-align: center !important; }
+}
+
+
+@media (max-width: 768px) {
+  .auth-container, main { min-height: calc(100vh - 60px) !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 20px 16px !important; }
+  .auth-card, .login-card, .login-box { width: 100% !important; max-width: 380px !important; padding: 24px 20px !important; margin: 0 auto !important; border-radius: 12px !important; }
+  .auth-hero, .auth-side { display: none !important; }
+}
+
+</style>
 </head>
 <body>
 <nav class="global-nav" id="globalNav">
