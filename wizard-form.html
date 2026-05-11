@@ -1449,8 +1449,8 @@ async function askAI(fieldId, prompt) {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        prompt: 'Sugereaza o valoare scurta si practica in romana pentru campul: ' + prompt +
-          '. Context business: ' + JSON.stringify(collectContext())
+        prompt: 'Sugereaza o valoare scurta si practica in romana pentru campul: ' + prompt,
+        business_context: collectContext()
       })
     });
     var data = await res.json();
@@ -1492,7 +1492,7 @@ async function sendChat() {
     var res = await fetch('/api/wizard/ask-ai', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({prompt: text})
+      body: JSON.stringify({prompt: text, business_context: collectContext()})
     });
     var data = await res.json();
     bm.textContent = data.answer || data.reply || data.error || 'Eroare necunoscută.';
