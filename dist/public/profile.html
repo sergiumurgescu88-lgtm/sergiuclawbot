@@ -19,6 +19,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,10,10,
 .btn-gold{background:var(--gold);color:#000;padding:8px 16px;border-radius:6px;font-weight:600}
 .btn-gold:hover{background:#d4b35a;color:#000}
 main{padding-top:80px;max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px}
+
+body > *:not(canvas){position:relative;z-index:1}
 </style>
 <link rel="stylesheet" href="/assets/global.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -154,5 +156,45 @@ main{padding-top:80px;max-width:1200px;margin:0 auto;padding-left:20px;padding-r
   </script>
 </main><footer><div class="container">© 2026 AgentulMeu.online — Rulează 100% pe infrastructura ta.</div></footer>
 <script src="/auth-menu.js"></script>
+
+<canvas id="sparks" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+<script>
+(function(){
+  const canvas=document.getElementById('sparks');
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  const COLORS=['rgba(201,168,76,','rgba(232,201,106,','rgba(255,180,50,','rgba(255,220,120,','rgba(255,255,200,','rgba(255,140,30,'];
+  function rnd(a,b){return Math.random()*(b-a)+a;}
+  function create(){return{x:rnd(0,W),y:H+rnd(0,40),size:rnd(0.8,2.8),speedY:rnd(0.6,2.2),speedX:rnd(-0.4,0.4),life:1,decay:rnd(0.004,0.012),wobble:rnd(0,Math.PI*2),wobbleSpeed:rnd(0.02,0.06),wobbleAmp:rnd(0.3,1.2),color:COLORS[Math.floor(Math.random()*COLORS.length)],isEmber:Math.random()<0.15};}
+  for(let i=0;i<120;i++){const p=create();p.y=rnd(0,H);p.life=rnd(0.1,1);particles.push(p);}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    if(Math.random()<0.6)particles.push(create());
+    particles.push(create());
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.wobble+=p.wobbleSpeed;p.x+=p.speedX+Math.sin(p.wobble)*p.wobbleAmp;p.y-=p.speedY;p.life-=p.decay;
+      if(p.life<=0||p.y<-10){particles.splice(i,1);continue;}
+      ctx.save();
+      if(p.isEmber){
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*4);
+        g.addColorStop(0,p.color+(p.life*0.9)+')');g.addColorStop(0.4,p.color+(p.life*0.4)+')');g.addColorStop(1,p.color+'0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.size*4,0,Math.PI*2);ctx.fill();
+      } else {
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*3);
+        g.addColorStop(0,p.color+(p.life*0.6)+')');g.addColorStop(1,p.color+'0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.size*3,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle=p.color+p.life+')';ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+    }
+    if(particles.length>300)particles.splice(0,particles.length-300);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 </body>
 </html>

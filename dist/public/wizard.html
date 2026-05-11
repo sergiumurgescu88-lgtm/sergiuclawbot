@@ -3,79 +3,416 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentulMeu</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Wizard AgentulMeu — Creează-ți Agentul AI în 9 Pași</title>
+<meta name="description" content="Parcurge 9 pași simpli și primești identitatea completă a agentului tău AI personalizat. 9 fișiere Markdown gata de folosit în Claude Projects sau ChatGPT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a0a;--card:#111;--border:#222;--gold:#c9a84c;--text:#fff;--muted:#aaa}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
-a{text-decoration:none;color:inherit}
-header{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 0}
-.hdr{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.logo{font-family:'Orbitron',sans-serif;font-size:20px;color:var(--gold);font-weight:700}
-.nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.nav a,.nav button{color:var(--muted);font-size:14px;font-weight:500;transition:.2s;background:none;border:none;cursor:pointer}
-.nav a:hover,.nav button:hover{color:var(--gold)}
-.btn-gold{background:var(--gold);color:#000;padding:8px 16px;border-radius:6px;font-weight:600}
-.btn-gold:hover{background:#d4b35a;color:#000}
-main{padding-top:80px;max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#0a0a0f;
+  --bg2:#0f0f1a;
+  --bg3:#13131f;
+  --border:#1e1e2e;
+  --border2:#2a2a3e;
+  --gold:#c9a84c;
+  --gold2:#e8c96a;
+  --text:#f0f0f5;
+  --text2:#a0a0b5;
+  --green:#00e676;
+  --radius:14px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(201,168,76,.15)}50%{box-shadow:0 0 40px rgba(201,168,76,.35)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.fade-up{animation:fadeUp .7s ease both}
+.fade-up-1{animation:fadeUp .7s .1s ease both}
+.fade-up-2{animation:fadeUp .7s .2s ease both}
+.fade-up-3{animation:fadeUp .7s .3s ease both}
+
+body > *:not(canvas){position:relative;z-index:1}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,10,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:14px 0}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);font-weight:600;text-decoration:none;letter-spacing:.05em}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--text2);font-size:14px;font-weight:500;text-decoration:none;transition:.2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{background:var(--gold);color:#000;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:.2s}
+.btn-nav:hover{background:var(--gold2);color:#000}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent)}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:999px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:32px}
+.hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+
+.hero h1{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:24px;max-width:800px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.hero-sub{font-size:1.1rem;color:var(--text2);max-width:540px;line-height:1.7;margin-bottom:48px}
+
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;padding:16px 32px;border-radius:12px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .25s;animation:glow 3s infinite}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--text);padding:16px 32px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;border:1px solid var(--border2);transition:all .25s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:48px;border-top:1px solid var(--border);flex-wrap:wrap;justify-content:center}
+.stat-num{font-size:2rem;font-weight:800;color:var(--gold);line-height:1}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:6px;letter-spacing:.05em;text-transform:uppercase}
+
+section{padding:100px 24px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+.section-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:20px}
+.section-sub{font-size:1rem;color:var(--text2);max-width:560px;line-height:1.7}
+
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;margin-top:60px;background:var(--border);border-radius:var(--radius);overflow:hidden}
+.step-card{background:var(--bg2);padding:32px;transition:.3s;position:relative;overflow:hidden}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:.3s}
+.step-card:hover::before{opacity:1}
+.step-card:hover{background:var(--bg3)}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--gold);font-weight:600;letter-spacing:.1em;margin-bottom:16px;opacity:.7}
+.step-icon{font-size:1.8rem;margin-bottom:14px;display:block}
+.step-title{font-size:1rem;font-weight:700;margin-bottom:8px}
+.step-desc{font-size:.85rem;color:var(--text2);line-height:1.6}
+
+.files-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:60px}
+.file-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.3s}
+.file-card:hover{border-color:var(--border2);background:var(--bg3);transform:translateY(-2px)}
+.file-name{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--green);font-weight:600;margin-bottom:10px}
+.file-desc{font-size:.82rem;color:var(--text2);line-height:1.6}
+
+.benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:60px}
+.benefit{padding:32px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);transition:.3s}
+.benefit:hover{border-color:rgba(201,168,76,.3);background:var(--bg3)}
+.benefit-icon{font-size:2rem;margin-bottom:16px}
+.benefit-title{font-size:1rem;font-weight:700;margin-bottom:10px}
+.benefit-desc{font-size:.85rem;color:var(--text2);line-height:1.6}
+
+.cta-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;padding:120px 24px}
+.cta-inner{max-width:680px;margin:0 auto}
+.cta-inner h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:24px}
+.cta-inner h2 em{font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-inner p{font-size:1rem;color:var(--text2);margin-bottom:48px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:#000;padding:20px 48px;border-radius:14px;font-weight:800;font-size:1.1rem;text-decoration:none;transition:all .25s;animation:glow 3s infinite}
+.cta-btn:hover{background:var(--gold2);transform:translateY(-3px);box-shadow:0 20px 60px rgba(201,168,76,.25)}
+.cta-note{margin-top:20px;font-size:.8rem;color:var(--text2)}
+
+footer{padding:40px 24px;border-top:1px solid var(--border)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);font-weight:600}
+.footer-links{display:flex;gap:24px}
+.footer-links a{color:var(--text2);font-size:.82rem;text-decoration:none;transition:.2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{color:var(--text2);font-size:.78rem}
+
+@media(max-width:600px){
+  .hero-stats{gap:24px}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center}
+  .footer-inner{flex-direction:column;text-align:center}
+  .nav-links a:not(.btn-nav){display:none}
+}
 </style>
-<link rel="stylesheet" href="/assets/light.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/global.js"></script>
 </head>
 <body>
-<header><div class="hdr">
-  <a href="/" class="logo">AgentulMeu</a>
-  <div class="nav">
-    <a href="/dashboard">Dashboard</a>
-    <a href="/wizard">Wizard</a>
-    <a href="/profile">Contul Meu</a>
-    <a href="/docs">Docs</a>
-    <a href="/login" id="authBtn" class="btn-gold">Login</a>
-  </div>
-</div></header>
-<main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(function(){
-  const sb = window.supabase.createClient('https://jwyxywlseonoazarhlzv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eXh5d2xzZW9ub2F6YXJobHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg1NTMsImV4cCI6MjA5NDAwNDU1M30.L-yq0ibWJ3IbPazd09D1t1Qae1GgwCVh3bM8QzRWquI');
-  const btn = document.getElementById('authBtn');
-  sb.auth.getSession().then(({  { session } }) => {
-    if(session){
-      btn.textContent = 'Logout';
-      btn.href = '#';
-      btn.onclick = (e) => { e.preventDefault(); sb.auth.signOut().then(() => location.href = '/login'); };
-    }
-  });
-})();
-</script>
 
-<header><div class="hdr">
-  <a href="/" class="logo">AgentulMeu</a>
-  <div class="nav">
-    <a href="/dashboard">Dashboard</a>
-    <a href="/wizard">Wizard</a>
-    <a href="/profile">Contul Meu</a>
-    <a href="/docs">Docs</a>
-    <a href="/login" id="authBtn" class="btn-gold">Login</a>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">AgentulMeu.online</a>
+    <div class="nav-links">
+      <a href="/dashboard">Dashboard</a>
+      <a href="/docs">Docs</a>
+      <a href="/wizard-form" class="btn-nav">🚀 Deschide Wizard</a>
+    </div>
   </div>
-</div></header>
-<main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge fade-up"><span></span>Wizard AI — 9 pași, 9 fișiere</div>
+  <h1 class="fade-up-1">Creează identitatea completă<br>a agentului tău <em>AI personalizat</em></h1>
+  <p class="hero-sub fade-up-2">Parcurge 9 pași simpli și primești 9 fișiere Markdown specializate — gata de încărcat în Claude Projects, ChatGPT Custom Instructions sau orice platformă AI.</p>
+  <div class="hero-cta fade-up-3">
+    <a href="/wizard-form" class="btn-primary">🚀 Completează Wizardul</a>
+    <a href="#cum-functioneaza" class="btn-secondary">Cum funcționează →</a>
+  </div>
+  <div class="hero-stats fade-up-3">
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Pași simpli</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Fișiere generate</div></div>
+    <div class="stat"><div class="stat-num">~10 min</div><div class="stat-label">Timp completare</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Personalizat</div></div>
+  </div>
+</div>
+
+<section id="cum-functioneaza" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Procesul</div>
+    <h2 class="section-title">9 pași. 10 minute.<br>Un agent complet configurat.</h2>
+    <p class="section-sub">Fiecare pas colectează informații esențiale despre business-ul tău. AI-ul generează fișierele în timp real, cu progres vizibil.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01 / 09</div>
+        <span class="step-icon">🏢</span>
+        <div class="step-title">Profilul Business</div>
+        <div class="step-desc">Selectezi industria din 24 de categorii, dimensiunea echipei și stadiul de maturitate al afacerii.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02 / 09</div>
+        <span class="step-icon">✨</span>
+        <div class="step-title">Identitate & Context</div>
+        <div class="step-desc">Numele business-ului, misiunea, valorile, tonul de comunicare și clientul ideal. AI-ul sugerează automat cu butonul ✨.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03 / 09</div>
+        <span class="step-icon">🎯</span>
+        <div class="step-title">Obiective & Probleme</div>
+        <div class="step-desc">10 obiective predefinite, problema principală, task-urile repetitive și prioritatea pentru 90 de zile.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04 / 09</div>
+        <span class="step-icon">🤖</span>
+        <div class="step-title">Echipa de Agenți</div>
+        <div class="step-desc">Configurezi 6 agenți de execuție + 6 agenți specializați care lucrează coordonat pentru business-ul tău.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">05 / 09</div>
+        <span class="step-icon">📡</span>
+        <div class="step-title">Canale & Infrastructură</div>
+        <div class="step-desc">Email, WhatsApp, Telegram, Slack, CRM-ul folosit și bugetul lunar alocat pentru AI.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">06 / 09</div>
+        <span class="step-icon">⚖️</span>
+        <div class="step-title">Personalitate & Reguli</div>
+        <div class="step-desc">Nivelul de autonomie, tonul verbal, avantajul competitiv și liniile roșii — ce nu face niciodată agentul.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">07 / 09</div>
+        <span class="step-icon">💻</span>
+        <div class="step-title">Context Tehnic</div>
+        <div class="step-desc">Experiența echipei cu AI, nivelul de confort tehnic și deadline-ul dorit pentru lansare.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">08 / 09</div>
+        <span class="step-icon">⚡</span>
+        <div class="step-title">Generare Fișiere</div>
+        <div class="step-desc">AI-ul generează cele 9 fișiere în timp real, cu progress bar per fișier, preview instant și editare inline.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">09 / 09</div>
+        <span class="step-icon">📦</span>
+        <div class="step-title">Export & Download</div>
+        <div class="step-desc">Descarci ZIP-ul complet sau fișierele individual. Gata de instalat în orice platformă AI.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fisiere">
+  <div class="section-inner">
+    <div class="section-tag">Output</div>
+    <h2 class="section-title">9 fișiere. Identitatea completă<br>a agentului tău AI.</h2>
+    <p class="section-sub">Fiecare fișier are un rol precis. Împreună formează un sistem complet, coerent și personalizat pentru business-ul tău.</p>
+    <div class="files-grid">
+      <div class="file-card"><div class="file-name">📄 SOUL.md</div><div class="file-desc">Personalitatea de bază, valorile core și hard limits absolute. Ce este și ce nu este agentul tău.</div></div>
+      <div class="file-card"><div class="file-name">📄 IDENTITY.md</div><div class="file-desc">Identitatea completă: nume, rol, sub-agenți și modul de prezentare în orice context.</div></div>
+      <div class="file-card"><div class="file-name">📄 USER.md</div><div class="file-desc">Profilul proprietarului: preferințe, obiective, context personal și restricții de interacțiune.</div></div>
+      <div class="file-card"><div class="file-name">📄 MEMORY.md</div><div class="file-desc">Memoria inițială pe termen lung: decizii strategice, contexte importante, pattern-uri de business.</div></div>
+      <div class="file-card"><div class="file-name">📄 TOOLS.md</div><div class="file-desc">Capabilitățile tehnice recomandate, API-urile utile și integrările potrivite pentru industria ta.</div></div>
+      <div class="file-card"><div class="file-name">📄 AGENTS.md</div><div class="file-desc">Workflow-uri, proceduri operaționale, pipeline-uri și coordonarea între sub-agenți.</div></div>
+      <div class="file-card"><div class="file-name">📄 HEARTBEAT.md</div><div class="file-desc">Task-urile proactive zilnic, săptămânal și lunar — ce face agentul fără să fie întrebat.</div></div>
+      <div class="file-card"><div class="file-name">📄 BOOTSTRAP.md</div><div class="file-desc">Checklist complet de inițializare, pașii de setup și fallback-urile pentru erori comune.</div></div>
+      <div class="file-card"><div class="file-name">📄 AGENT_RD.md</div><div class="file-desc">Framework-ul R&D continuu: domenii de cercetare, validare idei și evoluție pe termen lung.</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Avantaje</div>
+    <h2 class="section-title">De ce să folosești Wizardul?</h2>
+    <p class="section-sub">Nu e un chatbot generic. E un sistem de configurare construit specific pentru business-uri românești.</p>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon">🎯</div>
+        <div class="benefit-title">100% personalizat pentru industria ta</div>
+        <div class="benefit-desc">Prompturile AI sunt ajustate automat în funcție de industrie, dimensiunea echipei și obiectivele specifice selectate.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-title">Generare async cu progres în timp real</div>
+        <div class="benefit-desc">Fiecare fișier se generează independent, poți vedea progresul live și edita direct în browser înainte de download.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🤖</div>
+        <div class="benefit-title">Sugestii AI instant pe orice câmp</div>
+        <div class="benefit-desc">Butonul ✨ Sugerează generează conținut direct și contextual pentru orice câmp, bazat pe tot ce ai completat până atunci.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">📦</div>
+        <div class="benefit-title">Gata de folosit imediat</div>
+        <div class="benefit-desc">Fișierele generate se încarcă direct în Claude Projects, ChatGPT Custom Instructions sau orice sistem AI compatibil.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🇷🇴</div>
+        <div class="benefit-title">În română, pentru România</div>
+        <div class="benefit-desc">Tot conținutul generat e în română, cu referințe culturale și de business specifice pieței locale.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🔒</div>
+        <div class="benefit-title">Datele tale rămân ale tale</div>
+        <div class="benefit-desc">Informațiile business-ului tău nu sunt stocate permanent și nu sunt folosite pentru antrenare AI.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="cta-inner">
+    <h2>Gata să-ți creezi<br>agentul <em>AI personalizat?</em></h2>
+    <p>10 minute. 9 pași. Un agent complet configurat pentru business-ul tău. Fără cod, fără configurații complicate.</p>
+    <a href="/wizard-form" class="cta-btn">🚀 Completează Wizardul Acum</a>
+    <div class="cta-note">~10 minute · Gratuit să testezi · Fișiere descărcabile imediat</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">AgentulMeu.online</div>
+    <div class="footer-links">
+      <a href="/">Acasă</a>
+      <a href="/docs">Documentație</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/wizard-form">Wizard</a>
+    </div>
+    <div class="footer-copy">© 2026 AgentulMeu.online</div>
+  </div>
+</footer>
+
+
+<canvas id="sparks" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+
 <script>
 (function(){
-  const sb = window.supabase.createClient('https://jwyxywlseonoazarhlzv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eXh5d2xzZW9ub2F6YXJobHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg1NTMsImV4cCI6MjA5NDAwNDU1M30.L-yq0ibWJ3IbPazd09D1t1Qae1GgwCVh3bM8QzRWquI');
-  const btn = document.getElementById('authBtn');
-  sb.auth.getSession().then(({  { session } }) => {
-    if(session){
-      btn.textContent = 'Logout';
-      btn.href = '#';
-      btn.onclick = (e) => { e.preventDefault(); sb.auth.signOut().then(() => location.href = '/login'); };
+  const canvas = document.getElementById('sparks');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Color palette: gold, amber, white sparkle, soft orange
+  const COLORS = [
+    'rgba(201,168,76,',   // gold
+    'rgba(232,201,106,',  // gold2
+    'rgba(255,180,50,',   // amber
+    'rgba(255,220,120,',  // warm yellow
+    'rgba(255,255,200,',  // white sparkle
+    'rgba(255,140,30,',   // deep orange
+  ];
+
+  function random(min, max){ return Math.random()*(max-min)+min; }
+
+  function createParticle(){
+    const color = COLORS[Math.floor(Math.random()*COLORS.length)];
+    return {
+      x: random(0, W),
+      y: H + random(0, 40),         // start below viewport
+      size: random(0.8, 2.8),
+      speedY: random(0.6, 2.2),     // upward speed
+      speedX: random(-0.4, 0.4),    // slight horizontal drift
+      life: 1,                       // opacity multiplier
+      decay: random(0.004, 0.012),  // fade rate
+      wobble: random(0, Math.PI*2), // phase for sine wobble
+      wobbleSpeed: random(0.02, 0.06),
+      wobbleAmp: random(0.3, 1.2),
+      color,
+      // some particles are bigger "ember" style
+      isEmber: Math.random() < 0.15,
+    };
+  }
+
+  // Seed initial particles spread across screen
+  for(let i=0; i<120; i++){
+    const p = createParticle();
+    p.y = random(0, H); // start anywhere vertically for initial fill
+    p.life = random(0.1, 1);
+    particles.push(p);
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+
+    // Spawn new particles
+    const spawnRate = Math.random() < 0.6 ? 2 : 1;
+    for(let i=0; i<spawnRate; i++) particles.push(createParticle());
+
+    for(let i = particles.length-1; i >= 0; i--){
+      const p = particles[i];
+
+      // Update
+      p.wobble += p.wobbleSpeed;
+      p.x += p.speedX + Math.sin(p.wobble) * p.wobbleAmp;
+      p.y -= p.speedY;
+      p.life -= p.decay;
+
+      // Remove dead or off-screen
+      if(p.life <= 0 || p.y < -10){
+        particles.splice(i, 1);
+        continue;
+      }
+
+      // Draw
+      ctx.save();
+      if(p.isEmber){
+        // Glowing ember — larger with blur-like glow
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*4);
+        g.addColorStop(0, p.color + (p.life * 0.9) + ')');
+        g.addColorStop(0.4, p.color + (p.life * 0.4) + ')');
+        g.addColorStop(1, p.color + '0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size*4, 0, Math.PI*2);
+        ctx.fill();
+      } else {
+        // Regular spark — small bright dot with soft halo
+        // Halo
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*3);
+        g.addColorStop(0, p.color + (p.life * 0.6) + ')');
+        g.addColorStop(1, p.color + '0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size*3, 0, Math.PI*2);
+        ctx.fill();
+        // Core
+        ctx.fillStyle = p.color + (p.life) + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
     }
-  });
+
+    // Cap particle count
+    if(particles.length > 300) particles.splice(0, particles.length - 300);
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
 })();
 </script>
-<h1 style='text-align:center;padding:60px 20px'>Wizard</h1></main><footer><div class="container">© 2026 AgentulMeu.online — Rulează 100% pe infrastructura ta.</div></footer>
-<script src="/auth-menu.js"></script>
-</body></html>
+</body>
+</html>
