@@ -899,7 +899,7 @@
   .nav-links, nav ul, .nav-menu {
     display: none !important;
   }
-  .nav-links.open, .nav-menu.open, .mobile-menu, .mobile-nav {
+  .nav-links.open, .nav-menu.open, .mobile-menu.open, .mobile-nav.open {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
@@ -1117,6 +1117,46 @@
   .reports-actions { flex-wrap: wrap !important; gap: 8px !important; }
   .reports-actions .btn { flex: 1 !important; min-width: 100px !important; padding: 8px 10px !important; font-size: 0.78rem !important; }
   .chart-container { height: 180px !important; }
+}
+</style>
+<style>
+/* NAV-MOBILE-FIX */
+@media (max-width: 768px) {
+  /* Ascunde meniul mobil by default — apare doar cu .open */
+  .mobile-menu,
+  .mobile-nav,
+  nav ul.mobile,
+  [class*="mobile-menu"],
+  [class*="mobile-nav"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+  .mobile-menu.open,
+  .mobile-nav.open,
+  [class*="mobile-menu"].open,
+  [class*="mobile-nav"].open {
+    display: flex !important;
+    visibility: visible !important;
+    height: 100vh !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0; left: 0;
+    width: 100%; z-index: 9999;
+    background: rgba(10,10,10,0.97);
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+  }
+  /* Hero fara spatiu dublu */
+  .hero, section.hero, .hero-section {
+    padding-top: 70px !important;
+    margin-top: 0 !important;
+  }
 }
 </style>
 </head>
