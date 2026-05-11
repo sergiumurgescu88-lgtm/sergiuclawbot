@@ -204,25 +204,25 @@
 
     card.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-family:'Orbitron',sans-serif;font-size:13px;color:${isGenerated ? '#00f5ff' : '#666'};font-weight:700">${shortName}.md</div>
+        <div style="font-family:'Inter',sans-serif;font-size:13px;color:${isGenerated ? '#00f5ff' : '#666'};font-weight:700">${shortName}.md</div>
         <div style="font-size:11px;color:${isGenerated ? '#00e676' : '#555'}">${isGenerated ? '✓ Generat' : '○ Neprocesar'}</div>
       </div>
-      <div style="font-size:12px;color:#888;font-family:'Space Grotesk',sans-serif">${descriptions[shortName] || ''}</div>
+      <div style="font-size:12px;color:#888;font-family:'Inter',sans-serif">${descriptions[shortName] || ''}</div>
       <div style="display:flex;gap:8px;margin-top:auto">
         ${isGenerated && content ? `
           <button onclick="window.dashboardPreview('${fileName}')" style="
             flex:1;padding:8px;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.3);
-            color:#00f5ff;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Space Grotesk',sans-serif
+            color:#00f5ff;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif
           ">👁 Preview</button>
           <button onclick="window.dashboardDownload('${fileName}')" style="
             flex:1;padding:8px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);
-            color:#a855f7;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Space Grotesk',sans-serif
+            color:#a855f7;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif
           ">⬇ Download</button>
         ` : `
           <a href="/wizard-form?session=${SESSION_ID}#step8" style="
             flex:1;text-align:center;padding:8px;background:rgba(255,255,255,0.05);
             border:1px solid rgba(255,255,255,0.1);color:#666;border-radius:8px;
-            cursor:pointer;font-size:11px;font-family:'Space Grotesk',sans-serif;text-decoration:none
+            cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;text-decoration:none
           ">⚡ Generează</a>
         `}
       </div>
@@ -327,11 +327,11 @@
           padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.1);
           display:flex;justify-content:space-between;align-items:center;
         ">
-          <div style="font-family:'Orbitron',sans-serif;color:#00f5ff;font-size:14px;font-weight:700">${fileName}</div>
+          <div style="font-family:'Inter',sans-serif;color:#00f5ff;font-size:14px;font-weight:700">${fileName}</div>
           <div style="display:flex;gap:8px">
             <button onclick="window.dashboardDownload('${fileName}')" style="
               padding:8px 16px;background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.4);
-              color:#a855f7;border-radius:8px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:12px
+              color:#a855f7;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px
             ">⬇ Download</button>
             <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="
               padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
@@ -346,7 +346,7 @@
         ">${escapeHtml(content)}</textarea>
         <div style="
           padding:12px 24px;border-top:1px solid rgba(255,255,255,0.05);
-          font-family:'Space Grotesk',sans-serif;font-size:11px;color:#555;
+          font-family:'Inter',sans-serif;font-size:11px;color:#555;
           display:flex;justify-content:space-between
         ">
           <span>${content.split('\n').length} linii</span>
@@ -403,7 +403,7 @@
       position:fixed;bottom:20px;left:20px;
       background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);
       color:#a855f7;padding:8px 14px;border-radius:10px;
-      font-family:'Space Grotesk',sans-serif;font-size:11px;
+      font-family:'Inter',sans-serif;font-size:11px;
       display:flex;align-items:center;gap:8px;
       backdrop-filter:blur(10px);cursor:pointer;z-index:999;
       transition:all 0.2s;
@@ -434,17 +434,17 @@
     `;
     noSession.innerHTML = `
       <div style="font-size:64px;filter:grayscale(1)">🤖</div>
-      <div style="font-family:'Orbitron',sans-serif;color:#00f5ff;font-size:20px;font-weight:700">
+      <div style="font-family:'Inter',sans-serif;color:#00f5ff;font-size:20px;font-weight:700">
         Nicio sesiune activă
       </div>
-      <div style="font-family:'Space Grotesk',sans-serif;color:#666;font-size:14px;max-width:400px;line-height:1.6">
+      <div style="font-family:'Inter',sans-serif;color:#666;font-size:14px;max-width:400px;line-height:1.6">
         Completează wizard-ul pentru a configura agentul tău AI. Datele se vor salva automat și vei putea reveni oricând.
       </div>
-      <a href="/wizard-form" style="
+      <a href="/wizard" style="
         display:inline-flex;align-items:center;gap:10px;
         background:linear-gradient(135deg,#a855f7,#00f5ff);
         color:#000;padding:14px 28px;border-radius:12px;
-        font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;
+        font-family:'Inter',sans-serif;font-weight:700;font-size:14px;
         text-decoration:none;letter-spacing:1px;
         box-shadow:0 0 30px rgba(168,85,247,0.4);
       ">🚀 Pornește Wizard-ul</a>
